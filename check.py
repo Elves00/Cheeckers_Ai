@@ -18,6 +18,14 @@ class board:
             print()
         print()
 
+    def is_end(self):
+
+        if(self.board[6][3]=='R' and self.board[5][2]=='R' and self.board[5][4]=='R'):
+            return 1
+        elif(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
+            return 2
+        return False
+
     #Checks a location on the board has no piece and is on the board
     def is_clear(self,row,col):
         if(row>7 or row<0 or col>7 or col<0):
@@ -179,12 +187,20 @@ class board:
         else:
             print("Not a valid move")
 
+    #Ends a test
+    def end_test(self):
+        self.board[6][3]='R' 
+        self.board[5][2]='R' 
+        self.board[5][4]='R'
+     
        
     def play(self):
-        end=False
-        while(not(end)):
-            self.display
+        while(not(self.is_end())):
+            
+            self.display()
             self.selectPiece()
+            self.end_test()
+            
 
        
 
