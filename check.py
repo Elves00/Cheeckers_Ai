@@ -223,7 +223,7 @@ class board:
         if upOrDown < 0 and leftOrRight < 0:
             if(self.contains_piece(posRow+1,posCol-1)):
                 #Check for empty spot after adjacent piece
-                 if not(self.is_clear(posRow+2,posCol-2)):
+                 if not(self.is_clear(posRow+2,posCol-2) and not([posRow + 2,posCol-2]in(moveList))):
                     print("Jummping space is not clear")
                     return False
                  else:
@@ -238,7 +238,7 @@ class board:
         if upOrDown < 0 and leftOrRight > 0:
             if(self.contains_piece(posRow+1,posCol+1)):
                 #Check for empty spot after adjacent piece
-                 if not(self.is_clear(posRow+2,posCol+2)):
+                 if not(self.is_clear(posRow+2,posCol+2) and not([posRow+2,posCol+2]in(moveList))):
                     print("Jummping space is not clear")
                     return False
                  else:
@@ -253,7 +253,7 @@ class board:
         if upOrDown > 0 and leftOrRight < 0:
             if(self.contains_piece(posRow-1,posCol-1)):
                 #Check for empty spot after adjacent piece
-                 if not(self.is_clear(posRow-2,posCol-2)):
+                 if not(self.is_clear(posRow-2,posCol-2) and not([posRow-2,posCol-2]in(moveList))):
                     print("Jummping space is not clear")
                     return False
                  else:
@@ -269,7 +269,7 @@ class board:
         if upOrDown > 0 and leftOrRight > 0:
             if(self.contains_piece(posRow-1,posCol+1)):
                 #Check for empty spot after adjacent piece
-                 if not(self.is_clear(posRow-2,posCol+2)):
+                 if not(self.is_clear(posRow-2,posCol+2) and not([posRow-2,posCol+2]in(moveList))):
                     print("Jummping space is not clear")
                     return False
                  else:
@@ -284,7 +284,7 @@ class board:
         if upOrDown == 0 and leftOrRight < 0:
             if(self.contains_piece(posRow,posCol-2)):
                 #Check for empty spot after adjacent piece
-                 if not(self.is_clear(posRow,posCol-4)):
+                 if not(self.is_clear(posRow,posCol-4) and not([posRow,posCol-4]in(moveList))):
                     print("Jummping space is not clear")
                     return False
                  else:
@@ -318,21 +318,21 @@ class board:
         on= True
         while(on):
             self.display()
-            jump = input('Keep jumping True or False: ')
+            jump = input('would you like to keep jumping True or False: ')
             
 
             if(jump == "True"):
                 #Try take input while there is a valid jump
-                while(jump):
-                    moveRow = int(input('Move up is 1 move down is -1 still is 0: '))
-                    moveCol = int(input('Move right is 1 move left is -1 still is 0: '))
+                moveRow = int(input('Move up is 1 move down is -1 still is 0: '))
+                moveCol = int(input('Move right is 1 move left is -1 still is 0: '))
 
                     #chose where you want to jump
-                    if((self.is_jump_possible(moveRow,moveCol,posRow,posCol,moveList))):
-                        jump = False
-                        on = False
-                    else:
-                        print("The jump was possible")    
+                if(self.is_jump_possible(moveRow,moveCol,posRow,posCol,moveList)):
+                    on = False
+                else:
+                    print("move is not possible")
+                       
+                    
             #End of turn
             elif(jump == "False"):
                 print("Reached here")
