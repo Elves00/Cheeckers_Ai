@@ -118,7 +118,7 @@ class board:
                     return False
                  else:
                     self.swap_Piece(posRow+2,posCol+2,posRow,posCol)
-                    moveList = [[posRow][posCol],[posRow+2,posCol+2]]
+                    moveList = [[posRow,posCol],[posRow+2,posCol+2]]
                     self.select_jump(posRow+2,posCol+2,moveList)
                     self.swap_Player()
                     
@@ -139,7 +139,7 @@ class board:
                     return False
                  else:
                     self.swap_Piece(posRow-2,posCol-2,posRow,posCol)
-                    moveList = [[posRow][posCol],[posRow-2,posCol-2]]
+                    moveList = [[posRow,posCol],[posRow-2,posCol-2]]
                     self.select_jump(posRow-2,posCol-2,moveList)
                     self.swap_Player()
                     return True
@@ -159,7 +159,7 @@ class board:
                     return False
                  else:
                     self.swap_Piece(posRow-2,posCol+2,posRow,posCol)
-                    moveList = [[posRow][posCol],[posRow-2,posCol+2]]
+                    moveList = [[posRow,posCol],[posRow-2,posCol+2]]
                     self.select_jump(posRow-2,posCol+2,moveList)
                     self.swap_Player()
                     return True
@@ -179,7 +179,7 @@ class board:
                  else:
                     print("jumping left ")
                     self.swap_Piece(posRow,posCol-4,posRow,posCol)
-                    moveList = [[posRow][posCol],[posRow,posCol-4]]
+                    moveList = [[posRow,posCol],[posRow,posCol-4]]
                     self.select_jump(posRow,posCol-4,moveList)
                     self.swap_Player()
                     return True
@@ -200,7 +200,7 @@ class board:
                     return False
                  else:
                     self.swap_Piece(posRow,posCol+4,posRow,posCol)
-                    moveList = [[posRow][posCol],[posRow,posCol+4]]
+                    moveList = [[posRow,posCol],[posRow,posCol+4]]
                     self.select_jump(posRow,posCol+4,moveList)
                     self.swap_Player()
                     return True
@@ -221,46 +221,125 @@ class board:
 
         #jump down left
         if upOrDown < 0 and leftOrRight < 0:
-
+            if(self.contains_piece(posRow+1,posCol-1)):
+                #Check for empty spot after adjacent piece
+                 if not(self.is_clear(posRow+2,posCol-2)):
+                    print("Jummping space is not clear")
+                    return False
+                 else:
+                    self.swap_Piece(posRow+2,posCol-2,posRow,posCol)
+                   #add the move
+                    moveList.append([posRow,posCol])
+                    self.select_jump(posRow+2,posCol-2,moveList)
+                    
+                    return True
+            
         #moving down right
         if upOrDown < 0 and leftOrRight > 0:
+            if(self.contains_piece(posRow+1,posCol+1)):
+                #Check for empty spot after adjacent piece
+                 if not(self.is_clear(posRow+2,posCol+2)):
+                    print("Jummping space is not clear")
+                    return False
+                 else:
+                    self.swap_Piece(posRow+2,posCol+2,posRow,posCol)
+                   #add the move
+                    moveList.append([posRow,posCol])
+                    self.select_jump(posRow+2,posCol+2,moveList)
+                    
+                    return True
 
         #moving up left
         if upOrDown > 0 and leftOrRight < 0:
+            if(self.contains_piece(posRow-1,posCol-1)):
+                #Check for empty spot after adjacent piece
+                 if not(self.is_clear(posRow-2,posCol-2)):
+                    print("Jummping space is not clear")
+                    return False
+                 else:
+                    self.swap_Piece(posRow-2,posCol-2,posRow,posCol)
+                   #add the move
+                    moveList.append([posRow,posCol])
+                    self.select_jump(posRow-2,posCol-2,moveList)
+                    
+                    return True
+                
 
         #moving up right
         if upOrDown > 0 and leftOrRight > 0:
+            if(self.contains_piece(posRow-1,posCol+1)):
+                #Check for empty spot after adjacent piece
+                 if not(self.is_clear(posRow-2,posCol+2)):
+                    print("Jummping space is not clear")
+                    return False
+                 else:
+                    self.swap_Piece(posRow-2,posCol+2,posRow,posCol)
+                   #add the move
+                    moveList.append([posRow,posCol])
+                    self.select_jump(posRow-2,posCol+2,moveList)
+                    
+                    return True
 
         #moving left
         if upOrDown == 0 and leftOrRight < 0:
+            if(self.contains_piece(posRow,posCol-2)):
+                #Check for empty spot after adjacent piece
+                 if not(self.is_clear(posRow,posCol-4)):
+                    print("Jummping space is not clear")
+                    return False
+                 else:
+                    self.swap_Piece(posRow,posCol-4,posRow,posCol)
+                   #add the move
+                    moveList.append([posRow,posCol])
+                    self.select_jump(posRow,posCol-4,moveList)
+                    
+                    return True
+                
         
         #moving right
-        if upOrDown == 0 and leftOrRight > 0:
+        if(upOrDown == 0 and leftOrRight > 0):
+             #check for adjacent piece
+            if(self.contains_piece(posRow,posCol+2)):
+                #Check for empty spot after adjacent piece
+                 if (not(self.is_clear(posRow,posCol+4) and not([posRow,posCol+4]in(moveList)))):
+                    print("You can't move to [",posRow,"][",posCol,"]")    
+                    return False
+                 else:
+                    self.swap_Piece(posRow,posCol+4,posRow,posCol)
+                   #add the move
+                    moveList.append([posRow,posCol])
+                    self.select_jump(posRow,posCol+4,moveList)
+                    
+                    return True
 
-        if(not([posRow,posCol]in(moveList))):
-            #add the move
-            moveList.append([posRow,posCol])
-            #jump again
-            self.select_jump(posRow,posCol,moveList)
-            return True
-        else:
-            print("You can't move to [",posRow,"][",posCol,"]")    
-            return False
     
     def select_jump(self,posRow,posCol,moveList):
 
-        jump = bool(input('Keep jumping True or False: '))
+        on= True
+        while(on):
+            self.display()
+            jump = input('Keep jumping True or False: ')
+            
 
-        if(jump):
-            #Try take input while there is a valid jump
-            while(jump):
-                moveRow = int(input('Move up is 1 move down is -1 still is 0: '))
-                moveCol = int(input('Move right is 1 move left is -1 still is 0: '))
+            if(jump == "True"):
+                #Try take input while there is a valid jump
+                while(jump):
+                    moveRow = int(input('Move up is 1 move down is -1 still is 0: '))
+                    moveCol = int(input('Move right is 1 move left is -1 still is 0: '))
 
-                #chose where you want to jump
-                if(not(self.is_jump_possible(moveRow,moveCol,posRow,posCol,moveList))):
-                    jump = False
-        #End of turn
+                    #chose where you want to jump
+                    if((self.is_jump_possible(moveRow,moveCol,posRow,posCol,moveList))):
+                        jump = False
+                        on = False
+                    else:
+                        print("The jump was possible")    
+            #End of turn
+            elif(jump == "False"):
+                print("Reached here")
+                on=False
+            else:
+                print("incorrect input please submit True or False")
+
     
         
 
