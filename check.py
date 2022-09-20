@@ -10,7 +10,7 @@ class board:
 
     def boardSetUp(self):
         self.board = [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
-
+        self.player = 'R'
     def display(self):
         for i in range(0,7):
             for j in range(0,7):
@@ -48,17 +48,38 @@ class board:
         else:
             return 
             
+
+    def swap_Player(self):
+        if(self.player=='R'):
+            self.player='B'
+        else:
+            self.player='R'
+
+
     def swap_Piece(self,moveRow,moveCol,posRow,posCol):
         #Swaps two pieces on a board 
         temp= self.board[posRow][posCol]
-        print("Temp=",temp)
+        print("prev:[",posRow,"][",posCol,"]")
         self.board[posRow][posCol]=self.board[moveRow][moveCol]
         self.board[moveRow][moveCol]=temp
-        print(moveRow)
+        
+        print("now:[",moveRow,"][",moveCol,"]")
+        
+
 
 
     #Checks if a move is possible mx =move to x px = peice is at x
     def is_move_valid(self, upOrDown,leftOrRight ,posRow,posCol):
+
+        #Checks the piece belongs to the current player
+        if(self.player == 'R' and self.board[posRow][posCol] != 'R'):
+            print("That's not your piece your ",self.player)
+            return False
+        elif(self.player == 'B' and self.board[posRow][posCol]!='B'):
+            print("That's not your piece! your ",self.player)
+            return False
+
+
         print("posRow=",posRow)
         if posRow==7 and upOrDown<0 or posRow==0 and upOrDown>0 or posCol==7 and leftOrRight>0 or posCol==0 and leftOrRight<0:
             print("Error Moving off board")
@@ -78,8 +99,11 @@ class board:
                     return True
             else:
                 self.swap_Piece(posRow+1,posCol-1,posRow,posCol)
+                #Switches to the next players turn
+                self.swap_Player()
                 return True
-             #moving down right
+
+        #moving down right
         if upOrDown < 0 and leftOrRight > 0:
             print("down right")
             #check for adjacent piece
@@ -93,6 +117,7 @@ class board:
                     return True
             else:
                 self.swap_Piece(posRow+1,posCol+1,posRow,posCol)
+                self.swap_Player()
                 return True
 
         #moving up left
@@ -109,7 +134,9 @@ class board:
                     return True
             else:
                 self.swap_Piece(posRow-1,posCol-1,posRow,posCol)
+                self.swap_Player()
                 return True
+                
         #moving up right
         if upOrDown > 0 and leftOrRight > 0:
             print("down left")
@@ -124,36 +151,42 @@ class board:
                     return True
             else:
                 self.swap_Piece(posRow-1,posCol+1,posRow,posCol)
+                self.swap_Player()
                 return True
          #moving left
         if upOrDown == 0 and leftOrRight < 0:
-            print("down left")
+            print("left")
             #check for adjacent piece
-            if(self.contains_piece(posRow,posCol-1)):
+            if(self.contains_piece(posRow,posCol-2)):
                 #Check for empty spot after adjacent piece
-                 if not(self.is_clear(posRow,posCol-2)):
+                 if not(self.is_clear(posRow,posCol-4)):
                     print("Jummping space is not clear")
                     return False
                  else:
-                    self.swap_Piece(posRow,posCol-2,posRow,posCol)
+                    print("jumping left ")
+                    self.swap_Piece(posRow,posCol-4,posRow,posCol)
                     return True
             else:
-                self.swap_Piece(posRow,posCol-1,posRow,posCol)
+                print("moving left")
+                self.swap_Piece(posRow,posCol-2,posRow,posCol)
+                self.swap_Player()
                 return True
+
         #moving left
         if upOrDown == 0 and leftOrRight > 0:
             print("down left")
             #check for adjacent piece
-            if(self.contains_piece(posRow,posCol+1)):
+            if(self.contains_piece(posRow,posCol+2)):
                 #Check for empty spot after adjacent piece
-                 if not(self.is_clear(posRow,posCol+2)):
+                 if not(self.is_clear(posRow,posCol+4)):
                     print("Jummping space is not clear")
                     return False
                  else:
-                    self.swap_Piece(posRow,posCol+2,posRow,posCol)
+                    self.swap_Piece(posRow,posCol+4,posRow,posCol)
                     return True
             else:
-                self.swap_Piece(posRow,posCol+1,posRow,posCol)
+                self.swap_Piece(posRow,posCol+2,posRow,posCol)
+                self.swap_Player()
                 return True
         
         else:
@@ -182,7 +215,7 @@ class board:
         
          #Check the move is valid and perform if it is 
         if(self.is_move_valid(moveRow,moveCol,posRow,posCol)):
-            print("here")
+           
             self.display()
         else:
             print("Not a valid move")
@@ -196,10 +229,13 @@ class board:
        
     def play(self):
         while(not(self.is_end())):
+            currentPlayer=self.player
+           
+            while(currentPlayer==self.player):
+                self.display()
+                self.selectPiece()
             
-            self.display()
-            self.selectPiece()
-            self.end_test()
+          
             
 
        
