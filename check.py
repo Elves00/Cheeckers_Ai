@@ -66,8 +66,6 @@ class board:
         print("now:[",moveRow,"][",moveCol,"]")
         
 
-
-
     #Checks if a move is possible mx =move to x px = peice is at x
     def is_move_valid(self, upOrDown,leftOrRight ,posRow,posCol):
 
@@ -243,3 +241,21 @@ class board:
 x= board()
 x.display()
 x.play()
+
+
+'''
+game cycle
+
+#1
+select piece
+move piece 
+swap players
+
+#2
+select piece 
+move piece
+if(jump)
+select (same piece)
+move piece or (swap player "end turn")
+
+'''
