@@ -67,11 +67,14 @@ class board:
         py = None
         result = self.is_end
 
+
         #Player 1 wins
         if(result == 1):
+            raise Exception("A game ended")
             return (1,0,0)
         #The other player wins 
         elif(result == 2):
+            raise Exception("A game ended")
             return (-1,0,0)
 
         #if the game hasn't ended cycle through all possible moves
@@ -108,7 +111,7 @@ class board:
                                     (tempRow,tempCol)=self.move(i,j,posRow,posCol)
                                     #Evaluate the position only if its better for R
                                     if(self.position_evaluator()>currentValue):
-                                    
+                                        
                                         self.swap_Player()
                                         #Call min
                                         (m,max_y,max_x)=self.min()
@@ -158,6 +161,7 @@ class board:
                     #gets value before move
                     currentValue=self.position_evaluator()
 
+                    self.display()
                     #Stores the new move position and moves piece
                     moveList,tempRow,tempCol=self.jump(i,j,posRow,posCol,moveList)
                     print("temp",tempRow,tempCol)
@@ -232,12 +236,22 @@ class board:
                                 else:
                                     #move is not possible? swaping 21,with 12 #########MAKE TEST CASE
                                     print("move i,j:",i," ",j,"row,col",posRow,posCol)
+                                    currentValue=self.position_evaluator()
+                                    print("Current value=",self.position_evaluator())
                                     (tempRow,tempCol)=self.move(i,j,posRow,posCol)
-                                    self.swap_Player()
-                                    #Call min
-                                    self.max()
-                                    #remove move
-                                    print("min swap [",tempRow,"][",tempCol,"] with [",posRow,"][",posCol,"]")
+                                    print("Post move value=",self.position_evaluator())
+                                   
+                                    #evaluate the position only if it's less then the current value
+                                    if(self.position_evaluator()<currentValue):
+                                        self.swap_Player()
+                                        (m,max_y,max_x)=self.max()
+                                        if m < minv:
+                                            minv=m
+                                            py=i
+                                            px=j
+                                        
+                                        #remove move
+                                        # print("min swap [",tempRow,"][",tempCol,"] with [",posRow,"][",posCol,"]")
                                     self.swap_Piece(tempRow,tempCol,posRow,posCol)
 
         return (minv,px,py)
@@ -269,26 +283,28 @@ class board:
             for j in direction:
                 #Check if there is a valid jump and explore it 
                 if(self.is_jump_valid(i,j,posRow,posCol,moveList)):
+                    currentValue=self.position_evaluator()
                     #Stores the new move position
                     moveList,tempRow,tempCol=self.jump(i,j,posRow,posCol,moveList)
                     #maximises for the new position
-                    (m,min_i,min_j)=self.jumping_min(tempRow,tempCol,moveList)
+                    if(self.position_evaluator() < currentValue):
+                        (m,min_i,min_j)=self.jumping_min(tempRow,tempCol,moveList)
+                        if m < minv:
+                            minv=m
+                            py=i
+                            px=j
 
-                    if m < minv:
-                        minv=m
-                        py=i
-                        px=j
-                    #Move the peice back to previous position
-                    print("min_jump [",tempRow,"][",tempCol,"] with [",posRow,"][",posCol,"]")
-                    self.swap_Piece(tempRow,tempCol,posRow,posCol)
+                        self.swap_Player()    
+                        (m,min_i,min_j)=self.max()
+                       
+                        if m < minv:
+                            minv=m
+                            py=i
+                            px=j
+                        
+                        self.swap_Piece(tempRow,tempCol,posRow,posCol)
 
-        #if there are no valid moves then we do a minimise
-        self.swap_Player()
-        (m,min_i,min_j)=self.max()
-        if m < minv:
-            minv=m
-            py=i
-            px=j
+        
         
         return (minv,py,px)
         
@@ -508,7 +524,7 @@ class board:
         if upOrDown > 0 and leftOrRight < 0:
             moveList.append([posRow-2,posCol-2])
             self.swap_Piece(posRow-2,posCol-2,posRow,posCol)
-            return (moveList,-2,posCol-2)
+            return (moveList,posRow-2,posCol-2)
         #moving up right
         if upOrDown > 0 and leftOrRight > 0:
             moveList.append([posRow-2,posCol+2])

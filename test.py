@@ -193,6 +193,11 @@ class TestBoard(unittest.TestCase):
         #Jumping over an x
         x.board=swapboard=  [['x','x','x','.','x','x','x',],['x','x','.',' ','.','x','x',],['x','R',' ','R',' ','.','x',],['.',' ','R',' ','B',' ','.',],['x','R',' ','x',' ','.','x',],['x','x','.',' ','.','x','x',],['x','x','x','.','x','x','x',]]
         self.assertFalse(x.is_jump_valid(0,1,4,1,moveList))
+
+        x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','R',' ','R',' ','.','x',],['x','x','R',' ','B','x','x',],['x','x','x','B','x','x','x',]]
+        self.assertTrue(x.is_jump_valid(1,-1,5,2,moveList))
+
+        
                
     def test_board_jump(self):
         print("testing jump")
@@ -222,6 +227,13 @@ class TestBoard(unittest.TestCase):
         print()
         print("end")
         x.display()
+
+       
+        x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','R',' ','R',' ','.','x',],['x','x','R',' ','B','x','x',],['x','x','x','B','x','x','x',]]
+        x.display()
+        self.assertTrue(x.jump(1,-1,5,2,moveList))
+        x.display()
+        print("problem")
         
 
 
@@ -247,11 +259,13 @@ class TestBoard(unittest.TestCase):
         moveList=[[0,2],[1,2]]
         print(x.is_jump_valid(0,1,1,2,moveList))
 
-    # def test_board_max(self):
-    #     x = board()
-    #     x.display()
-    #     x.max()
-    #     x.display()
+    def test_board_max(self):
+        
+        print("CLEAR------------------------------------------")
+        x = board()
+        x.display()
+        x.max()
+        x.display()
 
 if __name__ == '__main__':
     unittest.main()
