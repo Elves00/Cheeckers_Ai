@@ -45,7 +45,7 @@ class board:
             print()
         print()
 
-
+    #Evaluates the current postion for the active player 
     def position_evaluator(self):
         postionValue=0
         for i in range(0,7):
@@ -453,7 +453,7 @@ class board:
         
         if self.board[row][col] != "x" and self.board[row][col] != " " and self.board[row][col] != ".":
             #contains a piece
-         return True
+            return True
         else:
             #contains something else
             return False
