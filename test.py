@@ -18,7 +18,21 @@ class TestBoard(unittest.TestCase):
         Test that swap if a piece can move
         '''
         x=board()
+        swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','B',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
+
+        x.board=swapboard
+        print()
+        x.display()
+        moveList=[]
+        # print("Jump one:",x.is_jump_possible(-1,1,1,2,moveList))
+        self.assertFalse(x.is_jump_possible(-1,1,1,2,moveList))
+        print()
+        # print("jump two:",x.is_jump_possible(1,1,3,4,moveList))
+        self.assertFalse(x.is_jump_possible(1,1,3,4,moveList))
+        print()
+
         swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
+        x.board=swapboard
         x.swap_Piece(0,3,0,0)
         
         #Swap 00 and 03 x->R R->x
@@ -65,8 +79,32 @@ class TestBoard(unittest.TestCase):
         #cant move diagonal into x
         self.assertFalse(x.is_move_possible(1,-1,1,2))
 
+
+    def test_board_position_value(self):
+        x=board()
+        #player starts as R evaluate as 2
+        self.assertEqual(x.position_evaluator(),2)
+        #B starts as 16
+        x.swap_Player()
+        self.assertEqual(x.position_evaluator(),16)
+        #After swap B is 10
+        x.swap_Piece(6,3,0,3)
+        self.assertEqual(x.position_evaluator(),10)
+        #after swap R is 8
+        x.swap_Player()
+        self.assertEqual(x.position_evaluator(),8)
+
+
+
+    def test_board_is_jump_valid(self):
+        print("Yikes")
+        x=board()
+        moveList=[[0,2],[1,2]]
+        print(x.is_jump_valid(0,1,1,2,moveList))
+
     def test_board_max(self):
         x = board()
+        x.display()
         x.max()
         x.display()
 
