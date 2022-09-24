@@ -145,7 +145,46 @@ class board:
 
     def min(self):
         print("min")
+         #possible values 
+        # 1 player 1 wins 2 player 2 wins
+        
+        maxv = -2
+        px = None
+        py = None
+        result = self.is_end()
+
+        #Player 1 wins
+        if(result == 1):
+            return (1,0,0)
+        #The other player wins 
+        elif(result == 2):
+            return (-1,0,0)
+
+        #Posible directions a piece can move
+        direction =[1,0,-1]
+
+        #For all directions in x and y
+        for i in direction:
+            for j in direction:
+                #Check if there is a valid jump and explore it 
+                if(self.is_jump_valid(i,j,posRow,posCol,moveList)):
+                    #Stores the new move position
+                    tempRow,tempCol=self.jump(i,j,posRow,posCol,moveList)
+                    #maximises for the new position
+                    (m,max_i,max_j)=self.jumping_max(tempRow,tempCol,moveList)
+
+                    if m > maxv:
+                        maxv=m
+                        py=i
+                        px=j
+                    #Move the peice back to previous position
+                    self.swap_Piece(tempRow,tempCol,posRow,posCol)
+
+        #if there are no valid moves then we do a minimise
+        self.min()
         self.display()
+        return (maxv,py,px)
+        
     def min_jump(self):
         print("minimizing jump")
         
