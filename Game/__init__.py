@@ -70,11 +70,9 @@ class board:
 
         #Player 1 wins
         if(result == 1):
-            raise Exception("A game ended")
             return (1,0,0)
         #The other player wins 
         elif(result == 2):
-            raise Exception("A game ended")
             return (-1,0,0)
 
         #if the game hasn't ended cycle through all possible moves

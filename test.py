@@ -264,8 +264,10 @@ class TestBoard(unittest.TestCase):
         print("CLEAR------------------------------------------")
         x = board()
         x.display()
-        x.max()
+        (maxv,px,py)=x.max()
+        print("maxv=",maxv," px=",px," py=",py)
         x.display()
+
 
 if __name__ == '__main__':
     unittest.main()
