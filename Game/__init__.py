@@ -36,11 +36,18 @@ class board:
         self.boardSetUp()
 
     def boardSetUp(self):
-        self.board = [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
+        self.board = [['x','x','x','R','x','x','x',],['x','x','.',' ','.','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','.',' ','.','x','x',],['x','x','x','B','x','x','x',]]
         self.player = 'R'
+        self.turn=1
+        self.boardWidth=len(self.board[0])
+        self.boardHeight=len(self.board)
+        print(len(self.board[0]))
+        print(len(self.board))
+        
+
     def display(self):
-        for i in range(0,7):
-            for j in range(0,7):
+        for i in range(0,self.boardHeight):
+            for j in range(0,self.boardWidth):
                 print('{} '.format(self.board[i][j]), end= " ")
             print()
         print()
@@ -48,16 +55,16 @@ class board:
     #Evaluates the current postion for the active player 
     def position_evaluator(self):
         postionValue=0
-        for i in range(0,7):
-            for j in range(0,7):
+        for i in range(0,self.boardHeight):
+            for j in range(0,self.boardWidth):
                 if(self.board[i][j]==self.player):
                     postionValue+=i
         return postionValue
     
     #maximiser
     def max(self):
-        print("max")
-        self.display()
+        # print("max")
+      
 
         #possible values 
         # 1 player 1 wins 2 player 2 wins
@@ -65,7 +72,7 @@ class board:
         maxv = -2
         px = None
         py = None
-        result = self.is_end
+        result = self.is_end()
 
 
         #Player 1 wins
@@ -76,8 +83,8 @@ class board:
             return (-1,0,0)
 
         #if the game hasn't ended cycle through all possible moves
-        for posRow in range(0,6):
-            for posCol in range (0,6):
+        for posRow in range(0,self.boardHeight):
+            for posCol in range (0,self.boardWidth):
                 #It's the max players piece
                 if(self.board[posRow][posCol]=='R'):
                     #list of possible movment directions
@@ -90,11 +97,11 @@ class board:
                                 
                                 #Check if the move being attempted is a jump
                                 if(self.is_jump(i,j,posRow,posCol)):
-                                    print("jump")
+                                    # print("jump")
                                     #Tracks moves taken
                                     moveList = [[posRow,posCol]]
                                     #Maximises jumping (Minmising occurs inside the jumping_max)
-                                    (m,max_y,max_x)=self.jumping_max(posRow,posCol,moveList)
+                                    (m,max_y,max_x) = self.jumping_max(posRow,posCol,moveList)
                                     #Checks if we have a better move and set it 
                                     if m > maxv:
                                         maxv=m
@@ -103,13 +110,14 @@ class board:
                                     #remove move from list after checking
                                     moveList.remove([posRow,posCol])
                                 else:
-                                    print("move i,j:",i," ",j,"row,col",posRow,posCol)
+                                    # print("move i,j:",i," ",j,"row,col",posRow,posCol)
                                     #Check current position value
                                     currentValue=self.position_evaluator()
                                     (tempRow,tempCol)=self.move(i,j,posRow,posCol)
                                     #Evaluate the position only if its better for R
                                     if(self.position_evaluator()>currentValue):
-                                        
+                                        self.turn+=1
+                                        print(self.turn)
                                         self.swap_Player()
                                         #Call min
                                         (m,max_y,max_x)=self.min()
@@ -126,7 +134,7 @@ class board:
     
     #maximises the jumping cycle
     def jumping_max(self,posRow,posCol,moveList):
-        print("jumping max")
+        # print("jumping max")
         
         # print(moveList)
         #possible values 
@@ -152,17 +160,15 @@ class board:
             for j in direction:
                 #Check if there is a valid jump and explore it 
                 if(self.is_jump_valid(i,j,posRow,posCol,moveList)):
-                    print()
-                    self.display()
-                    print("checking: i ",i," j ",j,"posRow ",posRow,"posCol ",posCol,"moveList ",moveList)
-                    print()
+                    # print()
+                    # print("checking: i ",i," j ",j,"posRow ",posRow,"posCol ",posCol,"moveList ",moveList)
+                    # print()
+
                     #gets value before move
                     currentValue=self.position_evaluator()
 
-                    self.display()
                     #Stores the new move position and moves piece
                     moveList,tempRow,tempCol=self.jump(i,j,posRow,posCol,moveList)
-                    print("temp",tempRow,tempCol)
                     
                     #maximises for the new position if it is a greater value
                     if(self.position_evaluator()>currentValue):
@@ -171,6 +177,8 @@ class board:
                             maxv=m
                             py=i
                             px=j
+                        self.turn+=1
+                        print(self.turn)
                         #Move the peice back to previous position
                         self.swap_Player()
                         (m,min_i,min_j)=self.min()
@@ -188,76 +196,8 @@ class board:
 
 
     def min(self):
-        print("min")
+        # print("min")
         
-        #possible values 
-        # 1 player 1 wins 2 player 2 wins
-        
-        minv = 2
-        px = None
-        py = None
-        result = self.is_end
-
-        #Player 1 wins
-        if(result == 1):
-            return (1,0,0)
-        #The other player wins 
-        elif(result == 2):
-            return (-1,0,0)
-
-        #if the game hasn't ended cycle through all possible moves
-        for posRow in range(0,6):
-            for posCol in range (0,6):
-                #It's the max players piece
-                if(self.board[posRow][posCol]=='B'):
-                    #list of possible movment directions
-                    direction = [1,0,-1]
-                    #cycle all move directions
-                    for i in direction:
-                        for j in direction:
-                            #if the move is valid
-                            if(self.is_move_possible(i,j,posRow,posCol)):
-                                #Check if the move being attempted is a jump
-                                if(self.is_jump(i,j,posRow,posCol)):
-                                    print("jump")
-                                    #Tracks moves taken
-                                    moveList = [[posRow,posCol]]
-                                    #Maximises jumping (Minmising occurs inside the jumping_max)
-                                    (m,min_y,min_x)=self.jumping_min(posRow,posCol,moveList)
-                                    #Checks if we have a better move and set it 
-                                    if m < minv:
-                                        minv=m
-                                        py=i
-                                        px=j
-                                    #remove move from list after checking
-                                    moveList.remove([posRow,posCol])
-                                else:
-                                    #move is not possible? swaping 21,with 12 #########MAKE TEST CASE
-                                    print("move i,j:",i," ",j,"row,col",posRow,posCol)
-                                    currentValue=self.position_evaluator()
-                                    print("Current value=",self.position_evaluator())
-                                    (tempRow,tempCol)=self.move(i,j,posRow,posCol)
-                                    print("Post move value=",self.position_evaluator())
-                                   
-                                    #evaluate the position only if it's less then the current value
-                                    if(self.position_evaluator()<currentValue):
-                                        self.swap_Player()
-                                        (m,max_y,max_x)=self.max()
-                                        if m < minv:
-                                            minv=m
-                                            py=i
-                                            px=j
-                                        
-                                        #remove move
-                                        # print("min swap [",tempRow,"][",tempCol,"] with [",posRow,"][",posCol,"]")
-                                    self.swap_Piece(tempRow,tempCol,posRow,posCol)
-
-        return (minv,px,py)
-        
-    def jumping_min(self,posRow,posCol,moveList):
-        self.display()
-        print("minimizing jump")
-
         #possible values 
         # 1 player 1 wins 2 player 2 wins
         
@@ -273,6 +213,79 @@ class board:
         elif(result == 2):
             return (-1,0,0)
 
+        #if the game hasn't ended cycle through all possible moves
+        for posRow in range(0,self.boardHeight):
+            for posCol in range (0,self.boardWidth):
+            
+                #It's the max players piece
+                if(self.board[posRow][posCol]=='B'):
+                    #list of possible movment directions
+                    direction = [1,0,-1]
+                    #cycle all move directions
+                    for i in direction:
+                        for j in direction:
+                            #if the move is valid
+                            if(self.is_move_possible(i,j,posRow,posCol)):
+                                #Check if the move being attempted is a jump
+                                if(self.is_jump(i,j,posRow,posCol)):
+                                    # print("jump")
+                                    #Tracks moves taken
+                                    moveList = [[posRow,posCol]]
+                                    #Maximises jumping (Minmising occurs inside the jumping_max)
+                                    (m,min_y,min_x)=self.jumping_min(posRow,posCol,moveList)
+                                    #Checks if we have a better move and set it 
+                                    if m < minv:
+                                        minv=m
+                                        py=i
+                                        px=j
+                                    #remove move from list after checking
+                                    moveList.remove([posRow,posCol])
+                                else:
+                                    #move is not possible? swaping 21,with 12 #########MAKE TEST CASE
+                                    # print("move i,j:",i," ",j,"row,col",posRow,posCol)
+                                    currentValue=self.position_evaluator()
+                                    # print("Current value=",self.position_evaluator())
+                                    (tempRow,tempCol)=self.move(i,j,posRow,posCol)
+                                    # print("Post move value=",self.position_evaluator())
+                                   
+                                    #evaluate the position only if it's less then the current value
+                                    if(self.position_evaluator()<currentValue):
+                                        # print("Post move value=",self.position_evaluator())
+                                        self.turn+=1
+                                        print(self.turn)
+                                        self.swap_Player()
+                                        (m,max_y,max_x)=self.max()
+                                        if m < minv:
+                                            minv=m
+                                            py=i
+                                            px=j
+                                        
+                                        #remove move
+                                        # print("min swap [",tempRow,"][",tempCol,"] with [",posRow,"][",posCol,"]")
+                                    self.swap_Piece(tempRow,tempCol,posRow,posCol)
+
+        return (minv,px,py)
+        
+    def jumping_min(self,posRow,posCol,moveList):
+        # print("minimizing jump")
+
+        #possible values 
+        # 1 player 1 wins 2 player 2 wins
+        
+        minv = 2
+        px = None
+        py = None
+        result = self.is_end()
+
+        #Player 1 wins
+        if(result == 1):
+            self.display()
+            return (1,0,0)
+        #The other player wins 
+        elif(result == 2):
+            self.display()
+            return (-1,0,0)
+
         #Posible directions a piece can move
         direction =[1,0,-1]
 
@@ -281,17 +294,24 @@ class board:
             for j in direction:
                 #Check if there is a valid jump and explore it 
                 if(self.is_jump_valid(i,j,posRow,posCol,moveList)):
+                    # print()
+                    # print("jumping min:")
+                    # self.display()
                     currentValue=self.position_evaluator()
                     #Stores the new move position
                     moveList,tempRow,tempCol=self.jump(i,j,posRow,posCol,moveList)
+                    # print()
                     #maximises for the new position
                     if(self.position_evaluator() < currentValue):
+                        # print()
+                        # print("Jump was lower previous value:",currentValue," new value:",self.position_evaluator())
+                        # self.display()
                         (m,min_i,min_j)=self.jumping_min(tempRow,tempCol,moveList)
                         if m < minv:
                             minv=m
                             py=i
                             px=j
-
+                        self.turn+=1
                         self.swap_Player()    
                         (m,min_i,min_j)=self.max()
                        
@@ -300,9 +320,8 @@ class board:
                             py=i
                             px=j
                         
-                        self.swap_Piece(tempRow,tempCol,posRow,posCol)
+                    self.swap_Piece(tempRow,tempCol,posRow,posCol)
 
-        
         
         return (minv,py,px)
         
@@ -332,7 +351,6 @@ class board:
         #moving up left
         if upOrDown > 0 and leftOrRight < 0:
             if(self.contains_piece(posRow-1,posCol-1)):
-                 print(self.contains_piece(posRow-1,posCol+1))
                 #Check for empty spot after adjacent piece
                  if not(self.is_clear(posRow-2,posCol-2) ):
                     return False
@@ -374,7 +392,6 @@ class board:
 
     #returns False if jump is invalid otherwise returns position
     def is_jump_valid(self,upOrDown,leftOrRight,posRow,posCol,moveList):
-
         #if the jump co-ordinates have not been reached before allowed to jump
         
         #jump down left
@@ -440,18 +457,22 @@ class board:
 
     #checks the game has ended
     def is_end(self):
-
-        if(self.board[6][3]=='R' and self.board[5][2]=='R' and self.board[5][4]=='R'):
-            return 1
-        elif(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
+        
+        if(self.board[0][3]=='B'):
             return 2
+        elif(self.board[6][3]=='R'):
+            return 1
+        # if(self.board[6][3]=='R' and self.board[5][2]=='R' and self.board[5][4]=='R'):
+        #     return 1
+        # elif(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
+        #     return 2
         return None
 
     #Checks a location on the board has no piece and is on the board false place is occupied true place is not
     def is_clear(self,row,col):
 
         #Out of board range 
-        if(row>6 or row<0 or col>6 or col<0):
+        if(row>self.boardHeight-1 or row<0 or col>self.boardWidth-1 or col<0):
             return False
                    
         if(self.board[row][col] =='.'):
@@ -461,8 +482,8 @@ class board:
 
     #Checks a location on the board for a piece false it does not contain a piece true it does
     def contains_piece(self,row,col):
-        if(row>6 or row<0 or col>6 or col<0):
-            print("no piece as board is out of range")
+        if(row>self.boardHeight-1 or row<0 or col>self.boardWidth-1 or col<0):
+            # print("no piece as board is out of range")
             return False
         
         if self.board[row][col] != "x" and self.board[row][col] != " " and self.board[row][col] != ".":
@@ -516,8 +537,8 @@ class board:
         #moving down right
         if upOrDown < 0 and leftOrRight > 0:
             moveList.append([posRow-2,posCol+2])
-            self.swap_Piece(posRow-2,posCol+2,posRow,posCol)
-            return (moveList,posRow-2,posCol+2)
+            self.swap_Piece(posRow+2,posCol+2,posRow,posCol)
+            return (moveList,posRow+2,posCol+2)
         #moving up left
         if upOrDown > 0 and leftOrRight < 0:
             moveList.append([posRow-2,posCol-2])
@@ -542,7 +563,7 @@ class board:
    
 
     def swap_Piece(self,moveRow,moveCol,posRow,posCol):
-        print("swapping [",moveRow,"][",moveCol,"] with [",posRow,"][",posCol,"]")
+        # print("swapping [",moveRow,"][",moveCol,"] with [",posRow,"][",posCol,"]")
         temp= self.board[posRow][posCol]   
         self.board[posRow][posCol]=self.board[moveRow][moveCol]
         self.board[moveRow][moveCol]=temp
