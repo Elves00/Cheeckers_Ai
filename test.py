@@ -12,7 +12,7 @@ class TestBoard(unittest.TestCase):
     #     startboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
 
     #     self.assertEqual(startboard, x.board)
-    
+
     # def test_board_swap(self):
     #     print("testing swap_Piece")
     #     '''
@@ -35,7 +35,7 @@ class TestBoard(unittest.TestCase):
     #     swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
     #     x.board=swapboard
     #     x.swap_Piece(0,3,0,0)
-        
+
     #     #Swap 00 and 03 x->R R->x
     #     self.assertEqual(x.board[0][0],'R')
     #     self.assertEqual(x.board[0][3],'x')
@@ -44,8 +44,7 @@ class TestBoard(unittest.TestCase):
     #      #Swap 00 and 55 R->B B->R
     #     self.assertEqual(x.board[0][0],'B')
     #     self.assertEqual(x.board[5][4],'R')
-        
-    
+
     # def test_board_is_clear(self):
     #     print("testing is_clear")
     #     '''
@@ -60,14 +59,12 @@ class TestBoard(unittest.TestCase):
     #     #"x" is not clear
     #     self.assertFalse(x.is_clear(0,4))
 
-
     # def test_board_is_move_valid(self):
     #     print("testing is_move_valid")
     #     '''
     #     Tests if a move is possible given the current board position
     #     '''
     #     x=board()
-
 
     #     #BASE POSTITION EVALUATIONS
 
@@ -85,17 +82,17 @@ class TestBoard(unittest.TestCase):
 
     #     #cant move diagonal into x
     #     self.assertFalse(x.is_move_possible(1,-1,1,2))
-        
+
     #     movesUpDown = [0]
     #     movesRightLeft = [1,1]
     #     for i in movesUpDown:
     #         for j in movesRightLeft:
     #             self.assertFalse(x.is_move_possible(i,j,0,3))
     #             self.assertFalse(x.is_move_possible(i,j,0,3))
-        
+
     #     #mid 6 moves possible up left up right down left down right left right
     #     x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','R',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
-        
+
     #     #cant move up or down or stay still
     #     #can move every other direction
     #     x.display()
@@ -109,14 +106,14 @@ class TestBoard(unittest.TestCase):
     #                 print("possible? ",i," ",j)
     #                 self.assertTrue(x.is_move_possible(i,j,3,2))
     #                 x.is_jump_valid
-       
+
     # def test_is_jump_possible(self):
     #     print("checking jump is possible")
 
     #     x=board()
     #     #mid 6 moves possible up left up right down left down right left right NO JUMPS
     #     x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','R',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
-        
+
     #     #no jumps possible
     #     x.display()
     #     movesUpDown = [1,0,-1]
@@ -126,8 +123,7 @@ class TestBoard(unittest.TestCase):
     #         for j in movesRightLeft:
     #             # print("is possible? ",i," ",j)
     #             self.assertFalse(x.is_jump_valid(i,j,3,2,moveList))
-        
-    
+
     #     #no jumps
     #     x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['R',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
     #     x.display()
@@ -138,10 +134,10 @@ class TestBoard(unittest.TestCase):
     #         for j in movesRightLeft:
     #             # print("is possible? ",i," ",j)
     #             self.assertFalse(x.is_jump_valid(i,j,3,0,moveList))
-        
+
     #     #NO JUMPS
     #     x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','R',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
-        
+
     #     #no jumps possible
     #     x.display()
     #     movesUpDown = [1,0,-1]
@@ -151,10 +147,10 @@ class TestBoard(unittest.TestCase):
     #         for j in movesRightLeft:
     #             # print("is possible? ",i," ",j)
     #             self.assertFalse(x.is_jump_valid(i,j,2,1,moveList))
-        
+
     #     #NO JUMPS
     #     x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','R',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','R',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
-        
+
     #     #no jumps possible
     #     x.display()
     #     movesUpDown = [1,0,-1]
@@ -167,7 +163,7 @@ class TestBoard(unittest.TestCase):
 
     #      #NO JUMPS
     #     x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','R',' ','.',' ','.','x',],['.',' ','R',' ','.',' ','.',],['x','R',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
-        
+
     #     #no jumps possible
     #     x.display()
     #     movesUpDown = [1,0,-1]
@@ -177,7 +173,7 @@ class TestBoard(unittest.TestCase):
     #         for j in movesRightLeft:
     #             # print("is possible? ",i," ",j)
     #             self.assertFalse(x.is_jump_valid(i,j,3,2,moveList))
-        
+
     #     x.display()
     #     movesUpDown = [1,0,-1]
     #     movesRightLeft = [1,0,-1]
@@ -197,8 +193,6 @@ class TestBoard(unittest.TestCase):
     #     x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','R',' ','R',' ','.','x',],['x','x','R',' ','B','x','x',],['x','x','x','B','x','x','x',]]
     #     self.assertTrue(x.is_jump_valid(1,-1,5,2,moveList))
 
-        
-               
     # def test_board_jump(self):
     #     print("testing jump")
     #     x=board()
@@ -228,14 +222,11 @@ class TestBoard(unittest.TestCase):
     #     print("end")
     #     x.display()
 
-       
     #     x.board=swapboard=  [['x','x','x','R','x','x','x',],['x','x','R',' ','R','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','R',' ','R',' ','.','x',],['x','x','R',' ','B','x','x',],['x','x','x','B','x','x','x',]]
     #     x.display()
     #     self.assertTrue(x.jump(1,-1,5,2,moveList))
     #     x.display()
     #     print("problem")
-        
-
 
     # def test_board_position_value(self):
     #     x=board()
@@ -251,10 +242,8 @@ class TestBoard(unittest.TestCase):
     #     x.swap_Player()
     #     self.assertEqual(x.position_evaluator(),8)
 
-
-
     # def test_board_is_jump_valid(self):
-        
+
     #     x=board()
     #     moveList=[[0,2],[1,2]]
     #     print(x.is_jump_valid(0,1,1,2,moveList))
@@ -263,18 +252,17 @@ class TestBoard(unittest.TestCase):
     #     x.display()
     #     print(x.is_jump_valid(-1,1,0,3,[[0,3]]))
 
-
     def test_board_max(self):
-        
+
         print("CLEAR------------------------------------------")
         x = board()
         x.display()
-        
-        (maxv,px,py)=x.max()
-        print("maxv=",maxv," px=",px," py=",py)
+
+        (maxv, px, py) = x.max()
+        print("maxv=", maxv, " px=", px, " py=", py)
         x.display()
 
-        for i in range(0,7):
+        for i in range(0, 7):
             print(i)
 
 
