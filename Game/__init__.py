@@ -24,7 +24,7 @@ class game:
                 self.gameBoard.display()
                 #Get move from max
                 (winLoss,upOrDown,leftOrRight,posRow,posCol)=self.miniMax.max()
-                print("max Reurned:",winLoss,upOrDown,leftOrRight,posRow,posCol)
+                print("max Returned:",winLoss,upOrDown,leftOrRight,posRow,posCol)
                 if(self.gameBoard.is_jump(upOrDown,leftOrRight,posRow,posCol)):
                    
                     moveList=[]
@@ -53,5 +53,4 @@ class game:
 
 x=game()
 x.play()
-
 

@@ -9,6 +9,8 @@ class miniMax:
     #maximiser
     def max(self):
         print("max")
+        if(self.gameBoard.player=='B'):
+            raise Exception("Player B is playing jumping min")
         
         #possible values 
         # 1 player 1 wins 2 player 2 wins
@@ -23,18 +25,14 @@ class miniMax:
         #Player 1 wins
         if(result == 1):
             print("max victory player:",self.gameBoard.player)
-            self.gameBoard.swap_Player()
             return (1,0,0,0,0)
         #The other player wins 
         elif(result == 2):
-            print("max victory player:",self.gameBoard.player)
-            self.gameBoard.swap_Player()
+            print("min victory player:",self.gameBoard.player)
             return (-1,0,0,0,0)
 
-        if(self.gameBoard.player=='B'):
-            print("we were called from one of two mins")
-            raise Exception("Player B is playing max")   
-
+        
+        currentPlayer=self.gameBoard.player
         validMove=False
         #if the game hasn't ended cycle through all possible moves
         for posRow in range(0,self.gameBoard.boardHeight):
@@ -54,7 +52,7 @@ class miniMax:
                                     #Tracks moves taken
                                     moveList = [[posRow,posCol]]
                                     #Maximises jumping (Minmising occurs inside the jumping_max)
-                                    (m,max_y,max_x,px,py) = self.jumping_max(posRow,posCol,moveList)
+                                    (m,max_y,max_x,pos_x,pos_y) = self.jumping_max(posRow,posCol,moveList)
                                     
                                     #Checks if we have a better move and set it 
                                     if m > maxv:
@@ -63,8 +61,12 @@ class miniMax:
                                         mx=j
                                         px=posRow
                                         py=posCol
+                                    
+                                    print("px:",px)
+                                        
                                     #remove move from list after checking
                                     moveList.remove([posRow,posCol])
+                                    print("ended in a jump")
 
                                 else:
                                     
@@ -74,9 +76,11 @@ class miniMax:
                                     #Evaluate the position only if its better for R
                                     if(self.gameBoard.position_evaluator()>currentValue):
                                         self.gameBoard.turn+=1
-                                        # print(self.gameBoard.turn)
+                                        print(self.gameBoard.player )
                                         self.gameBoard.swap_Player()
+                                        print(self.gameBoard.player ,"swap called by max")
                                         #Call min
+                                        # print("Caling min from max")
                                         (m,max_y,max_x,pos_x,pos_y)=self.min()
                                         if m > maxv:
                                             maxv=m
@@ -85,33 +89,30 @@ class miniMax:
                                             px=posRow
                                             py=posCol
 
+                                        ##Swap back to current player
+                                        self.gameBoard.swap_Player()
+
+                                    print("px:",px)
                                     #remove move
                                     self.gameBoard.swap_Piece(tempRow,tempCol,posRow,posCol)
+                                    print("ended in a move")
 
-        '''
-        What to think about
-        so we only assign px py my mx if we have a better move..
-        we should probably set a default which means we never return none.
-        
-        2 ways to do this. Simple way we just set my mx px py at the start or each move 
-
-        Thoughts valid move returns none which shouldn't be a thing there should always be a move?
-
-        Note it's returning B so we have an exception cause it should be R
-        '''
-
+     
+        if(not(validMove)):
+            print("NO VALID MOVES MAX")
+            self.gameBoard.player=currentPlayer
        
 
-        # print("returning max:",maxv,mx,my,px,py," player:",self.gameBoard.player)
+        print("Returned from end")
         return (maxv,my,mx,px,py)
 
     #maximises the jumping cycle
     def jumping_max(self,posRow,posCol,moveList):
+       
         print("jumping max")
         if(self.gameBoard.player=='B'):
             raise Exception("Player B is playing jumping min")
         
-        # print(moveList)
         #possible values 
         # 1 player 1 wins 2 player 2 wins
         
@@ -125,14 +126,17 @@ class miniMax:
 
         #Player 1 wins
         if(result == 1):
-            print("jumping max victory player:",self.gameBoard.player)
-            self.gameBoard.swap_Player()
+            print("jumping max victory:",self.gameBoard.player)
             return (1,0,0,0,0)
         #The other player wins 
         elif(result == 2):
-            print("jumping max victory player:",self.gameBoard.player)
-            self.gameBoard.swap_Player()
+            print("jumping max victory:",self.gameBoard.player)
             return (-1,0,0,0,0)
+
+       
+
+        currentPlayer=self.gameBoard.player
+        validMove=False
 
         #Posible directions a piece can move
         direction =[-1,0,1]
@@ -151,31 +155,43 @@ class miniMax:
                     
                     #maximises for the new position if it is a greater value
                     if(self.gameBoard.position_evaluator()>currentValue):
-                        (m,max_i,max_j,px,py)=self.jumping_max(tempRow,tempCol,moveList)
+                        validMove=True
+                        print("starting jumping max with: ",self.gameBoard.player)
+                        (m,max_i,max_j,pos_x,pos_y)=self.jumping_max(tempRow,tempCol,moveList)
+                        
                         if m > maxv:
                             maxv=m
                             my=i
                             mx=j
                         self.gameBoard.turn+=1
                         # print(self.gameBoard.turn)
+                        
                         #Move the peice back to previous position
+                        print(self.gameBoard.player )
                         self.gameBoard.swap_Player()
+                        print(self.gameBoard.player ,"swap called by jumping max")
                         (m,min_i,min_j,pos_x,pos_y)=self.min()
 
-                        if m > maxv:
+                        if m > maxv: 
                             maxv=m
                             my=i
                             mx=j
+                            
+                        self.gameBoard.swap_Player()
+                        
+                    self.gameBoard.swap_Piece(tempRow,tempCol,posRow,posCol)  
 
-                    self.gameBoard.swap_Piece(tempRow,tempCol,posRow,posCol)      
-        
-        
-        # print("returning jumping max player:",self.gameBoard.player)
-        return (maxv,my,mx,px,px)
+        if(not (validMove)):
+            print("NO VALID MOVES ######################################## MAX")
+            self.gameBoard.player=currentPlayer
+        print("returning jumping max player:",self.gameBoard.player)
+        return (maxv,my,mx,px,py)
 
 
     def min(self):
         print("min")
+        if(self.gameBoard.player=='R'):
+            raise Exception ("Starting min with R")
        
         #possible values 
         # 1 player 1 wins 2 player 2 wins
@@ -189,21 +205,17 @@ class miniMax:
 
         #Player 1 wins
         if(result == 1):
-            print("returning min:",self.gameBoard.player)
-            self.gameBoard.swap_Player()
+            print("min victory player:",self.gameBoard.player)
             return (1,0,0,0,0)
         #The other player wins 
         elif(result == 2):
-            print("returning min:",self.gameBoard.player)
-            self.gameBoard.swap_Player()
+            print("min victory player:",self.gameBoard.player)
             return (-1,0,0,0,0)
 
-        if(self.gameBoard.player=='R'):
-
-            raise Exception("Player R is playing max")
+        print("here")
 
         validMove=False
-
+        currentPlayer=self.gameBoard.player
         #if the game hasn't ended cycle through all possible moves
         for posRow in range(0,self.gameBoard.boardHeight):
             for posCol in range (0,self.gameBoard.boardWidth):
@@ -224,7 +236,7 @@ class miniMax:
                                     #Tracks moves taken
                                     moveList = [[posRow,posCol]]
                                     #Maximises jumping (Minmising occurs inside the jumping_max)
-                                    (m,min_y,min_x,px,py)=self.jumping_min(posRow,posCol,moveList)
+                                    (m,min_y,min_x,pos_x,pos_y)=self.jumping_min(posRow,posCol,moveList)
                                     #Checks if we have a better move and set it 
                                     if m < minv:
                                         minv=m
@@ -245,8 +257,9 @@ class miniMax:
 
                                         self.gameBoard.turn+=1
                                         # print(self.gameBoard.turn)
-
+                                        print(self.gameBoard.player )
                                         self.gameBoard.swap_Player()
+                                        print(self.gameBoard.player ,"swap called by min")
                                         (m,max_y,max_x,pos_x,pos_y)=self.max()
                                         if m < minv:
                                             minv=m
@@ -254,15 +267,22 @@ class miniMax:
                                             mx=j
                                             px=posRow
                                             py=posCol
+                                        ##Swap back to current player
+                                        self.gameBoard.swap_Player()
                                         
                                         #remove move
                                     self.gameBoard.swap_Piece(tempRow,tempCol,posRow,posCol)
 
         # print("returning min:",minv,mx,my,px,py," player:",self.gameBoard.player)
-        return (minv,my,mx,px,px)
+        if(not(validMove)):
+            print("NO VALID MOVES MIN",self.gameBoard.player,currentPlayer)
+            self.gameBoard.player=currentPlayer
+        return (minv,my,mx,px,py)
         
     def jumping_min(self,posRow,posCol,moveList):
         print("minimizing jump")
+        if(self.gameBoard.player=='R'):
+            raise Exception ("Starting jumping min with R")
 
         #possible values 
         # 1 player 1 wins 2 player 2 wins
@@ -277,19 +297,19 @@ class miniMax:
         #Player 1 wins
         if(result == 1):
             print("jumping min player:",self.gameBoard.player)
-            self.gameBoard.swap_Player()
             return (1,0,0,0,0)
         #The other player wins 
         elif(result == 2):
             print("jumping min player:",self.gameBoard.player)
-            self.gameBoard.swap_Player()
             return (-1,0,0,0,0)
+        
         
         
         if(self.gameBoard.player=='R'):
             raise Exception("Player R is playing jumping min")
 
-
+        validMove=False
+        currentPlayer=self.gameBoard.player
         #Posible directions a piece can move
         direction =[1,0,-1]
 
@@ -306,23 +326,32 @@ class miniMax:
 
                     #maximises for the new position
                     if(self.gameBoard.position_evaluator() < currentValue):
-
-                        (m,min_i,min_j,px,py)=self.jumping_min(tempRow,tempCol,moveList)
+                        validMove=True
+                        (m,min_i,min_j,pos_x,pos_y)=self.jumping_min(tempRow,tempCol,moveList)
                         
                         if m < minv:
                             minv=m
                             mx=i
                             my=j
                         self.gameBoard.turn+=1
-                        self.gameBoard.swap_Player()    
-                        (m,min_i,min_j,pos_row,pos_col)=self.max()
+                        ##Swap player to play min
+                        self.gameBoard.swap_Player()
+                        print(self.gameBoard.player ,"swap called by jumping min")
+                        (m,min_i,min_j,pos_x,pos_y)=self.max()
                         
                         if m < minv:
                             minv=m
                             mx=i
                             my=j
+
+                        ##Swap back to current player
+                        self.gameBoard.swap_Player()
                         
                     self.gameBoard.swap_Piece(tempRow,tempCol,posRow,posCol)
 
+        if(not(validMove)):
+            self.gameBoard.player=currentPlayer
+            print("NO VALID MOVES ######################################## MIN JUMPING",self.gameBoard.player)
+      
         # print("returning jumping min player:",self.gameBoard.player)
-        return (minv,mx,my,px,px)
+        return (minv,mx,my,px,py)

@@ -6,7 +6,9 @@ class board:
         self.boardSetUp()
 
     def boardSetUp(self):
-        self.board = [['x','x','x','R','x','x','x',],['x','x','R',' ','.','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
+        # self.board = [['x','x','x','R','x','x','x',],['x','x','R',' ','.','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
+        self.board = [['x','x','x','R','x','x','x',],['x','x','R',' ','.','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','.',' ','.','x','x',],['x','x','x','B','x','x','x',]]
+        
         self.player = 'R'
         self.turn=1
         self.boardWidth=len(self.board[0])
@@ -162,10 +164,10 @@ class board:
 
     #checks the game has ended
     def is_end(self):
-        if(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
-            return 2
-        # if(self.board[0][3]=='B'):
+        # if(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
         #     return 2
+        if(self.board[0][3]=='B'):
+            return 2
         elif(self.board[6][3]=='R' and (self.board[5][2]=='R' or self.board[5][4]=='R')):
             return 1
         # if(self.board[6][3]=='R' and self.board[5][2]=='R' and self.board[5][4]=='R'):
@@ -210,9 +212,6 @@ class board:
     def move(self,upOrDown,leftOrRight,posRow,posCol):
         #moving down left
         if upOrDown < 0 and leftOrRight < 0:
-            print("down left")
-            print(self.board[posRow+1][posCol-1])
-            print(self.board[posRow][posCol])
             self.swap_Piece(posRow+1,posCol-1,posRow,posCol)
             return (posRow+1,posCol-1)
         #moving down right
