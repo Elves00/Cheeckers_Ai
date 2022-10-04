@@ -1,5 +1,5 @@
-import board
-import miniMax
+from board import board
+from miniMax import miniMax
 
 
 class game:
@@ -7,9 +7,9 @@ class game:
         self.gameSetUp()
 
     def gameSetUp(self):
-        self.gameBoard = board.board()
+        self.gameBoard = board()
         self.gameBoard.display()
-        self.miniMax = miniMax.miniMax()
+        self.miniMax = miniMax()
         self.miniMax.setGameBoard(self.gameBoard)
 
     def play(self):

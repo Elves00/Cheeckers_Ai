@@ -96,69 +96,150 @@ class board:
 
     # returns False if jump is invalid otherwise returns position
     def is_jump_valid(self, upOrDown, leftOrRight, posRow, posCol, moveList):
-        # if the jump co-ordinates have not been reached before allowed to jump
+        ''''
+        Returns true if the selected piece is able to jump in the inputed direction 
+        Move list contains all previous jumps preformed by the piece
+        '''
+        #if the piece is in the end zone we allow swaping even if the second space is not clear
+        if(self.is_end_zone):
+            # jump down left
+            if upOrDown < 0 and leftOrRight < 0:
+                if (self.contains_piece(posRow+1, posCol-1)):
+                    # Check for empty spot after adjacent piece
+                    if (self.is_in_bound(posRow+2, posCol-2) and not ([posRow + 2, posCol-2] in (moveList))):
+                        return True
+                    else:
+                        return False
 
-        # jump down left
-        if upOrDown < 0 and leftOrRight < 0:
-            if (self.contains_piece(posRow+1, posCol-1)):
-                # Check for empty spot after adjacent piece
-                if (self.is_clear(posRow+2, posCol-2) and not ([posRow + 2, posCol-2] in (moveList))):
-                    return True
-                else:
-                    return False
+            # moving down right
+            if upOrDown < 0 and leftOrRight > 0:
+                if (self.contains_piece(posRow+1, posCol+1)):
+                    # Check for empty spot after adjacent piece
+                    if not (self.is_in_bound(posRow+2, posCol+2) and not ([posRow+2, posCol+2] in (moveList))):
+                        return False
+                    else:
+                        return True
 
-        # moving down right
-        if upOrDown < 0 and leftOrRight > 0:
-            if (self.contains_piece(posRow+1, posCol+1)):
-                # Check for empty spot after adjacent piece
-                if not (self.is_clear(posRow+2, posCol+2) and not ([posRow+2, posCol+2] in (moveList))):
-                    return False
-                else:
-                    return True
+            # moving up left
+            if upOrDown > 0 and leftOrRight < 0:
+                if (self.contains_piece(posRow-1, posCol-1)):
+                    # Check for empty spot after adjacent piece
+                    if not (self.is_in_bound(posRow-2, posCol-2) and not ([posRow-2, posCol-2] in (moveList))):
+                        return False
+                    else:
+                        return True
 
-        # moving up left
-        if upOrDown > 0 and leftOrRight < 0:
-            if (self.contains_piece(posRow-1, posCol-1)):
-                # Check for empty spot after adjacent piece
-                if not (self.is_clear(posRow-2, posCol-2) and not ([posRow-2, posCol-2] in (moveList))):
-                    return False
-                else:
-                    return True
+            # moving up right
+            if upOrDown > 0 and leftOrRight > 0:
+                if (self.contains_piece(posRow-1, posCol+1)):
+                    # Check for empty spot after adjacent piece
+                    if not (self.is_in_bound(posRow-2, posCol+2) and not ([posRow-2, posCol+2] in (moveList))):
+                        return False
+                    else:
+                        return True
 
-        # moving up right
-        if upOrDown > 0 and leftOrRight > 0:
-            if (self.contains_piece(posRow-1, posCol+1)):
-                # Check for empty spot after adjacent piece
-                if not (self.is_clear(posRow-2, posCol+2) and not ([posRow-2, posCol+2] in (moveList))):
-                    return False
-                else:
-                    return True
+            # moving left
+            if upOrDown == 0 and leftOrRight < 0:
+                if (self.contains_piece(posRow, posCol-2)):
+                    # Check for empty spot after adjacent piece
+                    if not (self.is_in_bound(posRow, posCol-4) and not ([posRow, posCol-4] in (moveList))):
+                        return False
+                    else:
+                        return True
 
-        # moving left
-        if upOrDown == 0 and leftOrRight < 0:
-            if (self.contains_piece(posRow, posCol-2)):
-                # Check for empty spot after adjacent piece
-                if not (self.is_clear(posRow, posCol-4) and not ([posRow, posCol-4] in (moveList))):
-                    return False
-                else:
-                    return True
+            # moving right
+            if (upOrDown == 0 and leftOrRight > 0):
+                # check for adjacent piece
+                if (self.contains_piece(posRow, posCol+2)):
+                    # Check for empty spot after adjacent piece
+                    if (not (self.is_in_bound(posRow, posCol+4) and not ([posRow, posCol+4] in (moveList)))):
+                        return False
+                    else:
+                        return True
 
-        # moving right
-        if (upOrDown == 0 and leftOrRight > 0):
-            # check for adjacent piece
-            if (self.contains_piece(posRow, posCol+2)):
-                # Check for empty spot after adjacent piece
-                if (not (self.is_clear(posRow, posCol+4) and not ([posRow, posCol+4] in (moveList)))):
-                    return False
-                else:
-                    return True
+            if (upOrDown == 0 and leftOrRight == 0):
+                return False
+        else:    
+            # jump down left
+            if upOrDown < 0 and leftOrRight < 0:
+                if (self.contains_piece(posRow+1, posCol-1)):
+                    # Check for empty spot after adjacent piece
+                    if (self.is_clear(posRow+2, posCol-2) and not ([posRow + 2, posCol-2] in (moveList))):
+                        return True
+                    else:
+                        return False
 
-        if (upOrDown == 0 and leftOrRight == 0):
+            # moving down right
+            if upOrDown < 0 and leftOrRight > 0:
+                if (self.contains_piece(posRow+1, posCol+1)):
+                    # Check for empty spot after adjacent piece
+                    if not (self.is_clear(posRow+2, posCol+2) and not ([posRow+2, posCol+2] in (moveList))):
+                        return False
+                    else:
+                        return True
+
+            # moving up left
+            if upOrDown > 0 and leftOrRight < 0:
+                if (self.contains_piece(posRow-1, posCol-1)):
+                    # Check for empty spot after adjacent piece
+                    if not (self.is_clear(posRow-2, posCol-2) and not ([posRow-2, posCol-2] in (moveList))):
+                        return False
+                    else:
+                        return True
+
+            # moving up right
+            if upOrDown > 0 and leftOrRight > 0:
+                if (self.contains_piece(posRow-1, posCol+1)):
+                    # Check for empty spot after adjacent piece
+                    if not (self.is_clear(posRow-2, posCol+2) and not ([posRow-2, posCol+2] in (moveList))):
+                        return False
+                    else:
+                        return True
+
+            # moving left
+            if upOrDown == 0 and leftOrRight < 0:
+                if (self.contains_piece(posRow, posCol-2)):
+                    # Check for empty spot after adjacent piece
+                    if not (self.is_clear(posRow, posCol-4) and not ([posRow, posCol-4] in (moveList))):
+                        return False
+                    else:
+                        return True
+
+            # moving right
+            if (upOrDown == 0 and leftOrRight > 0):
+                # check for adjacent piece
+                if (self.contains_piece(posRow, posCol+2)):
+                    # Check for empty spot after adjacent piece
+                    if (not (self.is_clear(posRow, posCol+4) and not ([posRow, posCol+4] in (moveList)))):
+                        return False
+                    else:
+                        return True
+
+            if (upOrDown == 0 and leftOrRight == 0):
+                return False
+
+    def is_end_zone(self,posRow,posCol):
+        '''
+        Returns true if the selected co-ordinates is in the current players end zone
+        '''
+        #red end zone
+        if(self.player=='R'):
+            if(posRow>4 and posCol>1 and posCol<5):
+                return True
             return False
+        #blue end zone
+        elif(self.player=='B'):
+            if(posRow<2 and posCol>1 and posCol<5):
+                return True
+            return False
+
+        
+        return False
+        
 
     # checks the game has ended
     def is_end(self):
-
+        '''Returns True if the board is in the end state for the current player'''
         # if(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
         #     return 2
         if (self.board[0][3] == 'B' and (self.board[1][2] == 'B' or self.board[1][4] == 'B')):
@@ -172,10 +253,22 @@ class board:
         # elif(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
         #     return 2
         return None
+    def is_in_bound(self,row,col):
+        '''
+        Checks a location on the board is in the playing field returning true
+        '''
+          # Out of board range
+        if (row > self.boardHeight-1 or row < 0 or col > self.boardWidth-1 or col < 0):
+            return False
+        if(self.board[row][col]!='x'):
+            return True
+        else:
+            return False
 
-    # Checks a location on the board has no piece and is on the board false place is occupied true place is not
     def is_clear(self, row, col):
-
+        '''
+        Checks a location on the board has no piece and is on the board false place is occupied true place is not
+        '''
         # Out of board range
         if (row > self.boardHeight-1 or row < 0 or col > self.boardWidth-1 or col < 0):
             return False

@@ -87,6 +87,7 @@ class miniMax:
                                         print(m,  ":", maxv)
                                         print(px)
                                         if m > maxv:
+                                            print("its greater max?")
                                             maxv = m
                                             my = i
                                             mx = j
@@ -106,7 +107,7 @@ class miniMax:
             print("NO VALID MOVES MAX")
             self.gameBoard.player = currentPlayer
 
-        print("Returned from end")
+        print("Returned from end",maxv, my, mx, px, py)
         return (maxv, my, mx, px, py)
 
     # maximises the jumping cycle
