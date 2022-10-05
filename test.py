@@ -35,16 +35,8 @@ class TestBoard(unittest.TestCase):
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
         self.assertEqual(starting, x.board)
 
-    def test_board_init(self):
-        """
-        Test that it can display a board
-        """
-        x = board.board()
-        # startboard = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
-        #     '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-
-        # self.assertEqual(startboard, x.board)
-
+    
+    
     def test_board_is_clear(self):
         print("testing is_clear")
         '''
@@ -357,5 +349,25 @@ class TestBoard(unittest.TestCase):
         self.assertEqual('Y',x.player)
         x.swap_Player()
         self.assertEqual('R',x.player)
+
+    def test_move_piece(self):
+        x=board.board()
+        x.board=[['x', 'x', 'x', 'R', 'x', 'x', 'x', ], 
+                 ['x', 'x', '.', ' ', '.', 'x', 'x', ], 
+                 ['x', '.', ' ', '.', ' ', '.', 'x', ], 
+                 ['.', ' ', '.', ' ', 'R', ' ', 'B', ],
+                 ['x', '.', ' ', '.', ' ', '.', 'x', ],
+                 ['x', 'x', '.', ' ', '.', 'x', 'x', ],
+                 ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
+        
+        x.move(1,-1,3,6)
+        postMove=[['x', 'x', 'x', 'R', 'x', 'x', 'x', ], 
+                 ['x', 'x', '.', ' ', '.', 'x', 'x', ], 
+                 ['x', '.', ' ', '.', ' ', 'B', 'x', ], 
+                 ['.', ' ', '.', ' ', 'R', ' ', '.', ],
+                 ['x', '.', ' ', '.', ' ', '.', 'x', ],
+                 ['x', 'x', '.', ' ', '.', 'x', 'x', ],
+                 ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
+        self.assertEqual(x.board,postMove)
 if __name__ == '__main__':
     unittest.main()
