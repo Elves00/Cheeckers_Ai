@@ -30,7 +30,7 @@ class board:
         print(" ")
 
     def swap_board(self,mode):
-        if(mode.__contains__("small")):
+        if(mode==("small")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
             self.mode=mode
@@ -39,7 +39,7 @@ class board:
             self.turn=0
             self.player='R'
 
-        elif(mode.__contains__("small two")):
+        elif(mode==("small two")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
             self.mode=mode
@@ -48,7 +48,7 @@ class board:
             self.turn=0
             self.player='R'
 
-        elif(mode.__contains__("small full")):
+        elif(mode==("small full")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
             self.mode=mode
@@ -57,7 +57,7 @@ class board:
             self.turn=0
             self.player='R'
 
-        elif(mode.__contains__("full")):
+        elif(mode==("full")):
             self.board =[  
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -302,22 +302,22 @@ class board:
 
     def is_end(self):
         '''Returns True if the board is in the end state for the current player'''
-        if(self.mode.__contains__("small")):
+        if(self.mode==("small")):
             if (self.board[0][3] == 'B'):
                 return 4
             elif(self.board[6][3]=='R'):
                 return 1
-        elif(self.mode.__contains__("small two")):
+        elif(self.mode==("small two")):
             if (self.board[0][3] == 'B' and (self.board[1][2] == 'B' or self.board[1][4] == 'B')):
                 return 4
             elif(self.board[6][3]=='R' and (self.board[5][2]=='R' or self.board[5][4]=='R')):
                 return 1
-        elif(self.mode.__contains__("small full")):
+        elif(self.mode==("small full")):
             if (self.board[0][3] == 'B' and self.board[1][2] == 'B' and self.board[1][4] == 'B'):
                 return 4
             elif(self.board[6][3]=='R' and self.board[5][2]=='R' and self.board[5][4]=='R'):
                 return 1
-        elif(self.mode.__contains__("full")):
+        elif(self.mode==("full")):
 
             #Red victory
             victory=True

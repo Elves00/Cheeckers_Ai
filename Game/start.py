@@ -11,6 +11,7 @@ class game:
         self.gameBoard.display()
         self.miniMax = miniMax()
         self.miniMax.setGameBoard(self.gameBoard)
+        
 
     def play(self):
         while (not (self.gameBoard.is_end())):
