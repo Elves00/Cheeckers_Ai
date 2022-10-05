@@ -43,7 +43,7 @@ class miniMax:
                     for i in direction:
                         for j in direction:
                             # if the move is possible investigate
-                            if (self.gameBoard.is_move_possible(i, j, posRow, posCol)):
+                            if (self.gameBoard.is_move_valid(i, j, posRow, posCol)):
                                 validMove = True
                                 # Check if the move being attempted is a jump
                                 if (self.gameBoard.is_jump(i, j, posRow, posCol)):
@@ -233,7 +233,7 @@ class miniMax:
                     for i in direction:
                         for j in direction:
                             # if the move is valid
-                            if (self.gameBoard.is_move_possible(i, j, posRow, posCol)):
+                            if (self.gameBoard.is_move_valid(i, j, posRow, posCol)):
 
                                 # Check if the move being attempted is a jump
                                 if (self.gameBoard.is_jump(i, j, posRow, posCol)):
