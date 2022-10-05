@@ -11,11 +11,10 @@ class board:
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
         self.mode="small"
         self.player = 'R'
-        self.turn = 1
+        self.playerList = ['R','B']
+        self.turn = 0
         self.boardWidth = len(self.board[0])
         self.boardHeight = len(self.board)
-        print(len(self.board[0]))
-        print(len(self.board))
 
     def display(self):
         for i in range(0, self.boardHeight):
@@ -37,19 +36,27 @@ class board:
             self.mode=mode
             self.boardWidth = len(self.board[0])
             self.boardHeight = len(self.board)
+            self.turn=0
+            self.player='R'
+
         elif(mode.__contains__("small two")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
             self.mode=mode
             self.boardWidth = len(self.board[0])
             self.boardHeight = len(self.board)
-            
+            self.turn=0
+            self.player='R'
+
         elif(mode.__contains__("small full")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
             self.mode=mode
             self.boardWidth = len(self.board[0])
             self.boardHeight = len(self.board)
+            self.turn=0
+            self.player='R'
+
         elif(mode.__contains__("full")):
             self.board =[  
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -69,9 +76,13 @@ class board:
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
+            self.playerList = ['R','G','P','B','O','Y']
             self.mode=mode
             self.boardWidth = len(self.board[0])
             self.boardHeight = len(self.board)
+            self.turn=0
+            self.player='R'
+
 
     # Evaluates the current postion for the active player
     def position_evaluator(self):
@@ -291,7 +302,6 @@ class board:
 
     def is_end(self):
         '''Returns True if the board is in the end state for the current player'''
-        print("mode=",self.mode)
         if(self.mode.__contains__("small")):
             if (self.board[0][3] == 'B'):
                 return 4
@@ -308,7 +318,6 @@ class board:
             elif(self.board[6][3]=='R' and self.board[5][2]=='R' and self.board[5][4]=='R'):
                 return 1
         elif(self.mode.__contains__("full")):
-            print("checking full")
 
             #Red victory
             victory=True
@@ -359,15 +368,12 @@ class board:
 
             #Orange Victory
             victory=True
-            print("Here")
             self.display()
             for i in range(0,4):
                 for j in rows[i]:
-                    print(self.board[7-i][21-j]!='O')
                     if(self.board[7-i][21-j]!='O' and self.board[7-i][21+j]!='O'):
                        
                         print(self.board[7-i][21-j], i,j)
-                        print("HERE")
                         victory=False
                         break
             if(victory):
@@ -389,12 +395,6 @@ class board:
         # if(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
         #     return 2
         
-        # elif (self.board[6][3] == 'R'):
-        #     return 1
-        # if(self.board[6][3]=='R' and self.board[5][2]=='R' and self.board[5][4]=='R'):
-        #     return 1
-        # elif(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
-        #     return 2
         return None
 
     def is_in_bound(self, row, col):
@@ -438,10 +438,10 @@ class board:
             return False
 
     def swap_Player(self):
-        if (self.player == 'R'):
-            self.player = 'B'
-        else:
-            self.player = 'R'
+        self.turn+=1
+        if(self.turn>len(self.playerList)-1):
+            self.turn=0
+        self.player=self.playerList[self.turn]
 
     # Moves a piece one space
     def move(self, upOrDown, leftOrRight, posRow, posCol):
@@ -504,7 +504,6 @@ class board:
             return (moveList, posRow, posCol+4)
 
     def swap_Piece(self, moveRow, moveCol, posRow, posCol):
-        # print("swapping [",moveRow,"][",moveCol,"] with [",posRow,"][",posCol,"]")
         temp = self.board[posRow][posCol]
         self.board[posRow][posCol] = self.board[moveRow][moveCol]
         self.board[moveRow][moveCol] = temp

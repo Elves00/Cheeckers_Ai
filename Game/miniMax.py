@@ -26,7 +26,7 @@ class miniMax:
             print("max victory player:", self.gameBoard.player)
             return (1, 0, 0, 0, 0)
         # The other player wins
-        elif (result == 2):
+        elif (result == 4):
             print("min victory player:", self.gameBoard.player)
             return (-1, 0, 0, 0, 0)
 
@@ -77,9 +77,9 @@ class miniMax:
                                         i, j, posRow, posCol)
                                     # Evaluate the position only if its better for R
                                     if (self.gameBoard.position_evaluator() > currentValue):
-                                        self.gameBoard.turn += 1
                                         print(self.gameBoard.player)
                                         self.gameBoard.swap_Player()
+                                        
                                         print(self.gameBoard.player,
                                               "swap called by max")
                                         # Call min
@@ -133,7 +133,7 @@ class miniMax:
             print("jumping max victory:", self.gameBoard.player)
             return (1, 0, 0, 0, 0)
         # The other player wins
-        elif (result == 2):
+        elif (result == 4):
             print("jumping max victory:", self.gameBoard.player)
             return (-1, 0, 0, 0, 0)
 
@@ -168,8 +168,6 @@ class miniMax:
                             maxv = m
                             my = i
                             mx = j
-                        self.gameBoard.turn += 1
-                        # print(self.gameBoard.turn)
 
                         # Move the peice back to previous position
                         print(self.gameBoard.player)
@@ -213,7 +211,7 @@ class miniMax:
             print("min victory player:", self.gameBoard.player)
             return (1, 0, 0, 0, 0)
         # The other player wins
-        elif (result == 2):
+        elif (result == 4):
             print("min victory player:", self.gameBoard.player)
             return (-1, 0, 0, 0, 0)
 
@@ -262,8 +260,6 @@ class miniMax:
                                     # evaluate the position only if it's less then the current value
                                     if (self.gameBoard.position_evaluator() < currentValue):
 
-                                        self.gameBoard.turn += 1
-                                        # print(self.gameBoard.turn)
                                         print(self.gameBoard.player)
                                         self.gameBoard.swap_Player()
                                         print(self.gameBoard.player,
@@ -308,7 +304,7 @@ class miniMax:
             print("jumping min player:", self.gameBoard.player)
             return (1, 0, 0, 0, 0)
         # The other player wins
-        elif (result == 2):
+        elif (result == 4):
             print("jumping min player:", self.gameBoard.player)
             return (-1, 0, 0, 0, 0)
 
@@ -342,7 +338,6 @@ class miniMax:
                             minv = m
                             mx = i
                             my = j
-                        self.gameBoard.turn += 1
                         # Swap player to play min
                         self.gameBoard.swap_Player()
                         print(self.gameBoard.player,

@@ -15,7 +15,9 @@ class game:
     def play(self):
         while (not (self.gameBoard.is_end())):
             self.gameBoard.player = 'B'
+            self.gameBoard.turn = 1
             currentPlayer = self.gameBoard.player
+            print("Current Player:",currentPlayer)
             self.gameBoard.display()
             self.gameBoard.select_piece()
             if (currentPlayer != self.gameBoard.player):
@@ -31,10 +33,8 @@ class game:
                 if (self.gameBoard.is_jump(upOrDown, leftOrRight, posRow, posCol)):
 
                     moveList = []
-                    # ISUE WITH NONE TYPE
                     while (self.gameBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.gameBoard.is_end()):
 
-                        # Could be issue here with move list
                         (moveList, tempRow, tempCol) = self.gameBoard.jump(
                             upOrDown, leftOrRight, posRow, posCol, moveList)
                         # update game baord
@@ -43,7 +43,6 @@ class game:
                         (winLoss, upOrDown, leftOrRight,
                          posRow, posCol) = self.miniMax.max()
                 else:
-                    print("here")
                     print(upOrDown, leftOrRight, posRow, posCol)
                     self.gameBoard.move(upOrDown, leftOrRight, posRow, posCol)
             # revert to player
