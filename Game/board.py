@@ -671,34 +671,7 @@ class board:
                     return True
         return False
 
-    def select_jump(self, posRow, posCol, moveList):
-
-        on = True
-        while (on):
-            self.display()
-            jump = input('would you like to keep jumping True or False: ')
-
-            if (jump == "True"):
-                # Try take input while there is a valid jump
-                moveRow = int(
-                    input('Move up is 1 move down is -1 still is 0: '))
-                moveCol = int(
-                    input('Move right is 1 move left is -1 still is 0: '))
-
-                # chose where you want to jump
-                self.is_jump_valid()
-                if (self.is_jump_possible(moveRow, moveCol, posRow, posCol, moveList)):
-                    on = False
-                else:
-                    print("move is not possible")
-
-            # End of turn
-            elif (jump == "False"):
-                print("Reached here")
-                on = False
-            else:
-                print("incorrect input please submit True or False")
-
+    
     def human_jump(self, posRow, posCol):
         continueJumping = True
         moveList = []
