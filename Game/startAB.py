@@ -12,7 +12,7 @@ class game:
         self.gameBoard.display()
         self.miniMax = miniMaxAlphaBeta()
         self.miniMax.setGameBoard(self.gameBoard)
-        self.gameBoard.swap_board("small")
+        self.gameBoard.swap_board("small full")
 
     def play(self):
         while (not (self.gameBoard.is_end())):
