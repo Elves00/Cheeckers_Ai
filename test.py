@@ -4,16 +4,39 @@ from Game import board
 
 
 class TestBoard(unittest.TestCase):
-    def test_board_init(self):
-        """
-        Test that it can display a board
-        """
+
+    def test_board_mode(self):
         x = board.board()
-        # startboard = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
-        #     '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
+        starting = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
+            '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
 
-        # self.assertEqual(startboard, x.board)
+        self.assertEqual(starting, x.board)
 
+        # Swaping the board
+        swap = "full"
+        x.swap_board(swap)
+
+        starting = [['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['Y', ' ', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', ' ', 'G'],
+            ['x', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', 'x'],
+            ['x', 'x', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', 'x', 'x'],
+            ['x', 'x', 'x', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', 'x', 'x', 'x'],
+            ['x', 'x', 'O', ' ', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', 'x', 'x'],
+            ['x', 'O', ' ', 'O', ' ', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', 'x'],
+            ['O', ' ', 'O', ' ', 'O', ' ', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', ' ', 'P'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
+        self.assertEqual(starting, x.board)
+
+    
+    
     def test_board_is_clear(self):
         print("testing is_clear")
         '''
@@ -65,7 +88,6 @@ class TestBoard(unittest.TestCase):
 
         # cant move up or down or stay still
         # can move every other direction
-        x.display()
         movesUpDown = [1, 0, -1]
         movesRightLeft = [1, 0, -1]
         for i in movesUpDown:
@@ -73,14 +95,11 @@ class TestBoard(unittest.TestCase):
                 if ((i == 1 and j == 0) or (i == -1 and j == 0) or (i == 0 and j == 0)):
                     self.assertFalse(x.is_move_valid(i, j, 3, 2))
                 else:
-                    print("possible? ", i, " ", j)
                     self.assertTrue(x.is_move_valid(i, j, 3, 2))
                     x.is_jump_valid
 
         x.board = swapboard = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', 'R', ' ', '.', ' ', '.', ], ['x', '.', ' ', 'R', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-        x.display()
-        print(x.player)
         self.assertTrue(x.is_move_valid(-1, -1, 4, 3))
 
     def test_is_jump_possible(self):
@@ -93,47 +112,39 @@ class TestBoard(unittest.TestCase):
             '.', ' ', 'R', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
 
         # no jumps possible
-        x.display()
         movesUpDown = [1, 0, -1]
         movesRightLeft = [1, 0, -1]
         moveList = []
         for i in movesUpDown:
             for j in movesRightLeft:
-                # print("is possible? ",i," ",j)
                 self.assertFalse(x.is_jump_valid(i, j, 3, 2, moveList))
 
         # no jumps
         x.board = swapboard = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             'R', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-        x.display()
         movesUpDown = [1, 0, -1]
         movesRightLeft = [1, 0, -1]
         moveList = []
         for i in movesUpDown:
             for j in movesRightLeft:
-                # print("is possible? ",i," ",j)
                 self.assertFalse(x.is_jump_valid(i, j, 3, 0, moveList))
 
         x.board = swapboard = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', 'R', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', 'R', ' ', '.', ' ', '.', ], ['x', 'R', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
 
         # no jumps possible
-        x.display()
         movesUpDown = [1, 0, -1]
         movesRightLeft = [1, 0, -1]
         moveList = []
         for i in movesUpDown:
             for j in movesRightLeft:
-                # print("is possible? ",i," ",j)
                 self.assertFalse(x.is_jump_valid(i, j, 3, 2, moveList))
 
-        x.display()
         movesUpDown = [1, 0, -1]
         movesRightLeft = [1, 0, -1]
         moveList = []
         for i in movesUpDown:
             for j in movesRightLeft:
-                # print("is possible? ",i," ",j)
                 if (i == -1 and j == -1):
                     self.assertTrue(x.is_jump_valid(i, j, 1, 2, moveList))
                 else:
@@ -154,8 +165,6 @@ class TestBoard(unittest.TestCase):
         # Left right jumps empty move list
         x.board = swapboard = [['x', 'x', 'x', '.', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', 'R', ' ', 'R', ' ', '.', 'x', ], [
             '.', ' ', 'R', ' ', 'B', ' ', '.', ], ['x', 'R', ' ', 'x', ' ', '.', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', '.', 'x', 'x', 'x', ]]
-        print("Start")
-        x.display()
         # Moving all to the right
         moveList = []
         x.jump(0, 1, 2, 1, moveList)
@@ -164,9 +173,7 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(x.board[3][6], 'R')
         x.jump(0, 1, 4, 1, moveList)
         self.assertEqual(x.board[4][5], 'R')
-        print()
-        print("mid")
-        x.display()
+
         # Moving all back to the left
         x.jump(0, -1, 2, 5, moveList)
         self.assertEqual(x.board[2][1], 'R')
@@ -174,16 +181,11 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(x.board[3][2], 'R')
         x.jump(0, -1, 4, 5, moveList)
         self.assertEqual(x.board[4][1], 'R')
-        print()
-        print("end")
-        x.display()
+
 
         x.board = swapboard = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', 'R', ' ', 'R', ' ', '.', 'x', ], ['x', 'x', 'R', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-        x.display()
         self.assertTrue(x.jump(1, -1, 5, 2, moveList))
-        x.display()
-        print("problem")
 
     def test_board_position_value(self):
         x = board.board()
@@ -236,21 +238,16 @@ class TestBoard(unittest.TestCase):
         # can't jump as it's out of bounds
         x.swap_Player()
         self.assertFalse(x.is_jump_valid(0, 1, 1, 2, moveList))
-        print(x.player)
-        print("before fail")
         x.board = swapboard = [['x', 'x', 'x', 'B', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', 'B', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', 'R', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-        x.display()
+
         self.assertTrue(x.is_jump_valid(-1, 1, 0, 3, [[0, 3]]))
 
         x.board = swapboard = [['x', 'x', 'x', 'B', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', 'B', 'x', 'x', ], ['x', '.', ' ', '.', ' ', 'R', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', 'R', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
 
         x.swap_Player()
-        print("end zone jump for R", x.player)
-        x.display()
         # Able to jump into end zone
-        print(x.is_jump_valid(1, -1, 2, 5, [[2, 5]]))
         self.assertTrue(x.is_jump_valid(1, -1, 2, 5, [[2, 5]]))
 
         x.board = swapboard = [['x', 'x', 'x', 'B', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', 'B', 'x', 'x', ], ['x', '.', ' ', '.', ' ', 'R', 'x', ], [
@@ -258,17 +255,119 @@ class TestBoard(unittest.TestCase):
 
         # B's move
         x.swap_Player()
-        print("end zone jump for B")
-        x.display()
         # Can't swap with own piece in end zone
         self.assertFalse(x.is_jump_valid(-1, -1, 4, 5, [[4, 5]]))
 
         x.board = swapboard = [['x', 'x', 'x', 'B', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', 'B', 'x', 'x', ], ['x', '.', ' ', '.', ' ', 'R', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', 'R', ' ', '.', ' ', 'B', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-        x.display()
-        print(x.player)
         self.assertFalse(x.is_jump_valid(1, -1, 6, 3, [[6, 3]]))
 
+    def test_is_end(self):
+        x=board.board()
+        starting = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
+        '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'R', 'x', 'x', 'x', ]]
+        x.board=starting
+        self.assertEqual(1,x.is_end())
 
+        starting = [['x', 'x', 'x', 'B', 'x', 'x', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
+        '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
+        x.board=starting
+        self.assertEqual(4,x.is_end())
+
+        starting = [['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['Y', ' ', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'O', ' ', 'O', ' ', 'O', ' ', 'O'],
+            ['x', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'O', ' ', 'O', ' ', 'O', 'x'],
+            ['x', 'x', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'O', ' ', 'O', 'x', 'x'],
+            ['x', 'x', 'x', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'O', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', 'x', 'x', 'x'],
+            ['x', 'x', 'O', ' ', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', 'x', 'x'],
+            ['x', 'O', ' ', 'O', ' ', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', 'x'],
+            ['O', ' ', 'O', ' ', 'O', ' ', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', ' ', 'P'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
+
+        x.swap_board("full")
+
+        x.board=starting
+
+        self.assertEqual(5,x.is_end())
+
+        starting = [['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['Y', ' ', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', ' ', 'G'],
+            ['x', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', 'x'],
+            ['x', 'x', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', 'x', 'x'],
+            ['x', 'x', 'x', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', 'x', 'x', 'x'],
+            ['x', 'x', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', 'x', 'x'],
+            ['x', 'G', ' ', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', 'x'],
+            ['G', ' ', 'G', ' ', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', ' ', 'P'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
+        
+        x.board=starting
+
+        self.assertEqual(2,x.is_end())
+
+    def test_swap_player(self):
+        x=board.board()
+        self.assertEqual('R',x.player)
+        self.assertEqual(['R','B'],x.playerList)
+
+        x.swap_Player()
+        self.assertEqual('B',x.player)
+        
+        x.swap_Player()
+        self.assertEqual('R',x.player)
+        
+        x.swap_Player()
+        self.assertEqual('B',x.player)
+
+        #Checking swap for full board
+        x.swap_board("full")
+        self.assertEqual('R',x.player)
+        x.swap_Player()
+        self.assertEqual('G',x.player)
+        x.swap_Player()
+        self.assertEqual('P',x.player)
+        x.swap_Player()
+        self.assertEqual('B',x.player)
+        x.swap_Player()
+        self.assertEqual('O',x.player)
+        x.swap_Player()
+        self.assertEqual('Y',x.player)
+        x.swap_Player()
+        self.assertEqual('R',x.player)
+
+    def test_move_piece(self):
+        x=board.board()
+        x.board=[['x', 'x', 'x', 'R', 'x', 'x', 'x', ], 
+                 ['x', 'x', '.', ' ', '.', 'x', 'x', ], 
+                 ['x', '.', ' ', '.', ' ', '.', 'x', ], 
+                 ['.', ' ', '.', ' ', 'R', ' ', 'B', ],
+                 ['x', '.', ' ', '.', ' ', '.', 'x', ],
+                 ['x', 'x', '.', ' ', '.', 'x', 'x', ],
+                 ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
+        
+        x.move(1,-1,3,6)
+        postMove=[['x', 'x', 'x', 'R', 'x', 'x', 'x', ], 
+                 ['x', 'x', '.', ' ', '.', 'x', 'x', ], 
+                 ['x', '.', ' ', '.', ' ', 'B', 'x', ], 
+                 ['.', ' ', '.', ' ', 'R', ' ', '.', ],
+                 ['x', '.', ' ', '.', ' ', '.', 'x', ],
+                 ['x', 'x', '.', ' ', '.', 'x', 'x', ],
+                 ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
+        self.assertEqual(x.board,postMove)
 if __name__ == '__main__':
     unittest.main()

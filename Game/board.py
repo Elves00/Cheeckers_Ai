@@ -7,53 +7,81 @@ class board:
 
     def boardSetUp(self):
         # self.board = [['x','x','x','R','x','x','x',],['x','x','R',' ','.','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
-        self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
-            '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-
+        self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
+            '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
+        self.mode="small"
         self.player = 'R'
-        self.turn = 1
+        self.playerList = ['R','B']
+        self.turn = 0
         self.boardWidth = len(self.board[0])
         self.boardHeight = len(self.board)
-        print(len(self.board[0]))
-        print(len(self.board))
 
     def display(self):
         for i in range(0, self.boardHeight):
+            print(i," " , end = '')
             for j in range(0, self.boardWidth):
                 print('{} '.format(self.board[i][j]), end=" ")
             print()
-        print()
-    
+        print("   ",end='')
+        for j in range(0, self.boardWidth):
+            print(j, " ", end='')
+        print(" ")
+        
+        print(" ")
+
     def swap_board(self,mode):
-        if(mode.__contains__("small")):
-            self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
-            '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-        elif(mode.__contains__("small two")):
+        if(mode==("small")):
+            self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
+            '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
+            self.mode=mode
+            self.boardWidth = len(self.board[0])
+            self.boardHeight = len(self.board)
+            self.turn=0
+            self.player='R'
+
+        elif(mode==("small two")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-        elif(mode.__contains__("small full")):
+            self.mode=mode
+            self.boardWidth = len(self.board[0])
+            self.boardHeight = len(self.board)
+            self.turn=0
+            self.player='R'
+
+        elif(mode==("small full")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-        elif(mode.__contains__("full")):
+            self.mode=mode
+            self.boardWidth = len(self.board[0])
+            self.boardHeight = len(self.board)
+            self.turn=0
+            self.player='R'
 
-          self.board =[  
+        elif(mode==("full")):
+            self.board =[  
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-            ['B', ' ', 'B', ' ', 'B', ' ', 'B', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', ' ', 'G'],
-            ['x', 'B', ' ', 'B', ' ', 'B', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', 'x'],
-            ['x', 'x', 'B', ' ', 'B', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', 'x', 'x'],
-            ['x', 'x', 'x', 'B', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', 'x', 'x', 'x'],
+            ['Y', ' ', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', ' ', 'G'],
+            ['x', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', 'x'],
+            ['x', 'x', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', 'x', 'x'],
+            ['x', 'x', 'x', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', 'x', 'x', 'x'],
             ['x', 'x', 'x', 'x', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', 'x', 'x', 'x', 'x'],
             ['x', 'x', 'x', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', 'x', 'x', 'x'],
             ['x', 'x', 'O', ' ', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', 'x', 'x'],
             ['x', 'O', ' ', 'O', ' ', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', 'x'],
             ['O', ' ', 'O', ' ', 'O', ' ', 'O', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', ' ', 'P'],
-            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'Y', ' ', 'Y', ' ', 'Y', ' ', 'Y', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'Y', ' ', 'Y', ' ', 'Y', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'Y', ' ', 'Y', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'Y', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
+            self.playerList = ['R','G','P','B','O','Y']
+            self.mode=mode
+            self.boardWidth = len(self.board[0])
+            self.boardHeight = len(self.board)
+            self.turn=0
+            self.player='R'
 
 
     # Evaluates the current postion for the active player
@@ -274,18 +302,99 @@ class board:
 
     def is_end(self):
         '''Returns True if the board is in the end state for the current player'''
+        if(self.mode==("small")):
+            if (self.board[0][3] == 'B'):
+                return 4
+            elif(self.board[6][3]=='R'):
+                return 1
+        elif(self.mode==("small two")):
+            if (self.board[0][3] == 'B' and (self.board[1][2] == 'B' or self.board[1][4] == 'B')):
+                return 4
+            elif(self.board[6][3]=='R' and (self.board[5][2]=='R' or self.board[5][4]=='R')):
+                return 1
+        elif(self.mode==("small full")):
+            if (self.board[0][3] == 'B' and self.board[1][2] == 'B' and self.board[1][4] == 'B'):
+                return 4
+            elif(self.board[6][3]=='R' and self.board[5][2]=='R' and self.board[5][4]=='R'):
+                return 1
+        elif(self.mode==("full")):
+
+            #Red victory
+            victory=True
+            rows = [[0],[1],[0,2],[1,3]]
+            for i in range(0,4):
+                for j in rows[i]:
+                    if(self.board[13+i][12-j]!='R' and self.board[13+i][12+j]!='R'):
+                        victory=False
+                        break
+            if(victory):
+                return 1
+
+            #Green Victory
+            victory=True
+            for i in range(0,4):
+                for j in rows[i]:
+                    if(self.board[i+9][3-j]!='G' and self.board[i+9][3+j]!='G'):
+                        victory=False
+                        break
+            
+            if(victory):
+                return 2
+
+            #Green Victory
+            victory=True
+            for i in range(0,4):
+                for j in rows[i]:
+                    if(self.board[7-i][3-j]!='P' and self.board[7-i][3+j]!='P'):
+                        victory=False
+                        break
+            
+            if(victory):
+                return 3
+
+            
+
+            #Blue victory
+            victory=True
+            for i in range(0,4):
+                for j in rows[i]:
+                    if(self.board[i][12-i]!='B' and self.board[i][12+i]!='B'):
+                        victory=False
+                        break
+            if(victory):
+                return 4
+            
+            
+
+            #Orange Victory
+            victory=True
+            self.display()
+            for i in range(0,4):
+                for j in rows[i]:
+                    if(self.board[7-i][21-j]!='O' and self.board[7-i][21+j]!='O'):
+                       
+                        print(self.board[7-i][21-j], i,j)
+                        victory=False
+                        break
+            if(victory):
+                return 5
+
+            #Yellow Victory
+            victory=True
+            for i in range(0,4):
+                for j in rows[i]:
+                    if(self.board[9+i][21-j]!='Y' and self.board[9+i][21+j]!='Y'):
+                        victory=False
+                        break
+            
+            if(victory):
+                return 6
+            
+
+
         # if(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
         #     return 2
-        if (self.board[0][3] == 'B' and (self.board[1][2] == 'B' or self.board[1][4] == 'B')):
-            return 2
-        elif(self.board[6][3]=='R' and (self.board[5][2]=='R' or self.board[5][4]=='R')):
-            return 1
-        # elif (self.board[6][3] == 'R'):
-        #     return 1
-        # if(self.board[6][3]=='R' and self.board[5][2]=='R' and self.board[5][4]=='R'):
-        #     return 1
-        # elif(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
-        #     return 2
+        
         return None
 
     def is_in_bound(self, row, col):
@@ -329,10 +438,10 @@ class board:
             return False
 
     def swap_Player(self):
-        if (self.player == 'R'):
-            self.player = 'B'
-        else:
-            self.player = 'R'
+        self.turn+=1
+        if(self.turn>len(self.playerList)-1):
+            self.turn=0
+        self.player=self.playerList[self.turn]
 
     # Moves a piece one space
     def move(self, upOrDown, leftOrRight, posRow, posCol):
@@ -395,7 +504,6 @@ class board:
             return (moveList, posRow, posCol+4)
 
     def swap_Piece(self, moveRow, moveCol, posRow, posCol):
-        # print("swapping [",moveRow,"][",moveCol,"] with [",posRow,"][",posCol,"]")
         temp = self.board[posRow][posCol]
         self.board[posRow][posCol] = self.board[moveRow][moveCol]
         self.board[moveRow][moveCol] = temp
