@@ -1,7 +1,7 @@
 import unittest
 
 from Game import board
-
+from Game import evaluation
 
 class TestBoard(unittest.TestCase):
 
@@ -369,5 +369,24 @@ class TestBoard(unittest.TestCase):
                  ['x', 'x', '.', ' ', '.', 'x', 'x', ],
                  ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
         self.assertEqual(x.board,postMove)
+
+    def test_evaluation(self):
+        x=board.board()
+        y=evaluation.evaluator(x,x.player,x.mode)
+        print("evaluations:")
+        print(y.evaluatePosition(x.player,x))
+        x.display()
+
+        x.board=[['x', 'x', 'x', '.', 'x', 'x', 'x', ], 
+                 ['x', 'x', '.', ' ', '.', 'x', 'x', ], 
+                 ['x', 'R', ' ', 'R', ' ', 'B', 'x', ], 
+                 ['R', ' ', '.', ' ', '.', ' ', '.', ],
+                 ['x', '.', ' ', '.', ' ', '.', 'x', ],
+                 ['x', 'x', '.', ' ', 'B', 'x', 'x', ],
+                 ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
+
+        print("evaluations:")
+        print(y.evaluatePosition(x.player,x))
+
 if __name__ == '__main__':
     unittest.main()

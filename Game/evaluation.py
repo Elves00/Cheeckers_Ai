@@ -1,7 +1,4 @@
 
-import board
-
-
 class evaluator():
     def __init__(self, currentBoard, currentPlayer, currentMode):
         self.board = currentBoard
@@ -106,12 +103,14 @@ class evaluator():
                        10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-    def evaluatePosition(self):
+    def evaluatePosition(self,player,board):
+        self.player=player
+        self.board=board
         value = 0
-        if (self.mode == "Full"):
-            value = self.evaluateSmall()
-        else:
+        if (self.mode == "full"):
             value = self.evaluateFull()
+        else:
+            value = self.evaluateSmall()
         return value
 
     def evaluateSmall(self):
@@ -168,13 +167,17 @@ class evaluator():
         return value
 
 
-test = board.board()
-test.swap_board("full")
-test.display()
+# test = board.board()
+# test.swap_board("full")
+# test.display()
 
-evaluate = evaluator(test, test.player, test.mode)
+# evaluate = evaluator(test, test.player, test.mode)
 
-print(evaluate.evaluatePosition())
-test.swap_Player()
-evaluate = evaluator(test, test.player, test.mode)
-print(evaluate.evaluatePosition())
+# print(evaluate.evaluatePosition(test.player))
+# test.swap_Player()
+# evaluate = evaluator(test, test.player, test.mode)
+# print(evaluate.evaluatePosition(test.player))
+
+# test.swap_board("small")
+# evaluate = evaluator(test, test.player, test.mode)
+# print(evaluate.evaluatePosition(test.player))
