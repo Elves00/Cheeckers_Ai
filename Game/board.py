@@ -368,12 +368,10 @@ class board:
 
             #Orange Victory
             victory=True
-            self.display()
             for i in range(0,4):
                 for j in rows[i]:
                     if(self.board[7-i][21-j]!='O' and self.board[7-i][21+j]!='O'):
                        
-                        print(self.board[7-i][21-j], i,j)
                         victory=False
                         break
             if(victory):

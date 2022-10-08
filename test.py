@@ -388,5 +388,57 @@ class TestBoard(unittest.TestCase):
         print("evaluations:")
         print(y.evaluatePosition(x.player,x))
 
+        test = board.board()
+        test.swap_board("full")
+        test.display()
+
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+
+        print(evaluate.evaluatePosition(test.player,test))
+        #G
+        test.swap_Player()
+        print(test.player)
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+        self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
+        #P
+        test.swap_Player()
+        print(test.player)
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+        print(evaluate.evaluatePosition(test.player,test))
+        self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
+
+        #B
+        test.swap_Player()
+        print(test.player)
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+        print(evaluate.evaluatePosition(test.player,test))
+        self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
+
+        #O
+        test.swap_Player()
+        print(test.player)
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+        print(evaluate.evaluatePosition(test.player,test))
+        self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
+
+        #Y
+        test.swap_Player()
+        print(test.player)
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+        print(evaluate.evaluatePosition(test.player,test))
+        self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
+
+        #R
+        test.swap_Player()
+        print(test.player)
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+        print(evaluate.evaluatePosition(test.player,test))
+        self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
+
+
+        test.swap_board("small")
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+        print(evaluate.evaluatePosition(test.player,test))
+
 if __name__ == '__main__':
     unittest.main()
