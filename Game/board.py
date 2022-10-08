@@ -94,18 +94,9 @@ class board:
             self.player='R'
 
 
-    # Evaluates the current postion for the active player
-    def position_evaluator(self):
-        postionValue = 0
-        for i in range(0, self.boardHeight):
-            for j in range(0, self.boardWidth):
-                if (self.board[i][j] == self.player):
-                    postionValue += i
-        return postionValue
-
     def is_current_players_piece(self, posRow, posCol):
         '''
-        Checks if the location has a piece controlled by the current player
+        Returns True if a piece at posRow, posCol is controlled by the current player
         '''
         if (posRow > self.boardHeight-1 or posRow < 0 or posCol > self.boardWidth-1 or posCol < 0):
             return False
