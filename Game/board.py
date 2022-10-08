@@ -6,17 +6,19 @@ class board:
         self.boardSetUp()
 
     def boardSetUp(self):
-        # self.board = [['x','x','x','R','x','x','x',],['x','x','R',' ','.','x','x',],['x','.',' ','.',' ','.','x',],['.',' ','.',' ','.',' ','.',],['x','.',' ','.',' ','.','x',],['x','x','B',' ','B','x','x',],['x','x','x','B','x','x','x',]]
+        #The default starting board
         self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
         self.mode="small"
         self.player = 'R'
         self.playerList = ['R','B']
+        #Represents which player is currently playing 0='R' 1 ='B' etc
         self.turn = 0
         self.boardWidth = len(self.board[0])
         self.boardHeight = len(self.board)
 
     def display(self):
+        '''Prints the board'''
         for i in range(0, self.boardHeight):
             print(i," " , end = '')
             for j in range(0, self.boardWidth):
@@ -30,6 +32,9 @@ class board:
         print(" ")
 
     def swap_board(self,mode):
+        '''Swaps the board to a different mode based on a string input ie from a "small" game to a "full" game.
+        Avaliable modes: small, small two,small full, full'''
+        #The board and players for small
         if(mode==("small")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', '.', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', '.', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
@@ -38,7 +43,9 @@ class board:
             self.boardHeight = len(self.board)
             self.turn=0
             self.player='R'
+            self.playerList =['R','B']
 
+        #The board and players for small two
         elif(mode==("small two")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', '.', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', '.', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
@@ -47,7 +54,9 @@ class board:
             self.boardHeight = len(self.board)
             self.turn=0
             self.player='R'
+            self.playerList =['R','B']
 
+        #The board and players for small full
         elif(mode==("small full")):
             self.board = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
@@ -56,7 +65,8 @@ class board:
             self.boardHeight = len(self.board)
             self.turn=0
             self.player='R'
-
+            self.playerList =['R','B']
+        #The board and players for full
         elif(mode==("full")):
             self.board =[  
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -335,11 +345,9 @@ class board:
             victory=True
             for i in range(0,4):
                 for j in rows[i]:
-                    print("[",i+9,"][",3-j,"]", end="")
                     if(self.board[i+9][3-j]!='G' or self.board[i+9][3+j]!='G'):
                         victory=False
                         break
-                print()
             if(victory):
                 return 2
 
@@ -427,7 +435,6 @@ class board:
     # Checks a location on the board for a piece false it does not contain a piece true it does
     def contains_piece(self, row, col):
         if (row > self.boardHeight-1 or row < 0 or col > self.boardWidth-1 or col < 0):
-            # print("no piece as board is out of range")
             return False
 
         if self.board[row][col] != "x" and self.board[row][col] != " " and self.board[row][col] != ".":
