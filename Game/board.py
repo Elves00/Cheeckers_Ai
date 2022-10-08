@@ -98,72 +98,63 @@ class board:
         '''
         Returns True if a piece at posRow, posCol is controlled by the current player
         '''
+        #checks out of bounds
         if (posRow > self.boardHeight-1 or posRow < 0 or posCol > self.boardWidth-1 or posCol < 0):
             return False
-
+        #checks players piece
         if (self.board[posRow][posCol] == self.player):
             return True
         else:
             return False
 
-    # Checks if a move is a jump
     def is_jump(self, upOrDown, leftOrRight, posRow, posCol):
-        # jump down left
+        '''
+        Checks if moving a piece from posRow,posCol in a provided direction is a jump returning true
+        upOrDown,leftOrRight = direction of movment'''
+        
+        # attempting jump down and left
         if upOrDown < 0 and leftOrRight < 0:
+            #Check there is a piece to jump over
             if (self.contains_piece(posRow+1, posCol-1)):
-                if not (self.is_clear(posRow+2, posCol-2)):
-                    # space not clear or move is in movelist
-                    return False
-                else:
-                    # jump possible
-                    return True
-
+                return True
+            else:
+                return False
         # moving down right
         if upOrDown < 0 and leftOrRight > 0:
             if (self.contains_piece(posRow+1, posCol+1)):
-                # Check for empty spot after adjacent piece
-                if not (self.is_clear(posRow+2, posCol+2)):
-                    return False
-                else:
-                    return True
+                 return True
+            else:
+                return False
 
         # moving up left
         if upOrDown > 0 and leftOrRight < 0:
             if (self.contains_piece(posRow-1, posCol-1)):
-                # Check for empty spot after adjacent piece
-                if not (self.is_clear(posRow-2, posCol-2)):
-                    return False
-                else:
-                    return True
+                  return True
+            else:
+                return False
 
         # moving up right
         if upOrDown > 0 and leftOrRight > 0:
             if (self.contains_piece(posRow-1, posCol+1)):
-
-                # Check for empty spot after adjacent piece
-                if not (self.is_clear(posRow-2, posCol+2)):
-                    return False
-                else:
-                    return True
+                  return True
+            else:
+                return False
 
         # moving left
         if upOrDown == 0 and leftOrRight < 0:
             if (self.contains_piece(posRow, posCol-2)):
-                # Check for empty spot after adjacent piece
-                if not (self.is_clear(posRow, posCol-4)):
-                    return False
-                else:
-                    return True
+                 return True
+            else:
+                return False
 
         # moving right
         if (upOrDown == 0 and leftOrRight > 0):
-            # check for adjacent piece
             if (self.contains_piece(posRow, posCol+2)):
-                # Check for empty spot after adjacent piece
-                if (not (self.is_clear(posRow, posCol+4))):
-                    return False
-                else:
-                    return True
+                return True
+            else:
+                return False
+                    
+        #Invalid move 
         if (upOrDown == 0 and leftOrRight == 0):
             return False
 
