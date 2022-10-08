@@ -301,7 +301,8 @@ class board:
     # checks the game has ended
 
     def is_end(self):
-        '''Returns True if the board is in the end state for the current player'''
+        '''If the board is in the end state returns 1-6 (the player who won) if the board is not in the end state returns none'''
+        #Game mode is small
         if(self.mode==("small")):
             if (self.board[0][3] == 'B'):
                 return 4
@@ -324,7 +325,7 @@ class board:
             rows = [[0],[1],[0,2],[1,3]]
             for i in range(0,4):
                 for j in rows[i]:
-                    if(self.board[13+i][12-j]!='R' and self.board[13+i][12+j]!='R'):
+                    if(self.board[13+i][12-j]!='R' or self.board[13+i][12+j]!='R'):
                         victory=False
                         break
             if(victory):
@@ -334,10 +335,11 @@ class board:
             victory=True
             for i in range(0,4):
                 for j in rows[i]:
-                    if(self.board[i+9][3-j]!='G' and self.board[i+9][3+j]!='G'):
+                    print("[",i+9,"][",3-j,"]", end="")
+                    if(self.board[i+9][3-j]!='G' or self.board[i+9][3+j]!='G'):
                         victory=False
                         break
-            
+                print()
             if(victory):
                 return 2
 
@@ -345,7 +347,7 @@ class board:
             victory=True
             for i in range(0,4):
                 for j in rows[i]:
-                    if(self.board[7-i][3-j]!='P' and self.board[7-i][3+j]!='P'):
+                    if(self.board[7-i][3-j]!='P' or self.board[7-i][3+j]!='P'):
                         victory=False
                         break
             
@@ -358,7 +360,7 @@ class board:
             victory=True
             for i in range(0,4):
                 for j in rows[i]:
-                    if(self.board[i][12-i]!='B' and self.board[i][12+i]!='B'):
+                    if(self.board[i][12-i]!='B' or self.board[i][12+i]!='B'):
                         victory=False
                         break
             if(victory):
@@ -370,7 +372,7 @@ class board:
             victory=True
             for i in range(0,4):
                 for j in rows[i]:
-                    if(self.board[7-i][21-j]!='O' and self.board[7-i][21+j]!='O'):
+                    if(self.board[7-i][21-j]!='O' or self.board[7-i][21+j]!='O'):
                        
                         victory=False
                         break
@@ -381,7 +383,7 @@ class board:
             victory=True
             for i in range(0,4):
                 for j in rows[i]:
-                    if(self.board[9+i][21-j]!='Y' and self.board[9+i][21+j]!='Y'):
+                    if(self.board[9+i][21-j]!='Y' or self.board[9+i][21+j]!='Y'):
                         victory=False
                         break
             

@@ -18,15 +18,16 @@ class game:
         while (not (self.gameBoard.is_end())):
             #Player controls B in two player
             self.gameBoard.player = 'B'
-            self.gameBoard.turn = 1
+            self.gameBoard.turn = 3
+        
             #Save current player
             currentPlayer = self.gameBoard.player
-
+           
             #Display the board
             self.gameBoard.display()
             #Make player move
             self.gameBoard.select_piece()
-
+           
             #If the player has changed
             if (currentPlayer != self.gameBoard.player):
                 print("mini maxing...")

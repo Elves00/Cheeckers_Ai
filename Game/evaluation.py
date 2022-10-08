@@ -1,5 +1,5 @@
-# from Game import board
-import board
+from Game import board
+# import board
 class evaluator():
     def __init__(self, currentBoard, currentPlayer, currentMode):
         self.board = currentBoard
