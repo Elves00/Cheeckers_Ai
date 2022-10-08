@@ -294,12 +294,10 @@ class board:
             elif(posRow>12 and(posCol>8 and posCol<16)):
                 return True
             #G end zone
-            elif((posRow>3 and posRow<8) and (posCol>17)):
-                if(posCol>posCol+posRow-4):
+            elif((posRow>3 and posRow<8) and (posCol>(13+posRow))):
                     return True
             #P end zone
-            elif((posRow>8 and posRow<13) and (posCol>17)):
-                if(posCol>30-posRow):
+            elif((posRow>8 and posRow<13) and (posCol>17-(posRow-9))):
                     return True
             #O end zone
             elif((posRow>3 and posRow<8) and (posCol<7 - (posRow-4))):

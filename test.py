@@ -212,6 +212,49 @@ class TestBoard(unittest.TestCase):
         playingBoard.next_Player()
         self.assertTrue(playingBoard.is_end_or_start_zone(posRow, posCol))
 
+        playingBoard.swap_board("full")
+        playingBoard.display()
+
+        rows = [[0], [1], [0, 2], [1, 3]]
+        for i in range(0, 4):
+            for j in rows[i]:
+                self.assertTrue(playingBoard.is_end_or_start_zone(i+13,12-j))
+                self.assertTrue(playingBoard.is_end_or_start_zone(i+13,12+j))
+     
+
+        for i in range(0, 4):
+            for j in rows[i]:
+                self.assertTrue(playingBoard.is_end_or_start_zone(i+9,3-j))
+                self.assertTrue(playingBoard.is_end_or_start_zone(i+9,3+j))
+        
+
+        for i in range(0, 4):
+            for j in rows[i]:
+                self.assertTrue(playingBoard.is_end_or_start_zone(7-i,3-j))
+                self.assertTrue(playingBoard.is_end_or_start_zone(7-i,3+j))
+
+        for i in range(0, 4):
+            for j in rows[i]:
+                self.assertTrue(playingBoard.is_end_or_start_zone(i,12-j))
+                self.assertTrue(playingBoard.is_end_or_start_zone(i,12+j))
+
+
+        #Green Start Zone / Orange End Zone
+        for i in range(0, 4):
+            for j in rows[i]:
+                self.assertTrue(playingBoard.is_end_or_start_zone(7-i,21-j))
+                self.assertTrue(playingBoard.is_end_or_start_zone(7-i,21+j))
+
+        # Yellow 
+        for i in range(0, 4):
+            for j in rows[i]:
+                print(9+i,21+j)
+                print(playingBoard.board[9][21])
+                print(i)
+                print(j)
+                self.assertTrue(playingBoard.is_end_or_start_zone(9+i,21-j))
+                self.assertTrue(playingBoard.is_end_or_start_zone(9+i,21+j))
+
     def test_board_is_jump_valid(self):
         '''Tests the is jump valid method of '''
 
@@ -400,7 +443,6 @@ class TestBoard(unittest.TestCase):
         y=evaluation.evaluator(x,x.player,x.mode)
         print("evaluations:")
         print(y.evaluatePosition(x.player,x))
-        x.display()
 
         x.board=[['x', 'x', 'x', '.', 'x', 'x', 'x', ], 
                  ['x', 'x', '.', ' ', '.', 'x', 'x', ], 
@@ -415,7 +457,6 @@ class TestBoard(unittest.TestCase):
 
         test = board.board()
         test.swap_board("full")
-        test.display()
 
         evaluate = evaluation.evaluator(test, test.player, test.mode)
 
