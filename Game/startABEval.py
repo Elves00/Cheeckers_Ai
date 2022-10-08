@@ -38,7 +38,7 @@ class game:
 
                 #Get Ai move
                 (winLoss, upOrDown, leftOrRight,
-                 posRow, posCol) = self.miniMax.max(-2, 2)
+                 posRow, posCol) = self.miniMax.max(-2, 16)
                 print("max Returned:", winLoss, upOrDown,
                       leftOrRight, posRow, posCol)
 
@@ -48,7 +48,6 @@ class game:
                     #Lets the ai jump again using peice it just moved
                     moveList = []
                     while (self.gameBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.gameBoard.is_end()):
-                        
                         #Performs the first jump
                         (moveList, tempRow, tempCol) = self.gameBoard.jump(
                             upOrDown, leftOrRight, posRow, posCol, moveList)
@@ -58,7 +57,7 @@ class game:
 
                         # Runs jumping max with previous move list
                         (winLoss, upOrDown, leftOrRight,
-                         posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, 2)
+                         posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, 16)
 
                         #If the AI retuned none it means there is no moves for the jumping piece without doubling back
                         if (posRow == None or posCol == None):

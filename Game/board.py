@@ -435,7 +435,7 @@ class board:
             # contains something else
             return False
 
-    def swap_Player(self):
+    def next_Player(self):
         self.turn+=1
         if(self.turn>len(self.playerList)-1):
             self.turn=0
@@ -752,10 +752,10 @@ class board:
                 (moveList, tempRow, tempCol) = self.jump(
                     moveRow, moveCol, posRow, posCol, moveList)
                 self.human_jump(tempRow, tempCol)
-                self.swap_Player()
+                self.next_Player()
             else:
                 self.move(moveRow, moveCol, posRow, posCol)
-                self.swap_Player()
+                self.next_Player()
 
         else:
             print("Not a valid move")

@@ -169,32 +169,32 @@ evaluate = evaluator(test, test.player, test.mode)
 
 print(evaluate.evaluatePosition(test.player,test))
 #G
-test.swap_Player()
+test.next_Player()
 print(test.player)
 evaluate = evaluator(test, test.player, test.mode)
 print(evaluate.evaluatePosition(test.player,test))
 #P
-test.swap_Player()
+test.next_Player()
 print(test.player)
 evaluate = evaluator(test, test.player, test.mode)
 print(evaluate.evaluatePosition(test.player,test))
 #B
-test.swap_Player()
+test.next_Player()
 print(test.player)
 evaluate = evaluator(test, test.player, test.mode)
 print(evaluate.evaluatePosition(test.player,test))
 #O
-test.swap_Player()
+test.next_Player()
 print(test.player)
 evaluate = evaluator(test, test.player, test.mode)
 print(evaluate.evaluatePosition(test.player,test))
 #Y
-test.swap_Player()
+test.next_Player()
 print(test.player)
 evaluate = evaluator(test, test.player, test.mode)
 print(evaluate.evaluatePosition(test.player,test))
 #R
-test.swap_Player()
+test.next_Player()
 print(test.player)
 evaluate = evaluator(test, test.player, test.mode)
 print(evaluate.evaluatePosition(test.player,test))

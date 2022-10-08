@@ -1,3 +1,4 @@
+from pyrsistent import v
 import board
 from evaluation import evaluator
 
@@ -6,28 +7,29 @@ class miniMaxAlphaBeta:
 
     def setGameBoard(self, board):
         self.gameBoard = board
-        self.evaluator = evaluator(
-            self.gameBoard, self.gameBoard.player, self.gameBoard.mode)
+        self.evaluator = evaluator(self.gameBoard, self.gameBoard.player, self.gameBoard.mode)
         self.maxPlayer = self.gameBoard.player
 
     # maximiser
     def max(self, alpha, beta):
-
-        # possible values
-        # 1 player 1 wins 2 player 2 wins
+        print(self.gameBoard.player)
+        print("Max",alpha,beta)
         maxv = - 2
         mx = None
         my = None
         px = None
         py = None
+
         result = self.gameBoard.is_end()
 
         if (result != None):
             # Player 1 wins
             if (result == 1):
+                print("end 16")
                 return (16, 0, 0, 0, 0)
             # The other player wins
             elif (result > 1):
+                print("end 0")
                 return (0, 0, 0, 0, 0)
 
         currentValue = self.evaluator.evaluatePosition(
@@ -40,7 +42,6 @@ class miniMaxAlphaBeta:
 
                 # It's the max players piece
                 if (self.gameBoard.board[posRow][posCol] == self.maxPlayer):
-                    print("MAX PLAYER:", self.maxPlayer)
                     # list of possible movment directions
                     direction = [-1, 0, 1]
 
@@ -63,10 +64,10 @@ class miniMaxAlphaBeta:
                                     # Maximises jumping (Minmising occurs inside the jumping_max)
                                     (m, max_y, max_x, pos_x, pos_y) = self.jumping_max(
                                         posRow, posCol, moveList, alpha, beta)
-
+                                    print("jumping max returned",m)
                                     # If the value returned was not null (a move was possible)
                                     if (m != None):
-
+                                        
                                         # Checks if the end position is greater then current max value setting accordingly
                                         if m > maxv:
                                             maxv = m
@@ -77,12 +78,17 @@ class miniMaxAlphaBeta:
 
                                         # if maxv >= beta (starts at 2) then we return
                                         if maxv >= beta:
+                                            print("returning maxv>beta")
                                             moveList.remove([posRow, posCol])
                                             return (maxv, my, mx, px, py)
 
                                         # Raises the value of alpha
                                         if maxv > alpha:
                                             alpha = maxv
+
+                                   
+
+
 
                                     # remove move from list after checking
                                     moveList.remove([posRow, posCol])
@@ -95,10 +101,12 @@ class miniMaxAlphaBeta:
                                     if (self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard) > currentValue):
                                         currentValue = self.evaluator.evaluatePosition(
                                             self.gameBoard.player, self.gameBoard)
-                                        self.gameBoard.swap_Player()
+                                        self.gameBoard.next_Player()
                                         # Call min
                                         (m, max_y, max_x, pos_x,
                                          pos_y) = self.min(alpha, beta)
+                                        print("min returned",m)
+
                                         if (m != None):
                                             if m > maxv:
                                                 maxv = m
@@ -109,31 +117,33 @@ class miniMaxAlphaBeta:
 
                                             if maxv >= beta:
                                                 # Swap back to current player
-                                                self.gameBoard.swap_Player()
+                                                self.gameBoard.player=currentPlayer
                                                 # remove move
                                                 self.gameBoard.swap_Piece(
                                                     tempRow, tempCol, posRow, posCol)
+                                                #Return with current player
+                                                print("maxv>beta")
                                                 return (maxv, my, mx, px, py)
 
                                             if maxv > alpha:
                                                 alpha = maxv
-                                            # Swap back to current player
-                                        self.gameBoard.swap_Player()
+                                        # Swap back to current player
+                                        self.gameBoard.player=currentPlayer
 
                                     # remove move
                                     self.gameBoard.swap_Piece(
                                         tempRow, tempCol, posRow, posCol)
 
         if (not (validMove)):
-            self.gameBoard.player = currentPlayer
+            # Swap back to current player
+            self.gameBoard.player=currentPlayer
             print("no valid moves")
-
-            # No valid move so return worst case for parent
-        self.gameBoard.display()
+        print("returning max end")
         return (maxv, my, mx, px, py)
 
     # maximises the jumping cycle
     def jumping_max(self, posRow, posCol, moveList, alpha, beta):
+        print("Jumping Max",alpha,beta)
 
         maxv = -2
         mx = None
@@ -189,6 +199,7 @@ class miniMaxAlphaBeta:
                                 py = posRow
 
                             if maxv >= beta:
+                                print("jumpingmaxv>beta")
                                 self.gameBoard.swap_Piece(
                                     tempRow, tempCol, posRow, posCol)
 
@@ -196,8 +207,8 @@ class miniMaxAlphaBeta:
 
                             if maxv > alpha:
                                 alpha = maxv
-                            # Move the peice back to previous position
-                            self.gameBoard.swap_Player()
+                            #progress to the next turn and minimise
+                            self.gameBoard.next_Player()
 
                             (m, min_i, min_j, pos_x, pos_y) = self.min(alpha, beta)
                             if (m != None):
@@ -209,26 +220,32 @@ class miniMaxAlphaBeta:
                                     py = posRow
 
                                 if maxv >= beta:
-
-                                    self.gameBoard.swap_Player()
+                                    # Swap back to current player
+                                    self.gameBoard.player=currentPlayer
                                     self.gameBoard.swap_Piece(
                                         tempRow, tempCol, posRow, posCol)
+                                    print("jumpingmaxv>beta")
                                     return (maxv, my, mx, px, py)
 
                                 if maxv > alpha:
                                     alpha = maxv
 
-                            self.gameBoard.swap_Player()
+                            # Swap back to current player
+                            self.gameBoard.player=currentPlayer
 
                     self.gameBoard.swap_Piece(tempRow, tempCol, posRow, posCol)
 
         if (not (validMove)):
-            self.gameBoard.player = currentPlayer
+           # Swap back to current player
+            self.gameBoard.player=currentPlayer
+            maxv=None
+            #There where no valid moves so the current move is deemed as one better then not moving
             # No valid move so return worst case for parent
-
+        print("returning from jumping max with :",maxv, my, mx, px, py)
         return (maxv, my, mx, px, py)
 
     def min(self, alpha, beta):
+        print("Min",alpha,beta)
 
         # possible values
         # 1 player 1 wins 2 player 2 wins
@@ -269,6 +286,7 @@ class miniMaxAlphaBeta:
                                 if (self.gameBoard.is_jump(i, j, posRow, posCol)):
                                     # Tracks moves taken
                                     moveList = [[posRow, posCol]]
+                                    print("Caling jumping min with beta=",beta)
                                     # Maximises jumping (Minmising occurs inside the jumping_max)
                                     (m, min_y, min_x, pos_x, pos_y) = self.jumping_min(
                                         posRow, posCol, moveList, alpha, beta)
@@ -301,12 +319,16 @@ class miniMaxAlphaBeta:
                                         currentValue = self.evaluator.evaluatePosition(
                                             self.gameBoard.player, self.gameBoard)
 
-                                        self.gameBoard.swap_Player()
-
+                                        #Maximise for the next player
+                                        self.gameBoard.next_Player()
+                                        print("caling max with alpha beta =",alpha,beta)
                                         (m, max_y, max_x, pos_x,
                                          pos_y) = self.max(alpha, beta)
                                         if (m != None):
                                             if m < minv:
+                                                print("m:",m)
+                                                print("alpha",alpha)
+                                                print("beta",beta)
                                                 minv = m
                                                 my = i
                                                 mx = j
@@ -314,26 +336,37 @@ class miniMaxAlphaBeta:
                                                 py = posRow
 
                                             if minv <= alpha:
-                                                self.gameBoard.swap_Player()
+                                                
+                                                print(alpha,beta)
+                                                self.gameBoard.display()
+                                                # Swap back to current player
+                                                self.gameBoard.player=currentPlayer
                                                 self.gameBoard.swap_Piece(
                                                     tempRow, tempCol, posRow, posCol)
+                                                print("minv<beta in min")
+                                                print(minv,my,mx,py,px)
                                                 return (minv, my, mx, px, py)
 
                                             if minv < beta:
                                                 beta = minv
-                                            # Swap back to current player
-                                        self.gameBoard.swap_Player()
+
+                                        # Swap back to current player
+                                        self.gameBoard.player=currentPlayer
 
                                         # remove move
                                     self.gameBoard.swap_Piece(
                                         tempRow, tempCol, posRow, posCol)
 
         if (not (validMove)):
-            self.gameBoard.player = currentPlayer
+            # Swap back to current player
+            self.gameBoard.player=currentPlayer
             # No valid move so return worst case for parent
+            #There where no valid moves so the current move is deemed as one better then not moving
+
         return (minv, my, mx, px, py)
 
     def jumping_min(self, posRow, posCol, moveList, alpha, beta):
+        print("Jumping Min",alpha,beta)
 
         # possible values
         # 1 player 1 wins 2 player 2 wins
@@ -388,16 +421,16 @@ class miniMaxAlphaBeta:
                                 py = posRow
 
                             if minv <= alpha:
-
+                                
                                 self.gameBoard.swap_Piece(
                                     tempRow, tempCol, posRow, posCol)
-
                                 return (minv, my, mx, px, py)
 
                             if minv < beta:
                                 beta = minv
                             # Swap player to play min
-                            self.gameBoard.swap_Player()
+                            self.gameBoard.next_Player()
+                            print("caling max from jumping min with alpha beta =",alpha,beta)
                             (m, min_i, min_j, pos_x, pos_y) = self.max(alpha, beta)
                             if (m != None):
                                 if m < minv:
@@ -408,7 +441,8 @@ class miniMaxAlphaBeta:
                                     py = posRow
 
                                 if minv <= alpha:
-                                    self.gameBoard.swap_Player()
+                                    # Swap back to current player
+                                    self.gameBoard.player=currentPlayer
                                     self.gameBoard.swap_Piece(
                                         tempRow, tempCol, posRow, posCol)
 
@@ -417,13 +451,15 @@ class miniMaxAlphaBeta:
                                 if minv < beta:
                                     beta = minv
 
-                                # Swap back to current player
-                            self.gameBoard.swap_Player()
+                            # Swap back to current player
+                            self.gameBoard.player=currentPlayer
 
                     self.gameBoard.swap_Piece(tempRow, tempCol, posRow, posCol)
 
         if (not (validMove)):
-            self.gameBoard.player = currentPlayer
+            # Swap back to current player
+            self.gameBoard.player=currentPlayer
+            minv=None
             # No valid move so return worst case for parent
 
         return (minv, mx, my, px, py)
