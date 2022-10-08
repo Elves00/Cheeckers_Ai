@@ -187,23 +187,7 @@ class TestBoard(unittest.TestCase):
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', 'R', ' ', 'R', ' ', '.', 'x', ], ['x', 'x', 'R', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
         self.assertTrue(x.jump(1, -1, 5, 2, moveList))
 
-    def test_board_position_value(self):
-        x = board.board()
-        x.board = swapboard = [['x', 'x', 'x', 'R', 'x', 'x', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], [
-            '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', '.', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'B', ' ', 'B', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
-
-        # player starts as R evaluate as 2
-        self.assertEqual(x.position_evaluator(), 2)
-        # B starts as 16
-        x.next_Player()
-        self.assertEqual(x.position_evaluator(), 16)
-        # After swap B is 10
-        x.swap_Piece(6, 3, 0, 3)
-        self.assertEqual(x.position_evaluator(), 10)
-        # after swap R is 8
-        x.next_Player()
-        self.assertEqual(x.position_evaluator(), 8)
-
+    
     def test_board_is_end_or_start_zone(self):
         '''
         Checks to see the boards end zones are functioning correctly

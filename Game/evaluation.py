@@ -1,5 +1,5 @@
-# from Game import board
-import board
+from Game import board
+# import board
 class evaluator():
     def __init__(self, currentBoard, currentPlayer, currentMode):
         self.board = currentBoard
@@ -153,7 +153,6 @@ class evaluator():
         return value
 
     def print_evaluation_matrix(self,player):
-        print("here")
         if((player=='R' or player =='B') and self.mode =="full"):
             for i in range(0, self.board.boardHeight):
                 for j in range(0, self.board.boardWidth):
