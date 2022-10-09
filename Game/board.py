@@ -286,43 +286,44 @@ class board:
         '''
         Returns true if the selected co-ordinates is in the current players end zone or start zone
         '''
-        if(self.mode=="full"):
-            #R end zone
-            if(posRow<4 and (posCol>8 and posCol<16)):
-                return True
-            #B end zone
-            elif(posRow>12 and(posCol>8 and posCol<16)):
-                return True
-            #G end zone
-            elif((posRow>3 and posRow<8) and (posCol>(13+posRow))):
+        if(self.board[posRow][posCol]!='x' and self.board[posRow][posCol]!=' '):
+            if(self.mode=="full"):
+                #R end zone
+                if(posRow<4 and (posCol>8 and posCol<16)):
                     return True
-            #P end zone
-            elif((posRow>8 and posRow<13) and (posCol>17-(posRow-9))):
+                #B end zone
+                elif(posRow>12 and(posCol>8 and posCol<16)):
                     return True
-            #O end zone
-            elif((posRow>3 and posRow<8) and (posCol<7 - (posRow-4))):
-                return True
-            #Y end zone
-            elif((posRow>8 and posRow<13) and (posCol<(-5+posRow))):
-                return True
+                #G end zone
+                elif((posRow>3 and posRow<8) and (posCol>(13+posRow))):
+                        return True
+                #P end zone 
+                elif((posRow>8 and posRow<13) and (posCol>29-(posRow))):
+                        return True
+                #O end zone
+                elif((posRow>3 and posRow<8) and (posCol<7 - (posRow-4))):
+                    return True
+                #Y end zone
+                elif((posRow>8 and posRow<13) and (posCol<(-5+posRow))):
+                    return True
 
-            return False
-        elif(self.mode.__contains__("small")): 
+                return False
+            elif(self.mode.__contains__("small")): 
 
-            # red end zone
-            if (self.player == 'R'):
-                if (posRow < 2 and posCol > 1 and posCol < 5):
-                    return True
-                elif (posRow > 4 and posCol > 1 and posCol < 5):
-                    return True
-                return False
-            # blue end zone
-            elif (self.player == 'B'):
-                if (posRow < 2 and posCol > 1 and posCol < 5):
-                    return True
-                elif (posRow > 4 and posCol > 1 and posCol < 5):
-                    return True
-                return False
+                # red end zone
+                if (self.player == 'R'):
+                    if (posRow < 2 and posCol > 1 and posCol < 5):
+                        return True
+                    elif (posRow > 4 and posCol > 1 and posCol < 5):
+                        return True
+                    return False
+                # blue end zone
+                elif (self.player == 'B'):
+                    if (posRow < 2 and posCol > 1 and posCol < 5):
+                        return True
+                    elif (posRow > 4 and posCol > 1 and posCol < 5):
+                        return True
+                    return False
 
         return False
 

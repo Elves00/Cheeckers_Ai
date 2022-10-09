@@ -218,25 +218,33 @@ class TestBoard(unittest.TestCase):
         rows = [[0], [1], [0, 2], [1, 3]]
         for i in range(0, 4):
             for j in rows[i]:
-                self.assertTrue(playingBoard.is_end_or_start_zone(i+13,12-j))
-                self.assertTrue(playingBoard.is_end_or_start_zone(i+13,12+j))
+                if(playingBoard.board[i+13][12-i] != "x" and playingBoard.board[i+13][12-i] !=' '):
+                    self.assertTrue(playingBoard.is_end_or_start_zone(i+13,12-j))
+                elif(playingBoard.board[i+13][12+i] != "x" and playingBoard.board[i+13][12+i] !=' '):
+                    self.assertTrue(playingBoard.is_end_or_start_zone(i+13,12+j))
      
 
         for i in range(0, 4):
             for j in rows[i]:
-                self.assertTrue(playingBoard.is_end_or_start_zone(i+9,3-j))
-                self.assertTrue(playingBoard.is_end_or_start_zone(i+9,3+j))
+                if(playingBoard.board[i+9][3-j] != "x" and playingBoard.board[i+9][3-j] !=' '):
+                    self.assertTrue(playingBoard.is_end_or_start_zone(i+9,3-j))
+                elif(playingBoard.board[i+9][3+j] != "x" and playingBoard.board[i+9][3+j] !=' '):
+                    self.assertTrue(playingBoard.is_end_or_start_zone(i+9,3+j))
         
 
         for i in range(0, 4):
             for j in rows[i]:
-                self.assertTrue(playingBoard.is_end_or_start_zone(7-i,3-j))
-                self.assertTrue(playingBoard.is_end_or_start_zone(7-i,3+j))
+                if(playingBoard.board[7-i][3-j] != "x" and playingBoard.board[7-i][3-j] !=' '):
+                    self.assertTrue(playingBoard.is_end_or_start_zone(7-i,3-j))
+                elif(playingBoard.board[7-i][3+j] != "x" and playingBoard.board[7-i][3+j] !=' '):
+                    self.assertTrue(playingBoard.is_end_or_start_zone(7-i,3+j))
 
         for i in range(0, 4):
             for j in rows[i]:
-                self.assertTrue(playingBoard.is_end_or_start_zone(i,12-j))
-                self.assertTrue(playingBoard.is_end_or_start_zone(i,12+j))
+                if(playingBoard.board[i][12-j] != "x" and playingBoard.board[i][12-j] !=' '):
+                    self.assertTrue(playingBoard.is_end_or_start_zone(i,12-j))
+                elif(playingBoard.board[i][12+j] != "x" and playingBoard.board[i][12+j] !=' '):
+                    self.assertTrue(playingBoard.is_end_or_start_zone(i,12+j))
 
 
         #Green Start Zone / Orange End Zone
@@ -248,12 +256,19 @@ class TestBoard(unittest.TestCase):
         # Yellow 
         for i in range(0, 4):
             for j in rows[i]:
-                print(9+i,21+j)
-                print(playingBoard.board[9][21])
-                print(i)
-                print(j)
                 self.assertTrue(playingBoard.is_end_or_start_zone(9+i,21-j))
                 self.assertTrue(playingBoard.is_end_or_start_zone(9+i,21+j))
+
+        endZones=0
+        for i in range(0, playingBoard.boardHeight):
+            for j in range(0, playingBoard.boardWidth):
+                if(playingBoard.board[i][j]!='x' and playingBoard.board[i][j]!=' '):
+                    if(playingBoard.is_end_or_start_zone(i,j)):
+                        endZones+=1
+                        print(i,j,playingBoard.board[i][j])
+                        
+        print("end zones total:",endZones)
+   
 
     def test_board_is_jump_valid(self):
         '''Tests the is jump valid method of '''
