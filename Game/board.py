@@ -1,5 +1,8 @@
 
 # Note UP and DOWN are INVERTED but not left and right when moving things on the board using [row][col] ie row-1 moves a piece up one not down one
+from turtle import pos
+
+
 class board:
 
     def __init__(self):
@@ -286,6 +289,9 @@ class board:
         '''
         Returns true if the selected co-ordinates is in the current players end zone or start zone
         '''
+        if (posRow > self.boardHeight-1 or posRow < 0 or posCol > self.boardWidth-1 or posCol < 0):
+            return False
+
         if(self.board[posRow][posCol]!='x' and self.board[posRow][posCol]!=' '):
             if(self.mode=="full"):
                 #R end zone
@@ -639,6 +645,7 @@ class board:
         # moving up right
         if upOrDown > 0 and leftOrRight > 0:
             # if moving into end zone handle
+            print(posRow-1 ,posCol+1)
             if (self.is_end_or_start_zone(posRow - 1, posCol + 1)):
                 if (self.contains_piece(posRow - 1, posCol + 1)):
 
