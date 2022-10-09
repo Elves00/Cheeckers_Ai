@@ -32,7 +32,6 @@ class miniMaxAlphaBeta:
             # The other player wins
             elif (result > 1):
                 print("end 0")
-                self.gameBoard.display()
                 return (0, 0, 0, 0, 0)
 
         currentValue = self.evaluator.evaluatePosition(
@@ -68,9 +67,11 @@ class miniMaxAlphaBeta:
                                     (m, max_y, max_x, pos_x, pos_y) = self.jumping_max(
                                         posRow, posCol, moveList, alpha, beta)
                                     print("jumping max returned", m)
+
+
                                     # If the value returned was not null (a move was possible)
                                     if (m != None):
-
+                                        
                                         # Checks if the end position is greater then current max value setting accordingly
                                         if m > maxv:
                                             maxv = m
@@ -88,7 +89,7 @@ class miniMaxAlphaBeta:
                                         # Raises the value of alpha
                                         if maxv > alpha:
                                             alpha = maxv
-
+                                    #
                                     # remove move from list after checking
                                     moveList.remove([posRow, posCol])
 
@@ -155,10 +156,13 @@ class miniMaxAlphaBeta:
         if (result != None):
             # Player 1 wins
             if (result == 1):
+                print("end 16")
                 return (16, 0, 0, 0, 0)
             # The other player wins
             elif (result > 1):
+                print("end 0")
                 return (0, 0, 0, 0, 0)
+
 
         # gets value before move
         currentValue = self.evaluator.evaluatePosition(
@@ -237,6 +241,7 @@ class miniMaxAlphaBeta:
         if (not (validMove)):
            # Swap back to current player
             self.gameBoard.player = currentPlayer
+            maxv=8
             
         print("returning from jumping max with :", maxv, my, mx, px, py)
         return (maxv, my, mx, px, py)
@@ -256,10 +261,13 @@ class miniMaxAlphaBeta:
         if (result != None):
             # Player 1 wins
             if (result == 1):
+                print("end 16")
                 return (16, 0, 0, 0, 0)
             # The other player wins
             elif (result > 1):
+                print("end 0")
                 return (0, 0, 0, 0, 0)
+
 
         currentValue = self.evaluator.evaluatePosition(
             self.gameBoard.player, self.gameBoard)
@@ -409,10 +417,13 @@ class miniMaxAlphaBeta:
         if (result != None):
             # Player 1 wins
             if (result == 1):
+                print("end 16")
                 return (16, 0, 0, 0, 0)
             # The other player wins
             elif (result > 1):
+                print("end 0")
                 return (0, 0, 0, 0, 0)
+
 
         currentValue = self.evaluator.evaluatePosition(
             self.gameBoard.player, self.gameBoard)
@@ -534,5 +545,6 @@ class miniMaxAlphaBeta:
             self.gameBoard.player = currentPlayer
             # No valid move so return worst case for parent
             # minv = self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard)
+            minv=8
 
         return (minv, mx, my, px, py)

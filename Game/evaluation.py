@@ -160,49 +160,49 @@ class evaluator():
                 print()
         print("   ",end='')
 
-test = board.board()
-test.swap_board("full")
-test.display()
+# test = board.board()
+# test.swap_board("full")
+# test.display()
 
-evaluate = evaluator(test, test.player, test.mode)
+# evaluate = evaluator(test, test.player, test.mode)
 
-print(evaluate.evaluatePosition(test.player,test))
-#G
-test.next_Player()
-print(test.player)
-evaluate = evaluator(test, test.player, test.mode)
-print(evaluate.evaluatePosition(test.player,test))
-#P
-test.next_Player()
-print(test.player)
-evaluate = evaluator(test, test.player, test.mode)
-print(evaluate.evaluatePosition(test.player,test))
-#B
-test.next_Player()
-print(test.player)
-evaluate = evaluator(test, test.player, test.mode)
-print(evaluate.evaluatePosition(test.player,test))
-#O
-test.next_Player()
-print(test.player)
-evaluate = evaluator(test, test.player, test.mode)
-print(evaluate.evaluatePosition(test.player,test))
-#Y
-test.next_Player()
-print(test.player)
-evaluate = evaluator(test, test.player, test.mode)
-print(evaluate.evaluatePosition(test.player,test))
-#R
-test.next_Player()
-print(test.player)
-evaluate = evaluator(test, test.player, test.mode)
-print(evaluate.evaluatePosition(test.player,test))
+# print(evaluate.evaluatePosition(test.player,test))
+# #G
+# test.next_Player()
+# print(test.player)
+# evaluate = evaluator(test, test.player, test.mode)
+# print(evaluate.evaluatePosition(test.player,test))
+# #P
+# test.next_Player()
+# print(test.player)
+# evaluate = evaluator(test, test.player, test.mode)
+# print(evaluate.evaluatePosition(test.player,test))
+# #B
+# test.next_Player()
+# print(test.player)
+# evaluate = evaluator(test, test.player, test.mode)
+# print(evaluate.evaluatePosition(test.player,test))
+# #O
+# test.next_Player()
+# print(test.player)
+# evaluate = evaluator(test, test.player, test.mode)
+# print(evaluate.evaluatePosition(test.player,test))
+# #Y
+# test.next_Player()
+# print(test.player)
+# evaluate = evaluator(test, test.player, test.mode)
+# print(evaluate.evaluatePosition(test.player,test))
+# #R
+# test.next_Player()
+# print(test.player)
+# evaluate = evaluator(test, test.player, test.mode)
+# print(evaluate.evaluatePosition(test.player,test))
 
-test.swap_board("small")
-evaluate = evaluator(test, test.player, test.mode)
-print(evaluate.evaluatePosition(test.player,test))
+# test.swap_board("small")
+# evaluate = evaluator(test, test.player, test.mode)
+# print(evaluate.evaluatePosition(test.player,test))
 
-test.swap_board("full")
-evaluate = evaluator(test, test.player, test.mode)
+# test.swap_board("full")
+# evaluate = evaluator(test, test.player, test.mode)
 
-evaluate.print_evaluation_matrix('R')
+# evaluate.print_evaluation_matrix('R')

@@ -129,52 +129,60 @@ class board:
         '''
         Checks if moving a piece from posRow,posCol in a provided direction is a jump returning true
         upOrDown,leftOrRight = direction of movment'''
+        
+        #out of bounds check for jumping piece
+        if(self.is_in_bound(posRow+upOrDown,posCol+leftOrRight)):
+            #out of bound for landing piece
+            if(self.is_in_bound(posRow+(2*upOrDown),posCol+(2*leftOrRight))):
 
-        # attempting jump down and left
-        if upOrDown < 0 and leftOrRight < 0:
-            # Check there is a piece to jump over
-            if (self.contains_piece(posRow+1, posCol-1)):
-                return True
-            else:
-                return False
-        # moving down right
-        if upOrDown < 0 and leftOrRight > 0:
-            if (self.contains_piece(posRow+1, posCol+1)):
-                return True
-            else:
-                return False
+                # attempting jump down and left
+                if upOrDown < 0 and leftOrRight < 0:
+                    # Check there is a piece to jump over
+                    if (self.contains_piece(posRow+1, posCol-1)):
+                        return True
+                    else:
+                        return False
+                # moving down right
+                if upOrDown < 0 and leftOrRight > 0:
+                    if (self.contains_piece(posRow+1, posCol+1)):
+                        return True
+                    else:
+                        return False
 
-        # moving up left
-        if upOrDown > 0 and leftOrRight < 0:
-            if (self.contains_piece(posRow-1, posCol-1)):
-                return True
-            else:
-                return False
+                # moving up left
+                if upOrDown > 0 and leftOrRight < 0:
+                    if (self.contains_piece(posRow-1, posCol-1)):
+                        return True
+                    else:
+                        return False
 
-        # moving up right
-        if upOrDown > 0 and leftOrRight > 0:
-            if (self.contains_piece(posRow-1, posCol+1)):
-                return True
-            else:
-                return False
+                # moving up right
+                if upOrDown > 0 and leftOrRight > 0:
+                    if (self.contains_piece(posRow-1, posCol+1)):
+                        return True
+                    else:
+                        return False
 
-        # moving left
-        if upOrDown == 0 and leftOrRight < 0:
-            if (self.contains_piece(posRow, posCol-2)):
-                return True
-            else:
-                return False
+                # moving left
+                if upOrDown == 0 and leftOrRight < 0:
+                    if (self.contains_piece(posRow, posCol-2)):
+                        return True
+                    else:
+                        return False
 
-        # moving right
-        if (upOrDown == 0 and leftOrRight > 0):
-            if (self.contains_piece(posRow, posCol+2)):
-                return True
-            else:
-                return False
+                # moving right
+                if (upOrDown == 0 and leftOrRight > 0):
+                    if (self.contains_piece(posRow, posCol+2)):
+                        return True
+                    else:
+                        return False
 
-        # Invalid move
-        if (upOrDown == 0 and leftOrRight == 0):
-            return False
+                # Invalid move
+                if (upOrDown == 0 and leftOrRight == 0):
+                    return False
+
+        #not in bounds        
+        return False
 
     def is_jump_valid(self, upOrDown, leftOrRight, posRow, posCol, moveList):
         ''''

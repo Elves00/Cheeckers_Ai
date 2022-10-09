@@ -40,7 +40,7 @@ class game:
                 #Get Ai move
                 (winLoss, upOrDown, leftOrRight,
                  posRow, posCol) = self.miniMax.max(-2, 16)
-                print("max Returned:", winLoss, upOrDown,
+                print("Max Returned:", winLoss, upOrDown,
                       leftOrRight, posRow, posCol)
 
                 #If the AI move is a jump call the ai can move again
