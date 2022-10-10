@@ -129,59 +129,57 @@ class board:
         '''
         Checks if moving a piece from posRow,posCol in a provided direction is a jump returning true
         upOrDown,leftOrRight = direction of movment'''
-        
-        #out of bounds check for jumping piece
-        if(self.is_in_bound(posRow+upOrDown,posCol+leftOrRight)):
-            #out of bound for landing piece
-            if(self.is_in_bound(posRow+(2*upOrDown),posCol+(2*leftOrRight))):
 
-                # attempting jump down and left
-                if upOrDown < 0 and leftOrRight < 0:
-                    # Check there is a piece to jump over
-                    if (self.contains_piece(posRow+1, posCol-1)):
-                        return True
-                    else:
-                        return False
-                # moving down right
-                if upOrDown < 0 and leftOrRight > 0:
-                    if (self.contains_piece(posRow+1, posCol+1)):
-                        return True
-                    else:
-                        return False
 
-                # moving up left
-                if upOrDown > 0 and leftOrRight < 0:
-                    if (self.contains_piece(posRow-1, posCol-1)):
-                        return True
-                    else:
-                        return False
+       
 
-                # moving up right
-                if upOrDown > 0 and leftOrRight > 0:
-                    if (self.contains_piece(posRow-1, posCol+1)):
-                        return True
-                    else:
-                        return False
+        # attempting jump down and left
+        if upOrDown < 0 and leftOrRight < 0:
+            # Check there is a piece to jump over
+            if (self.contains_piece(posRow+1, posCol-1) and self.is_in_bound(posRow+1,posCol-1) and self.is_in_bound(posRow+2,posCol-2)):
+                return True
+            else:
+                return False
+        # moving down right
+        if upOrDown < 0 and leftOrRight > 0:
+            if (self.contains_piece(posRow+1, posCol+1) and self.is_in_bound(posRow+1,posCol+1) and self.is_in_bound(posRow+2,posCol+2)):
+                return True
+            else:
+                return False
 
-                # moving left
-                if upOrDown == 0 and leftOrRight < 0:
-                    if (self.contains_piece(posRow, posCol-2)):
-                        return True
-                    else:
-                        return False
+        # moving up left
+        if upOrDown > 0 and leftOrRight < 0:
+            if (self.contains_piece(posRow-1, posCol-1) and self.is_in_bound(posRow-1,posCol-1) and self.is_in_bound(posRow-2,posCol-2)):
+                return True
+            else:
+                return False
 
-                # moving right
-                if (upOrDown == 0 and leftOrRight > 0):
-                    if (self.contains_piece(posRow, posCol+2)):
-                        return True
-                    else:
-                        return False
+        # moving up right
+        if upOrDown > 0 and leftOrRight > 0:
+            if (self.contains_piece(posRow-1, posCol+1) and self.is_in_bound(posRow-1,posCol+1) and self.is_in_bound(posRow-2,posCol+2)):
+                return True
+            else:
+                return False
 
-                # Invalid move
-                if (upOrDown == 0 and leftOrRight == 0):
-                    return False
+        # moving left
+        if upOrDown == 0 and leftOrRight < 0:
+            if (self.contains_piece(posRow, posCol-2) and self.is_in_bound(posRow,posCol-2) and self.is_in_bound(posRow,posCol-4)):
+                return True
+            else:
+                return False
 
-        #not in bounds        
+        # moving right
+        if (upOrDown == 0 and leftOrRight > 0):
+            if (self.contains_piece(posRow, posCol+2) and self.is_in_bound(posRow,posCol+2) and self.is_in_bound(posRow,posCol+4)):
+                return True
+            else:
+                return False
+
+        # Invalid move
+        if (upOrDown == 0 and leftOrRight == 0):
+            return False
+
+        # not in bounds
         return False
 
     def is_jump_valid(self, upOrDown, leftOrRight, posRow, posCol, moveList):
@@ -300,42 +298,43 @@ class board:
         if (posRow > self.boardHeight-1 or posRow < 0 or posCol > self.boardWidth-1 or posCol < 0):
             return False
 
-        if(self.board[posRow][posCol]!='x' and self.board[posRow][posCol]!=' '):
-            if(self.mode=="full"):
-                #R end zone
-                if(posRow<4 and (posCol>8 and posCol<16)):
+        if (self.board[posRow][posCol] != 'x' and self.board[posRow][posCol] != ' '):
+            if (self.mode == "full"):
+                # R end zone
+
+                if (posRow < 4 and (posCol > 11-posRow and posCol < 13+posRow)):
                     return True
-                #B end zone
-                elif(posRow>12 and(posCol>8 and posCol<16)):
+                # B end zone
+                elif (posRow > 12 and (posCol > 11-posRow and posCol < 13+posRow)):
                     return True
-                #G end zone
-                elif((posRow>3 and posRow<8) and (posCol>(13+posRow))):
-                        return True
-                #P end zone 
-                elif((posRow>8 and posRow<13) and (posCol>29-(posRow))):
-                        return True
-                #O end zone
-                elif((posRow>3 and posRow<8) and (posCol<7 - (posRow-4))):
+                # G end zone
+                elif ((posRow > 3 and posRow < 8) and (posCol > (13+posRow))):
                     return True
-                #Y end zone
-                elif((posRow>8 and posRow<13) and (posCol<(-5+posRow))):
+                # P end zone
+                elif ((posRow > 8 and posRow < 13) and (posCol > 29-(posRow))):
+                    return True
+                # O end zone
+                elif ((posRow > 3 and posRow < 8) and (posCol < 7 - (posRow-4))):
+                    return True
+                # Y end zone
+                elif ((posRow > 8 and posRow < 13) and (posCol < (-5+posRow))):
                     return True
 
                 return False
-            elif(self.mode.__contains__("small")): 
-
+            elif (self.mode.__contains__("small")):
                 # red end zone
                 if (self.player == 'R'):
-                    if (posRow < 2 and posCol > 1 and posCol < 5):
+                    if (posRow < 2 and (posCol > 2-posRow and posCol < 4+posRow)):
                         return True
-                    elif (posRow > 4 and posCol > 1 and posCol < 5):
+                    elif (posRow > 4 and (posCol > 2-posRow and posCol < 4+posRow)):
                         return True
                     return False
                 # blue end zone
                 elif (self.player == 'B'):
-                    if (posRow < 2 and posCol > 1 and posCol < 5):
+
+                    if (posRow < 2 and (posCol > 2-posRow and posCol < 4+posRow)):
                         return True
-                    elif (posRow > 4 and posCol > 1 and posCol < 5):
+                    elif (posRow > 4 and (posCol > 2-posRow and posCol < 4+posRow)):
                         return True
                     return False
 
@@ -440,6 +439,7 @@ class board:
         if (row > self.boardHeight-1 or row < 0 or col > self.boardWidth-1 or col < 0):
             return False
         if (self.board[row][col] != 'x'):
+            print("in bound",row,col,self.board[row][col])
             return True
         else:
             return False
@@ -550,8 +550,9 @@ class board:
             return False
 
         # Checks the position being retrieved is in bounds and the movement will be in bounds
-        if posRow == 7 and upOrDown < 0 or posRow == 0 and upOrDown > 0 or posCol == 7 and leftOrRight > 0 or posCol == 0 and leftOrRight < 0:
+        if posRow == 6 and upOrDown < 0 or posRow == 0 and upOrDown > 0 or posCol == 6 and leftOrRight > 0 or posCol == 0 and leftOrRight < 0:
             return False
+        
 
         # Steps moving down to the left
         # Is it in the end zone
@@ -653,7 +654,7 @@ class board:
         # moving up right
         if upOrDown > 0 and leftOrRight > 0:
             # if moving into end zone handle
-            print(posRow-1 ,posCol+1)
+            print(posRow-1, posCol+1)
             if (self.is_end_or_start_zone(posRow - 1, posCol + 1)):
                 if (self.contains_piece(posRow - 1, posCol + 1)):
 
