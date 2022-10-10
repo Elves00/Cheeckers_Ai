@@ -78,7 +78,7 @@ class miniMax:
                                     # Evaluate the position only if its better for R
                                     if (self.gameBoard.position_evaluator() > currentValue):
                                         print(self.gameBoard.player)
-                                        self.gameBoard.swap_Player()
+                                        self.gameBoard.next_Player()
                                         
                                         print(self.gameBoard.player,
                                               "swap called by max")
@@ -95,7 +95,7 @@ class miniMax:
                                             py = posCol
 
                                         # Swap back to current player
-                                        self.gameBoard.swap_Player()
+                                        self.gameBoard.next_Player()
 
                                         print("min px:", px)
                                     # remove move
@@ -171,7 +171,7 @@ class miniMax:
 
                         # Move the peice back to previous position
                         print(self.gameBoard.player)
-                        self.gameBoard.swap_Player()
+                        self.gameBoard.next_Player()
                         print(self.gameBoard.player,
                               "swap called by jumping max")
                         (m, min_i, min_j, pos_x, pos_y) = self.min()
@@ -181,7 +181,7 @@ class miniMax:
                             my = i
                             mx = j
 
-                        self.gameBoard.swap_Player()
+                        self.gameBoard.next_Player()
 
                     self.gameBoard.swap_Piece(tempRow, tempCol, posRow, posCol)
 
@@ -261,7 +261,7 @@ class miniMax:
                                     if (self.gameBoard.position_evaluator() < currentValue):
 
                                         print(self.gameBoard.player)
-                                        self.gameBoard.swap_Player()
+                                        self.gameBoard.next_Player()
                                         print(self.gameBoard.player,
                                               "swap called by min")
                                         (m, max_y, max_x, pos_x, pos_y) = self.max()
@@ -272,7 +272,7 @@ class miniMax:
                                             px = posRow
                                             py = posCol
                                         # Swap back to current player
-                                        self.gameBoard.swap_Player()
+                                        self.gameBoard.next_Player()
 
                                         # remove move
                                     self.gameBoard.swap_Piece(
@@ -339,7 +339,7 @@ class miniMax:
                             mx = i
                             my = j
                         # Swap player to play min
-                        self.gameBoard.swap_Player()
+                        self.gameBoard.next_Player()
                         print(self.gameBoard.player,
                               "swap called by jumping min")
                         (m, min_i, min_j, pos_x, pos_y) = self.max()
@@ -350,7 +350,7 @@ class miniMax:
                             my = j
 
                         # Swap back to current player
-                        self.gameBoard.swap_Player()
+                        self.gameBoard.next_Player()
 
                     self.gameBoard.swap_Piece(tempRow, tempCol, posRow, posCol)
 

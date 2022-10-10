@@ -1,6 +1,6 @@
 import time
 from board import board
-from minMaxAlphaBeta import miniMaxAlphaBeta
+from miniMaxAlphaBetaEval import miniMaxAlphaBeta
 
 
 class game:
@@ -18,15 +18,16 @@ class game:
         while (not (self.gameBoard.is_end())):
             #Player controls B in two player
             self.gameBoard.player = 'B'
-            self.gameBoard.turn = 1
+            self.gameBoard.turn = 3
+        
             #Save current player
             currentPlayer = self.gameBoard.player
-
+           
             #Display the board
             self.gameBoard.display()
             #Make player move
             self.gameBoard.select_piece()
-
+           
             #If the player has changed
             if (currentPlayer != self.gameBoard.player):
                 print("mini maxing...")
@@ -38,8 +39,8 @@ class game:
 
                 #Get Ai move
                 (winLoss, upOrDown, leftOrRight,
-                 posRow, posCol) = self.miniMax.max(-2, 2)
-                print("max Returned:", winLoss, upOrDown,
+                 posRow, posCol) = self.miniMax.max(-2, 16)
+                print("Max Returned:", winLoss, upOrDown,
                       leftOrRight, posRow, posCol)
 
                 #If the AI move is a jump call the ai can move again
@@ -48,7 +49,6 @@ class game:
                     #Lets the ai jump again using peice it just moved
                     moveList = []
                     while (self.gameBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.gameBoard.is_end()):
-                        
                         #Performs the first jump
                         (moveList, tempRow, tempCol) = self.gameBoard.jump(
                             upOrDown, leftOrRight, posRow, posCol, moveList)
@@ -58,7 +58,7 @@ class game:
 
                         # Runs jumping max with previous move list
                         (winLoss, upOrDown, leftOrRight,
-                         posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, 2)
+                         posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, 16)
 
                         #If the AI retuned none it means there is no moves for the jumping piece without doubling back
                         if (posRow == None or posCol == None):
