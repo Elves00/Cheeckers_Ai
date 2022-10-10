@@ -296,7 +296,11 @@ class miniMaxAlphaBeta:
                                     # Minimizes jumping (Minmising occurs inside the jumping_min)
                                     (m, min_y, min_x, pos_x, pos_y) = self.jumping_min(
                                         posRow, posCol, moveList, alpha, beta)
+                                    
+                                    
                                     if (m != None):
+                                        print("m:",m,"minv:",minv)
+                                        print(posCol,posRow)
                                         # Checks if we have a better move and set it
                                         if m < minv:
                                             minv = m
@@ -306,6 +310,7 @@ class miniMaxAlphaBeta:
                                             py = posRow
 
                                         if minv <= alpha:
+                                            print("min returned cause <= alpha")
                                             moveList.remove([posRow, posCol])
                                             return (minv, my, mx, px, py)
 
@@ -438,11 +443,11 @@ class miniMaxAlphaBeta:
             for j in direction:
                 # Check if there is a valid jump and explore it
                 if (self.gameBoard.is_jump_valid(i, j, posRow, posCol, moveList)):
-
+                    print("Jump is valid for the move ",i,j,posRow,posCol,moveList)
                     # Stores the new move position
                     moveList, tempRow, tempCol = self.gameBoard.jump(
                         i, j, posRow, posCol, moveList)
-
+                    self.gameBoard.display()
                     # maximises for the new position
                     if (self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard) > currentValue):
                         currentValue = self.evaluator.evaluatePosition(
@@ -537,8 +542,9 @@ class miniMaxAlphaBeta:
 
                             # Swap back to current player
                             self.gameBoard.player = currentPlayer
-
+                    print("Un swapping")
                     self.gameBoard.swap_Piece(tempRow, tempCol, posRow, posCol)
+                    self.gameBoard.display()
 
         if (not (validMove)):
             # Swap back to current player
