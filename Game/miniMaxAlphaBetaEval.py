@@ -15,7 +15,8 @@ class miniMaxAlphaBeta:
     # maximiser
     def max(self, alpha, beta):
         if (self.depth > 3):
-            return (8, None, None, None, None)
+            evaluation=int(self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard)/16)
+            return (evaluation,None, None, None, None)
 
         print(self.gameBoard.player)
         print("Max", alpha, beta)
@@ -149,7 +150,8 @@ class miniMaxAlphaBeta:
     def jumping_max(self, posRow, posCol, moveList, alpha, beta):
         print("Jumping Max", alpha, beta)
         if (self.depth > 3):
-            return (8, None, None, None, None)
+            evaluation=int(self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard)/16)
+            return (evaluation,None, None, None, None)
 
         maxv = -2
         mx = None
@@ -260,7 +262,8 @@ class miniMaxAlphaBeta:
 
     def min(self, alpha, beta):
         if (self.depth > 3):
-            return (8, None, None, None, None)
+            evaluation=int(self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard)/16)
+            return (evaluation,None, None, None, None)
         print("Min", alpha, beta)
 
         # possible values
@@ -431,7 +434,8 @@ class miniMaxAlphaBeta:
 
     def jumping_min(self, posRow, posCol, moveList, alpha, beta):
         if (self.depth > 3):
-            return (8, None, None, None, None)
+            evaluation=int(self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard)/16)
+            return (evaluation,None, None, None, None)
         print("Jumping Min", alpha, beta)
 
         # possible values
