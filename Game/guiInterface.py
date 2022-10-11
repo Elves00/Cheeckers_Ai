@@ -9,8 +9,10 @@ class guiInterface():
         '''Sets up the interface'''
         self.currentBoard = board.board()
         self.currentBoard.swap_board("full")
+        
         self.miniMax = miniMaxAlphaBeta()
         self.miniMax.setGameBoard(self.currentBoard)
+
 
         self.moveList = []
 
@@ -46,9 +48,9 @@ class guiInterface():
     def ai_move(self):
         self.miniMax.setGameBoard(self.currentBoard)
         
-
+        turn=self.currentBoard.turn
         (winLoss, upOrDown, leftOrRight,
-         posRow, posCol) = self.miniMax.max(-2, 16)
+         posRow, posCol) = self.miniMax.max(-2,self.miniMax.maxValue+2)
 
         
         print("Max Returned:", winLoss, upOrDown,
@@ -70,7 +72,7 @@ class guiInterface():
 
                 # Runs jumping max with previous move list
                 (winLoss, upOrDown, leftOrRight,
-                    posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, 16)
+                    posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList,-2,self.miniMax.maxValue+2)
                 # If the AI retuned none it means there is no moves for the jumping piece without doubling back
                 if (posRow == None or posCol == None or winLoss != 16):
                     break
@@ -78,6 +80,8 @@ class guiInterface():
             # Perform a regular move
             self.currentBoard.move(upOrDown, leftOrRight, posRow, posCol)
 
+        #Hard resets the turn
+        self.currentBoard.turn=turn
         self.currentBoard.next_Player()
     def getCurrentBoard(self):
         return self.currentBoard
@@ -101,110 +105,151 @@ x.currentBoard.display()
 #     print("No longer the player so returns false")
 
 x.currentBoard.display()
+#R
+print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+x.currentBoard.display()
+input()
 
+#G
 print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+x.currentBoard.display()
+input()
+#P
+print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+x.currentBoard.display()
+input()
+
+#B
+print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+x.currentBoard.display()
+input()
+#O
+print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+x.currentBoard.display()
+input()
+
+#Y
+print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+x.currentBoard.display()
+input()
+
+#R
+print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+x.currentBoard.display()
+input()
+
+#G
+print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+x.currentBoard.display()
+input()
+
+#P
+x.ai_move()
+x.currentBoard.display()
+#B
+input()
+x.ai_move()
+input()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+input()
+print("layer:",x.currentBoard.player)
+input()
+x.ai_move()
+input()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
 x.ai_move()
 x.currentBoard.display()
 
-print("layer:",x.currentBoard.player)
+x.currentBoard.display()
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
-print("layer:",x.currentBoard.player)
-x.ai_move()
-x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
-x.ai_move()
-x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
-x.ai_move()
-x.currentBoard.display()
-print("layer:",x.currentBoard.player)
-x.ai_move()
-x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
-x.ai_move()
-x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
-x.ai_move()
-x.currentBoard.display()
-print("layer:",x.currentBoard.player)
-x.ai_move()
-x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
-x.ai_move()
-x.currentBoard.display()
-
-print("layer:",x.currentBoard.player)
-x.ai_move()
-x.currentBoard.display()
-
-
-
-
-
