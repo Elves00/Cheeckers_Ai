@@ -9,8 +9,6 @@ class guiInterface():
         '''Sets up the interface'''
         self.currentBoard = board.board()
         self.currentBoard.swap_board("full")
-        self.evaluator = evaluation.evaluator(
-            self.currentBoard, self.currentBoard.player, self.currentBoard.board)
         self.miniMax = miniMaxAlphaBeta()
         self.miniMax.setGameBoard(self.currentBoard)
 
@@ -30,7 +28,6 @@ class guiInterface():
 
         if (player != self.currentBoard.player):
             return False
-            raise Exception("Players out of sync")
 
         if (self.currentBoard.is_move_valid(dy, dx, startPosY, startPosX)):
             if (self.currentBoard.is_jump_valid(dy, dx, startPosY, startPosX, self.moveList)):
@@ -48,11 +45,15 @@ class guiInterface():
 
     def ai_move(self):
         self.miniMax.setGameBoard(self.currentBoard)
+        
+
         (winLoss, upOrDown, leftOrRight,
          posRow, posCol) = self.miniMax.max(-2, 16)
-        print("Max Returned:", winLoss, upOrDown,
-              leftOrRight, posRow, posCol)
 
+        
+        print("Max Returned:", winLoss, upOrDown,
+              leftOrRight, posRow, posCol , "Player:",self.currentBoard.player)
+        
         # If the AI move is a jump call the ai can move again
         if (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol)):
 
@@ -70,7 +71,6 @@ class guiInterface():
                 # Runs jumping max with previous move list
                 (winLoss, upOrDown, leftOrRight,
                     posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, 16)
-
                 # If the AI retuned none it means there is no moves for the jumping piece without doubling back
                 if (posRow == None or posCol == None or winLoss != 16):
                     break
@@ -79,7 +79,6 @@ class guiInterface():
             self.currentBoard.move(upOrDown, leftOrRight, posRow, posCol)
 
         self.currentBoard.next_Player()
-
     def getCurrentBoard(self):
         return self.currentBoard
 
@@ -101,20 +100,111 @@ x.currentBoard.display()
 # else:
 #     print("No longer the player so returns false")
 
-# x.currentBoard.display()
-
-x.ai_move()
 x.currentBoard.display()
 
+print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
+
+
+print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
 x.ai_move()
 x.currentBoard.display()
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+print("layer:",x.currentBoard.player)
+x.ai_move()
+x.currentBoard.display()
+
+
+
+
+
