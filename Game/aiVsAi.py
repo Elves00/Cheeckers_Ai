@@ -18,7 +18,6 @@ class game:
         while (not (self.gameBoard.is_end())):
                 self.gameBoard.display()
                 print("Enter to progress to next move")
-                input()
                 #Updates the board with the players move
                 self.miniMax.setGameBoard(self.gameBoard)
                 #Start timer for evaluation
