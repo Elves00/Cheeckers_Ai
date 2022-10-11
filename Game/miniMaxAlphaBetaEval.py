@@ -1,5 +1,4 @@
 from pyrsistent import v
-import board
 from evaluation import evaluator
 
 
@@ -11,9 +10,13 @@ class miniMaxAlphaBeta:
             self.gameBoard, self.gameBoard.player, self.gameBoard.mode)
         self.maxPlayer = self.gameBoard.player
         print(self.maxPlayer)
+        self.depth = 0
 
     # maximiser
     def max(self, alpha, beta):
+        if (self.depth > 3):
+            return (8, None, None, None, None)
+
         print(self.gameBoard.player)
         print("Max", alpha, beta)
         maxv = - 2
@@ -62,16 +65,16 @@ class miniMaxAlphaBeta:
 
                                     # Tracks which jumps have been taken
                                     moveList = [[posRow, posCol]]
-
+                                    self.depth += 1
                                     # Maximises jumping (Minmising occurs inside the jumping_max)
                                     (m, max_y, max_x, pos_x, pos_y) = self.jumping_max(
                                         posRow, posCol, moveList, alpha, beta)
                                     print("jumping max returned", m)
-
+                                    self.depth -= 1
 
                                     # If the value returned was not null (a move was possible)
                                     if (m != None):
-                                        
+
                                         # Checks if the end position is greater then current max value setting accordingly
                                         if m > maxv:
                                             maxv = m
@@ -102,11 +105,12 @@ class miniMaxAlphaBeta:
                                         currentValue = self.evaluator.evaluatePosition(
                                             self.gameBoard.player, self.gameBoard)
                                         self.gameBoard.next_Player()
+                                        self.depth += 1
                                         # Call min
                                         (m, max_y, max_x, pos_x,
                                          pos_y) = self.min(alpha, beta)
                                         print("min returned", m)
-
+                                        self.depth -= 1
                                         if (m != None):
                                             if m > maxv:
                                                 maxv = m
@@ -144,6 +148,8 @@ class miniMaxAlphaBeta:
     # maximises the jumping cycle
     def jumping_max(self, posRow, posCol, moveList, alpha, beta):
         print("Jumping Max", alpha, beta)
+        if (self.depth > 3):
+            return (8, None, None, None, None)
 
         maxv = -2
         mx = None
@@ -162,7 +168,6 @@ class miniMaxAlphaBeta:
             elif (result > 1):
                 print("end 0")
                 return (0, 0, 0, 0, 0)
-
 
         # gets value before move
         currentValue = self.evaluator.evaluatePosition(
@@ -190,9 +195,12 @@ class miniMaxAlphaBeta:
                             self.gameBoard.player, self.gameBoard)
 
                         validMove = True
+                        self.depth += 1
 
                         (m, max_i, max_j, pos_x, pos_y) = self.jumping_max(
                             tempRow, tempCol, moveList, alpha, beta)
+                        self.depth -= 1
+
                         if (m != None):
                             if m > maxv:
                                 maxv = m
@@ -213,7 +221,11 @@ class miniMaxAlphaBeta:
 
                         # Swap to next player and evaluate postion regardless if m returned was None
                         self.gameBoard.next_Player()
+                        self.depth += 1
+
                         (m, min_i, min_j, pos_x, pos_y) = self.min(alpha, beta)
+                        self.depth -= 1
+
                         if (m != None):
                             if m > maxv:
                                 maxv = m
@@ -241,12 +253,14 @@ class miniMaxAlphaBeta:
         if (not (validMove)):
            # Swap back to current player
             self.gameBoard.player = currentPlayer
-            maxv=8
-            
+            maxv = 8
+
         print("returning from jumping max with :", maxv, my, mx, px, py)
         return (maxv, my, mx, px, py)
 
     def min(self, alpha, beta):
+        if (self.depth > 3):
+            return (8, None, None, None, None)
         print("Min", alpha, beta)
 
         # possible values
@@ -267,7 +281,6 @@ class miniMaxAlphaBeta:
             elif (result > 1):
                 print("end 0")
                 return (0, 0, 0, 0, 0)
-
 
         currentValue = self.evaluator.evaluatePosition(
             self.gameBoard.player, self.gameBoard)
@@ -294,13 +307,15 @@ class miniMaxAlphaBeta:
                                     moveList = [[posRow, posCol]]
                                     print("Caling jumping min with beta=", beta)
                                     # Minimizes jumping (Minmising occurs inside the jumping_min)
+                                    self.depth += 1
+
                                     (m, min_y, min_x, pos_x, pos_y) = self.jumping_min(
                                         posRow, posCol, moveList, alpha, beta)
-                                    
-                                    
+                                    self.depth -= 1
+
                                     if (m != None):
-                                        print("m:",m,"minv:",minv)
-                                        print(posCol,posRow)
+                                        print("m:", m, "minv:", minv)
+                                        print(posCol, posRow)
                                         # Checks if we have a better move and set it
                                         if m < minv:
                                             minv = m
@@ -330,8 +345,12 @@ class miniMaxAlphaBeta:
                                         self.gameBoard.next_Player()
                                         # Maximise if it's the max players turn otherwise minimize again
                                         if (self.gameBoard.player != self.maxPlayer):
+                                            self.depth += 1
+
                                             (m, max_y, max_x, pos_x,
                                              pos_y) = self.min(alpha, beta)
+                                            self.depth -= 1
+
                                             if (m != None):
                                                 if m < minv:
                                                     print("m:", m)
@@ -363,8 +382,12 @@ class miniMaxAlphaBeta:
                                         else:
                                             print(
                                                 "caling max with alpha beta =", alpha, beta)
+                                            self.depth += 1
+
                                             (m, max_y, max_x, pos_x,
                                              pos_y) = self.max(alpha, beta)
+                                            self.depth -= 1
+
                                             if (m != None):
                                                 if m < minv:
                                                     print("m:", m)
@@ -407,6 +430,8 @@ class miniMaxAlphaBeta:
         return (minv, my, mx, px, py)
 
     def jumping_min(self, posRow, posCol, moveList, alpha, beta):
+        if (self.depth > 3):
+            return (8, None, None, None, None)
         print("Jumping Min", alpha, beta)
 
         # possible values
@@ -429,7 +454,6 @@ class miniMaxAlphaBeta:
                 print("end 0")
                 return (0, 0, 0, 0, 0)
 
-
         currentValue = self.evaluator.evaluatePosition(
             self.gameBoard.player, self.gameBoard)
 
@@ -443,7 +467,8 @@ class miniMaxAlphaBeta:
             for j in direction:
                 # Check if there is a valid jump and explore it
                 if (self.gameBoard.is_jump_valid(i, j, posRow, posCol, moveList)):
-                    print("Jump is valid for the move ",i,j,posRow,posCol,moveList)
+                    print("Jump is valid for the move ",
+                          i, j, posRow, posCol, moveList)
                     # Stores the new move position
                     moveList, tempRow, tempCol = self.gameBoard.jump(
                         i, j, posRow, posCol, moveList)
@@ -453,8 +478,11 @@ class miniMaxAlphaBeta:
                         currentValue = self.evaluator.evaluatePosition(
                             self.gameBoard.player, self.gameBoard)
                         validMove = True
+                        self.depth += 1
+
                         (m, min_i, min_j, pos_x, pos_y) = self.jumping_min(
                             tempRow, tempCol, moveList, alpha, beta)
+                        self.depth -= 1
 
                         # Valid m was returned from jumping min. Evaluate
                         if (m != None):
@@ -476,8 +504,12 @@ class miniMaxAlphaBeta:
 
                         self.gameBoard.next_Player()
                         if (self.gameBoard.player != self.maxPlayer):
+                            self.depth += 1
+
                             (m, max_y, max_x, pos_x,
                                 pos_y) = self.min(alpha, beta)
+                            self.depth -= 1
+
                             if (m != None):
                                 if m < minv:
                                     print("m:", m)
@@ -511,8 +543,12 @@ class miniMaxAlphaBeta:
                         else:
                             print(
                                 "caling max with alpha beta =", alpha, beta)
+                            self.depth += 1
+
                             (m, max_y, max_x, pos_x,
                                 pos_y) = self.max(alpha, beta)
+                            self.depth -= 1
+
                             if (m != None):
                                 if m < minv:
                                     print("m:", m)
@@ -551,6 +587,6 @@ class miniMaxAlphaBeta:
             self.gameBoard.player = currentPlayer
             # No valid move so return worst case for parent
             # minv = self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard)
-            minv=8
+            minv = 8
 
         return (minv, mx, my, px, py)

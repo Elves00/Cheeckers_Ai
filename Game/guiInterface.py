@@ -8,7 +8,7 @@ class guiInterface():
     def __init__(self):
         '''Sets up the interface'''
         self.currentBoard = board.board()
-        self.currentBoard.swap_board("small")
+        self.currentBoard.swap_board("full")
         self.evaluator = evaluation.evaluator(
             self.currentBoard, self.currentBoard.player, self.currentBoard.board)
         self.miniMax = miniMaxAlphaBeta()
@@ -87,3 +87,34 @@ class guiInterface():
         self.currentBoard = board
 
 
+x = guiInterface()
+if (x.is_player_move_valid(5, 4, 6, 3, 'R')):
+    print("Works for small board")
+x.currentBoard.display()
+# print(x.currentBoard.player)
+# print(x.currentBoard.board[3][13])
+# if (x.is_player_move_valid(4, 14, 3, 13, 'R')):
+#     print("Works for full board")
+# x.currentBoard.display()
+# if (x.is_player_move_valid(4, 14, 3, 13, 'R')):
+#     raise Exception("Doesn't work here")
+# else:
+#     print("No longer the player so returns false")
+
+# x.currentBoard.display()
+
+x.ai_move()
+x.currentBoard.display()
+
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
+x.ai_move()
+x.currentBoard.display()
