@@ -16,6 +16,7 @@
 import tkinter as tk
 from tkinter import DISABLED, font
 from board import board
+# from startAB import game
 # from tkinter import Label
 
 class ChineseCheckersBoard(tk.Tk):
@@ -83,7 +84,6 @@ class ChineseCheckersBoard(tk.Tk):
                 elif board_structure[row][col] == 'B':
                     button = tk.Button(
                         master=grid_frame,
-                        state = DISABLED,
                         text='',
                         font=font.Font(size=5, weight="bold"),
                         width=3,
