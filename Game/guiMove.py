@@ -1,20 +1,6 @@
-# root.geometry("500x500")
-# root.config(bg="#d2b48c")
-
-# # pack() makes it show
-# myLabel = Label(root, text= 'Hi Tui!', fg="brown").pack()
-# myLabel2 = Label(root, text= 'What\'s your favourite food?').pack()
-# myLabel3 = Label(root, text= 'From Gherkin').pack()
-
-# textInput = Entry(root, width=50, fg="#281e10")
-# textInput.pack()
-
 import tkinter as tk
-from tkinter import DISABLED, Button, Grid, font
+from tkinter import DISABLED, Button, font
 from board import board
-import threading
-# from startAB import game
-# from tkinter import Label
     
 
 class ChineseCheckersBoard(tk.Tk):
@@ -26,9 +12,11 @@ class ChineseCheckersBoard(tk.Tk):
         self.iconbitmap('tear-laugh.ico')
         self.gameboard = board()
         self.gameboard.swap_board("full")
+        self.gameboard.player = 'R'
         self._cells = {}
         self._create_board_display()
         self._create_board_grid()
+        self.moveList = []
    
     def _create_board_display(self):
         display_frame = tk.Frame(master=self)
@@ -50,20 +38,21 @@ class ChineseCheckersBoard(tk.Tk):
         def OnButtonClick(button):
             row, col = self._cells.get(button)
             (posRow, posCol) = self.clickedButtonPlace
-            if(self.clickedButton == button):
-                self.clickedButtonPlace = (0, 0)
-            elif(self.clickedButtonPlace == (0,0)):
-                self.clickedButton = button
-                self.clickedButtonPlace = (row,col)
-            else:
-                colour = self.clickedButton.cget('bg')
-                newMoveColour = button.cget('bg')
-                self.gameboard.swap_Piece(row,col,posRow,posCol)
-                self.gameboard.display()
-                self.clickedButton.configure(bg=newMoveColour)
-                print(self.clickedButton)
-                button.configure(bg=colour)
-                self.clickedButtonPlace = (0,0)
+            if(self.gameboard.is_move_valid(posCol-col, posRow-row, col, row)):
+                if(self.clickedButton == button):
+                    self.clickedButtonPlace = (0, 0)
+                elif(self.clickedButtonPlace == (0,0)):
+                    self.clickedButton = button
+                    self.clickedButtonPlace = (row,col)
+                else:
+                    colour = self.clickedButton.cget('bg')
+                    newMoveColour = button.cget('bg')
+                    self.gameboard.swap_Piece(row,col,posRow,posCol)
+                    self.gameboard.display()
+                    self.clickedButton.configure(bg=newMoveColour)
+                    print(self.clickedButton)
+                    button.configure(bg=colour)
+                    self.clickedButtonPlace = (0,0)
 
       
         def displayButtons():
@@ -94,7 +83,6 @@ class ChineseCheckersBoard(tk.Tk):
                     elif board_structure[row][col] == 'R':
                         button = tk.Button(
                             master=grid_frame,
-                            state = DISABLED,
                             text='',
                             font=font.Font(size=5, weight="bold"),
                             width=3,
@@ -104,6 +92,7 @@ class ChineseCheckersBoard(tk.Tk):
                     elif board_structure[row][col] == 'B':
                         button = tk.Button(
                             master=grid_frame,
+                            state = DISABLED,
                             text='',
                             font=font.Font(size=5, weight="bold"),
                             width=3,
@@ -182,7 +171,6 @@ class ChineseCheckersBoard(tk.Tk):
                         sticky="nsew",
                     )
         displayButtons()
-
 
 def main():
     board = ChineseCheckersBoard()
