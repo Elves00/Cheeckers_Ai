@@ -265,9 +265,8 @@ class TestBoard(unittest.TestCase):
                 if(playingBoard.board[i][j]!='x' and playingBoard.board[i][j]!=' '):
                     if(playingBoard.is_end_or_start_zone(i,j)):
                         endZones+=1
-                        print(i,j,playingBoard.board[i][j])
-                        
-        print("end zones total:",endZones)
+        #60 total end zone locations on a full board
+        self.assertEqual(60,endZones)
    
 
     def test_board_is_jump_valid(self):
@@ -456,8 +455,6 @@ class TestBoard(unittest.TestCase):
     def test_evaluation(self):
         x=board.board()
         y=evaluation.evaluator(x,x.player,x.mode)
-        print("evaluations:")
-        print(y.evaluatePosition(x.player,x))
 
         x.board=[['x', 'x', 'x', '.', 'x', 'x', 'x', ], 
                  ['x', 'x', '.', ' ', '.', 'x', 'x', ], 
@@ -467,59 +464,44 @@ class TestBoard(unittest.TestCase):
                  ['x', 'x', '.', ' ', 'B', 'x', 'x', ],
                  ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
 
-        print("evaluations:")
-        print(y.evaluatePosition(x.player,x))
 
         test = board.board()
         test.swap_board("full")
 
         evaluate = evaluation.evaluator(test, test.player, test.mode)
 
-        print(evaluate.evaluatePosition(test.player,test))
         #G
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
         #P
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
 
         #B
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
 
         #O
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
 
         #Y
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
 
         #R
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
 
 
         test.swap_board("small")
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
 
 if __name__ == '__main__':
     unittest.main()

@@ -449,7 +449,6 @@ class board:
         if (row > self.boardHeight-1 or row < 0 or col > self.boardWidth-1 or col < 0):
             return False
         if (self.board[row][col] != 'x'):
-            print("in bound",row,col,self.board[row][col])
             return True
         else:
             return False

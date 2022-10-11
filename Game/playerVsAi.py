@@ -11,8 +11,8 @@ class game:
         self.gameBoard = board()
         self.gameBoard.display()
         self.miniMax = miniMaxAlphaBeta()
-        self.miniMax.setGameBoard(self.gameBoard)
         self.gameBoard.swap_board("small full")
+        self.miniMax.setGameBoard(self.gameBoard)
 
     def play(self):
         while (not (self.gameBoard.is_end())):
@@ -59,7 +59,7 @@ class game:
                         # Runs jumping max with previous move list
                         (winLoss, upOrDown, leftOrRight,
                          posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, 16)
-
+                        
                         #If the AI retuned none it means there is no moves for the jumping piece without doubling back
                         if (posRow == None or posCol == None):
                             break
