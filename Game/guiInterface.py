@@ -94,7 +94,7 @@ class guiInterface():
         initalRow=posRow
         initalCol=posCol
         print("Max Returned:", winLoss, upOrDown, leftOrRight, posRow, posCol, "Player:", self.currentBoard.player)
-
+        
         # If the AI move is a jump call the ai can move again
         if (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol)):
 
@@ -132,11 +132,13 @@ class guiInterface():
 
     def ai_move_player(self,player):
         print("AI MOVE PLAYER")
-        self.miniMax.setGameBoard(self.currentBoard)
+        
         if(self.currentBoard.player!=player):
             self.currentBoard.player=player
             number=self.currentBoard.playerList.index(self.currentBoard.player)
             self.currentBoard.turn=number
+        
+        self.miniMax.setGameBoard(self.currentBoard)
 
 
         turn = self.currentBoard.turn
@@ -145,23 +147,30 @@ class guiInterface():
          posRow, posCol) = self.miniMax.max(-2, self.miniMax.maxValue+2)
         initalRow=posRow
         initalCol=posCol
+        if(self.currentBoard.player=='R'):
+            raise Exception()
         print("Max Returned:", winLoss, upOrDown, leftOrRight, posRow, posCol, "Player:", self.currentBoard.player)
 
         # If the AI move is a jump call the ai can move again
         if (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol)):
-            
+            if(self.currentBoard.player=='R'):
+                raise Exception()
             # Lets the ai jump again using peice it just moved
             moveList = []
+            # tempRow=posRow
+            # tempCol=posCol
+            print("is jump",self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol))
+            print("is end",self.currentBoard.is_end())
+            print(upOrDown, leftOrRight, posRow, posCol,moveList)
+            print("is jump valid",self.currentBoard.is_jump_valid(upOrDown, leftOrRight, posRow, posCol,moveList))
+
             while (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.currentBoard.is_end() and self.currentBoard.is_jump_valid(upOrDown, leftOrRight, posRow, posCol,moveList)):
                 self.currentBoard.display()
 
                 # Performs the first jump
                 (moveList, tempRow, tempCol) = self.currentBoard.jump(
                     upOrDown, leftOrRight, posRow, posCol, moveList)
-                #IT WAS 2 14
-                print(tempRow,tempCol)
-                input()
-
+                
                 # update game baord for mini max
                 self.miniMax.setGameBoard(self.currentBoard)
 

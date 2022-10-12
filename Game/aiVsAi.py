@@ -17,8 +17,13 @@ class game:
 
     def play(self):
         while (not (self.gameBoard.is_end())):
+                self.d+=1
                 self.gameBoard.display()
+                print(self.d)
+
                 input()
+                if(self.gameBoard.board[13][4] == '.' or self.gameBoard.board[13][5] == '.' or self.gameBoard.board[13][6] == '.' or self.gameBoard.board[13][7] == '.' or self.gameBoard.board[13][8] == '.'):
+                    raise Exception("ok")
                 #Updates the board with the players move
                 self.miniMax.setGameBoard(self.gameBoard)
                 #Start timer for evaluation
