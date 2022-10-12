@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import DISABLED, Button, font
-from board import board
 from guiInterface import guiInterface
     
 
@@ -72,9 +71,10 @@ class ChineseCheckersBoard(tk.Tk):
         def endPlayerTurn():
             self.endTurn = True
             for player in self.playerList:
-                (row1, col1, row2, col2) = self.interface.ai_move(player) 
+                (row1, col1, row2, col2) = self.interface.ai_move() 
                 swapButtons(getButton(row1, col1), getButton(row2,col2))
             self.moved = False
+            print('Player: ', player)
 
         def getButton(row, col):
             for button, coordinate in self._cells.items():
