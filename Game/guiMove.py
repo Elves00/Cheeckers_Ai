@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import DISABLED, Button, font
 from board import board
+from guiInterface import guiInterface
     
 
 class ChineseCheckersBoard(tk.Tk):
@@ -10,13 +11,13 @@ class ChineseCheckersBoard(tk.Tk):
         super().__init__()
         self.title("Chinese Checkers")
         self.iconbitmap('tear-laugh.ico')
-        self.gameboard = board()
+        self.interface = guiInterface()
+        self.gameboard = self.interface.getCurrentBoard()
         self.gameboard.swap_board("full")
         self.gameboard.player = 'R'
         self._cells = {}
         self._create_board_display()
         self._create_board_grid()
-        self.moveList = []
    
     def _create_board_display(self):
         display_frame = tk.Frame(master=self)
@@ -37,23 +38,40 @@ class ChineseCheckersBoard(tk.Tk):
         board_structure = self.gameboard.board
         def OnButtonClick(button):
             row, col = self._cells.get(button)
+            print('Current Button ' , str(row) , str(col))
             (posRow, posCol) = self.clickedButtonPlace
-            if(self.gameboard.is_move_valid(posCol-col, posRow-row, col, row)):
-                if(self.clickedButton == button):
-                    self.clickedButtonPlace = (0, 0)
-                elif(self.clickedButtonPlace == (0,0)):
-                    self.clickedButton = button
-                    self.clickedButtonPlace = (row,col)
-                else:
+            if(self.clickedButton == button):
+                self.clickedButtonPlace = (0, 0)
+            elif(self.clickedButtonPlace == (0,0)):
+                self.clickedButton = button
+                self.clickedButtonPlace = (row,col)
+            else:
+                if(self.interface.is_player_move_valid(row,col, posRow,posCol, self.gameboard.player)):
                     colour = self.clickedButton.cget('bg')
                     newMoveColour = button.cget('bg')
-                    self.gameboard.swap_Piece(row,col,posRow,posCol)
+                    self.gameboard = self.interface.getCurrentBoard()
                     self.gameboard.display()
                     self.clickedButton.configure(bg=newMoveColour)
-                    print(self.clickedButton)
                     button.configure(bg=colour)
                     self.clickedButtonPlace = (0,0)
+                    # if(wasjump):
+                    
+                    # else:
+                    # # self.interface.ai_move()    
+                else:
+                    self.clickedButtonPlace = (0, 0)
 
+        def getButton(row, col):
+            for coordinate in self._cells.items():
+                if coordinate == (row,col):
+                    
+            
+            # return Button
+#         dictionary = {'george': 16, 'amber': 19}
+# search_age = input("Provide age")
+# for name, age in dictionary.items():  # for name, age in dictionary.iteritems():  (for Python 2.x)
+#     if age == search_age:
+#         print(name)
       
         def displayButtons():
             for row in range(board_rows):
