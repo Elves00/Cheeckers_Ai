@@ -152,12 +152,15 @@ class guiInterface():
             
             # Lets the ai jump again using peice it just moved
             moveList = []
-            while (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.currentBoard.is_end()):
+            while (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.currentBoard.is_end() and self.currentBoard.is_jump_valid(upOrDown, leftOrRight, posRow, posCol,moveList)):
                 self.currentBoard.display()
 
                 # Performs the first jump
                 (moveList, tempRow, tempCol) = self.currentBoard.jump(
                     upOrDown, leftOrRight, posRow, posCol, moveList)
+                #IT WAS 2 14
+                print(tempRow,tempCol)
+                input()
 
                 # update game baord for mini max
                 self.miniMax.setGameBoard(self.currentBoard)
@@ -166,23 +169,25 @@ class guiInterface():
                 (winLoss, upOrDown, leftOrRight,
                     posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, self.miniMax.maxValue+2)
                 # If the AI retuned none it means there is no moves for the jumping piece without doubling back
+                print("ret",posRow,posCol)
+               
                 if (posRow == None or posCol == None):
-                    posRow=tempRow
-                    posCol=tempCol
-
                     break
             #If the while loop ends without hitting if we still need to reasign posRow and posCol
             posRow=tempRow
             posCol=tempCol
+            print("B ret",posRow,posCol)
         else:
             (posRow,posCol)=self.currentBoard.move(upOrDown, leftOrRight, posRow, posCol)
+            print("came here posRow,posCol:",posRow,posCol)
 
         # Hard resets the turn
         self.currentBoard.turn = turn
         self.currentBoard.next_Player()
         finalRow=posRow
         finalCol=posCol
-
+        
+        print(" C finalRow",finalRow,finalCol,initalRow,initalCol)
         return (finalRow,finalCol,initalRow,initalCol)
 
     def getCurrentBoard(self):
