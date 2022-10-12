@@ -135,3 +135,4 @@ class guiInterface():
 
     def setCurrentBoard(self, board):
         self.currentBoard = board
+

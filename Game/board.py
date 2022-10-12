@@ -19,6 +19,8 @@ class board:
         self.turn = 0
         self.boardWidth = len(self.board[0])
         self.boardHeight = len(self.board)
+        self.col = 7
+        self.row = 7
 
     def display(self):
         '''Prints the board'''
@@ -47,6 +49,8 @@ class board:
             self.turn = 0
             self.player = 'R'
             self.playerList = ['R', 'B']
+            self.col = 7
+            self.row = 7
 
         # The board and players for small two
         elif (mode == ("small two")):
@@ -58,6 +62,8 @@ class board:
             self.turn = 0
             self.player = 'R'
             self.playerList = ['R', 'B']
+            self.col = 7
+            self.row = 7
 
         # The board and players for small full
         elif (mode == ("small full")):
@@ -69,6 +75,8 @@ class board:
             self.turn = 0
             self.player = 'R'
             self.playerList = ['R', 'B']
+            self.col = 7
+            self.row = 7
         # The board and players for full
         elif (mode == ("full")):
             self.board = [
@@ -111,6 +119,8 @@ class board:
             self.boardHeight = len(self.board)
             self.turn = 0
             self.player = 'R'
+            self.col = 25
+            self.row = 17
 
     def is_current_players_piece(self, posRow, posCol):
         '''
