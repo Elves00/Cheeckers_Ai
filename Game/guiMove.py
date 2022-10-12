@@ -7,6 +7,10 @@ from guiInterface import guiInterface
 class ChineseCheckersBoard(tk.Tk):
     clickedButtonPlace = (0,0)
     clickedButton = Button
+    jumpButton = Button
+    moved = False
+    endTurn = False
+    playerList = ('G', 'P', 'B', 'O', 'Y')
     def __init__(self):
         super().__init__()
         self.title("Chinese Checkers")
@@ -36,31 +40,41 @@ class ChineseCheckersBoard(tk.Tk):
         board_rows = self.gameboard.row
         board_cols = self.gameboard.col
         board_structure = self.gameboard.board
+
         def OnButtonClick(button):
-            row, col = self._cells.get(button)
-            print('Current Button ' , str(row) , str(col))
-            (posRow, posCol) = self.clickedButtonPlace
-            if(self.clickedButton == button):
-                self.clickedButtonPlace = (0, 0)
-            elif(self.clickedButtonPlace == (0,0)):
-                self.clickedButton = button
-                self.clickedButtonPlace = (row,col)
-            else:
-                if(self.interface.is_player_move_valid(row,col, posRow,posCol, self.gameboard.player)):
-                    swapButtons(button, self.clickedButton)
-                    self.clickedButtonPlace = (0,0)
-                    if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
-                        self.interface.jump(row,col, posRow,posCol, self.gameboard.player)
-                        self.gameboard = self.interface.getCurrentBoard()
-                        self.gameboard.display()
-                    else:
-                        self.interface.move(row,col, posRow,posCol, self.gameboard.player)
-                        self.gameboard = self.interface.getCurrentBoard()
-                        self.gameboard.display()
-                        # self.interface.ai_move()    
-                else:
+            if not self.moved:
+                row, col = self._cells.get(button)
+                print('Current Button ' , str(row) , str(col))
+                (posRow, posCol) = self.clickedButtonPlace
+                if(self.clickedButton == button):
                     self.clickedButtonPlace = (0, 0)
-            print('Clicked Button: ', self.clickedButtonPlace)
+                elif(self.clickedButtonPlace == (0,0)):
+                    self.clickedButton = button
+                    self.clickedButtonPlace = (row,col)
+                else:
+                    if(self.interface.is_player_move_valid(row,col, posRow,posCol, self.gameboard.player)):
+                        swapButtons(button, self.clickedButton)
+                        self.clickedButtonPlace = (0,0)
+                        if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
+                            self.jumpButton = button
+                            self.interface.jump(row,col, posRow,posCol, self.gameboard.player)
+                            self.gameboard = self.interface.getCurrentBoard()
+                            self.gameboard.display()
+                        else:
+                            self.interface.move(row,col, posRow,posCol, self.gameboard.player)
+                            self.gameboard = self.interface.getCurrentBoard()
+                            self.gameboard.display()
+                            self.moved = True  
+                    else:
+                        self.clickedButtonPlace = (0, 0)
+                print('Clicked Button: ', self.clickedButtonPlace)
+
+        def endPlayerTurn():
+            self.endTurn = True
+            for player in self.playerList:
+                (row1, col1, row2, col2) = self.interface.ai_move(player) 
+                swapButtons(getButton(row1, col1), getButton(row2,col2))
+            self.moved = False
 
         def getButton(row, col):
             for button, coordinate in self._cells.items():
@@ -110,7 +124,6 @@ class ChineseCheckersBoard(tk.Tk):
                     elif board_structure[row][col] == 'B':
                         button = tk.Button(
                             master=grid_frame,
-                            state = DISABLED,
                             text='',
                             font=font.Font(size=5, weight="bold"),
                             width=3,
@@ -121,7 +134,6 @@ class ChineseCheckersBoard(tk.Tk):
                     elif board_structure[row][col] == 'Y':
                         button = tk.Button(
                             master=grid_frame,
-                            state = DISABLED,
                             text='',
                             font=font.Font(size=5, weight="bold"),
                             width=3,
@@ -131,7 +143,6 @@ class ChineseCheckersBoard(tk.Tk):
                     elif board_structure[row][col] == 'G':
                         button = tk.Button(
                             master=grid_frame,
-                            state = DISABLED,
                             text='',
                             font=font.Font(size=5, weight="bold"),
                             width=3,
@@ -141,7 +152,6 @@ class ChineseCheckersBoard(tk.Tk):
                     elif board_structure[row][col] == 'P':
                         button = tk.Button(
                             master=grid_frame,
-                            state = DISABLED,
                             text='',
                             font=font.Font(size=5, weight="bold"),
                             width=3,
@@ -151,24 +161,12 @@ class ChineseCheckersBoard(tk.Tk):
                     elif board_structure[row][col] == 'O':
                         button = tk.Button(
                             master=grid_frame,
-                            state = DISABLED,
                             text='',
                             font=font.Font(size=5, weight="bold"),
                             width=3,
                             height=2,
                             bg="Orange",
-                        )
-                    elif board_structure[row][col] == 'S':
-                        button = tk.Button(
-                            master=grid_frame,
-                            state = DISABLED,
-                            text='',
-                            font=font.Font(size=5, weight="bold"),
-                            width=3,
-                            height=2,
-                            bg="Brown",
-                        )
-                        
+                        )             
                     else:
                         button = tk.Button(
                             master=grid_frame,
@@ -196,7 +194,7 @@ class ChineseCheckersBoard(tk.Tk):
             width=10,
             height=3,
             bg="Purple",
-            # command=
+            command=endPlayerTurn
         ).pack()
     
 
