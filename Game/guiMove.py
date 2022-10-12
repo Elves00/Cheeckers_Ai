@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import DISABLED, Button, font
 from guiInterface import guiInterface
-    
+
 
 class ChineseCheckersBoard(tk.Tk):
-    clickedButtonPlace = (0,0)
+    clickedButtonPlace = (0, 0)
     clickedButton = Button
     jumpButton = Button
     moved = False
@@ -21,7 +21,7 @@ class ChineseCheckersBoard(tk.Tk):
         self._cells = {}
         self._create_board_display()
         self._create_board_grid()
-   
+
     def _create_board_display(self):
         display_frame = tk.Frame(master=self)
         display_frame.pack(fill=tk.X)
@@ -31,7 +31,6 @@ class ChineseCheckersBoard(tk.Tk):
             font=font.Font(size=28, weight="bold"),
         )
         self.display.pack()
-    
 
     def _create_board_grid(self):
         grid_frame = tk.Frame(master=self)
@@ -71,10 +70,13 @@ class ChineseCheckersBoard(tk.Tk):
         def endPlayerTurn():
             self.endTurn = True
             for player in self.playerList:
-                (row1, col1, row2, col2) = self.interface.ai_move() 
+                (row1, col1, row2, col2) = self.interface.ai_move_player(player) 
+                print(getButton(row1, col1))
                 swapButtons(getButton(row1, col1), getButton(row2,col2))
             self.moved = False
+            self.gameboard = self.interface.getCurrentBoard()
             print('Player: ', player)
+            self.gameboard.display()
 
         def getButton(row, col):
             for button, coordinate in self._cells.items():
@@ -95,7 +97,7 @@ class ChineseCheckersBoard(tk.Tk):
                     if board_structure[row][col] == 'x':
                         button = tk.Button(
                             master=grid_frame,
-                            state = DISABLED,
+                            state=DISABLED,
                             text='',
                             font=font.Font(size=5, weight="bold"),
                             width=3,
@@ -105,7 +107,7 @@ class ChineseCheckersBoard(tk.Tk):
                     elif board_structure[row][col] == ' ':
                         button = tk.Button(
                             master=grid_frame,
-                            state = DISABLED,
+                            state=DISABLED,
                             text='',
                             font=font.Font(size=5, weight="bold"),
                             width=3,
@@ -175,9 +177,10 @@ class ChineseCheckersBoard(tk.Tk):
                             fg="black",
                             width=3,
                             height=2,
-                            highlightbackground="lightblue",                    
+                            highlightbackground="lightblue",
                         )
-                    button.configure(command=lambda button=button: OnButtonClick(button))
+                    button.configure(
+                        command=lambda button=button: OnButtonClick(button))
                     self._cells[button] = (row, col)
                     button.grid(
                         row=row,
@@ -201,6 +204,7 @@ class ChineseCheckersBoard(tk.Tk):
 def main():
     board = ChineseCheckersBoard()
     board.mainloop()
+
 
 if __name__ == "__main__":
     main()
