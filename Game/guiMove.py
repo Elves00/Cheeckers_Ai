@@ -47,32 +47,32 @@ class ChineseCheckersBoard(tk.Tk):
                 self.clickedButtonPlace = (row,col)
             else:
                 if(self.interface.is_player_move_valid(row,col, posRow,posCol, self.gameboard.player)):
-                    colour = self.clickedButton.cget('bg')
-                    newMoveColour = button.cget('bg')
-                    self.gameboard = self.interface.getCurrentBoard()
-                    self.gameboard.display()
-                    self.clickedButton.configure(bg=newMoveColour)
-                    button.configure(bg=colour)
+                    swapButtons(button, self.clickedButton)
                     self.clickedButtonPlace = (0,0)
-                    # if(wasjump):
-                    
-                    # else:
-                    # # self.interface.ai_move()    
+                    if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
+                        self.interface.jump(row,col, posRow,posCol, self.gameboard.player)
+                        self.gameboard = self.interface.getCurrentBoard()
+                        self.gameboard.display()
+                    else:
+                        self.interface.move(row,col, posRow,posCol, self.gameboard.player)
+                        self.gameboard = self.interface.getCurrentBoard()
+                        self.gameboard.display()
+                        # self.interface.ai_move()    
                 else:
                     self.clickedButtonPlace = (0, 0)
+            print('Clicked Button: ', self.clickedButtonPlace)
 
         def getButton(row, col):
-            for coordinate in self._cells.items():
+            for button, coordinate in self._cells.items():
                 if coordinate == (row,col):
-                    
-            
-            # return Button
-#         dictionary = {'george': 16, 'amber': 19}
-# search_age = input("Provide age")
-# for name, age in dictionary.items():  # for name, age in dictionary.iteritems():  (for Python 2.x)
-#     if age == search_age:
-#         print(name)
-      
+                    return button
+
+        def swapButtons(button1, button2):
+            colour1 = button1.cget('bg')
+            colour2 = button2.cget('bg')  
+            button1.configure(bg=colour2)
+            button2.configure(bg=colour1)
+              
         def displayButtons():
             for row in range(board_rows):
                 self.rowconfigure(row, weight=1, minsize=25)
@@ -189,6 +189,16 @@ class ChineseCheckersBoard(tk.Tk):
                         sticky="nsew",
                     )
         displayButtons()
+        endButton = tk.Button(
+            master=self,
+            text='END TURN',
+            font=font.Font(size=10, weight="bold"),
+            width=10,
+            height=3,
+            bg="Purple",
+            # command=
+        ).pack()
+    
 
 def main():
     board = ChineseCheckersBoard()
