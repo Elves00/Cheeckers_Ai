@@ -138,6 +138,7 @@ class evaluator():
                 for j in range(0, self.board.boardWidth):
                     if (self.board.board[i][j] == self.player):
                         value += 6 - i
+        
         return value
 
     def evaluateFull(self):
