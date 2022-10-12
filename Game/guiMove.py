@@ -72,6 +72,7 @@ class ChineseCheckersBoard(tk.Tk):
             for player in self.playerList:
                 (row1, col1, row2, col2) = self.interface.ai_move_player(player) 
                 print(getButton(row1, col1))
+                print("Swapping: ",(row1, col1), (row2, col2) )
                 swapButtons(getButton(row1, col1), getButton(row2,col2))
             self.moved = False
             self.gameboard = self.interface.getCurrentBoard()
@@ -84,6 +85,7 @@ class ChineseCheckersBoard(tk.Tk):
                     return button
 
         def swapButtons(button1, button2):
+            print(button1, button2)
             colour1 = button1.cget('bg')
             colour2 = button2.cget('bg')  
             button1.configure(bg=colour2)
