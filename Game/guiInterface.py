@@ -130,6 +130,105 @@ class guiInterface():
         finalCol=posCol
         return (finalRow,finalCol,initalRow,initalCol)
 
+    def ai_move_player(self,player):
+
+        self.miniMax.setGameBoard(self.currentBoard)
+        if(self.currentBoard.player!=player):
+            self.currentBoard.player=player
+            number=self.currentBoard.playerList.index(self.currentBoard.player)
+            self.currentBoard.turn=number
+
+
+        turn = self.currentBoard.turn
+
+        (winLoss, upOrDown, leftOrRight,
+         posRow, posCol) = self.miniMax.max(-2, self.miniMax.maxValue+2)
+        initalRow=posRow
+        initalCol=posCol
+        print("Max Returned:", winLoss, upOrDown, leftOrRight, posRow, posCol, "Player:", self.currentBoard.player)
+
+        # If the AI move is a jump call the ai can move again
+        if (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol)):
+
+            # Lets the ai jump again using peice it just moved
+            moveList = []
+            while (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.currentBoard.is_end()):
+                self.currentBoard.display()
+                print(leftOrRight, upOrDown, posRow, posCol)
+                input()
+
+                # Performs the first jump
+                (moveList, tempRow, tempCol) = self.currentBoard.jump(
+                    upOrDown, leftOrRight, posRow, posCol, moveList)
+
+                # update game baord for mini max
+                self.miniMax.setGameBoard(self.currentBoard)
+
+                # Runs jumping max with previous move list
+                (winLoss, upOrDown, leftOrRight,
+                    posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, self.miniMax.maxValue+2)
+                # If the AI retuned none it means there is no moves for the jumping piece without doubling back
+                if (posRow == None or posCol == None):
+                    posRow=tempRow
+                    posCol=tempCol
+                    break
+        else:
+            (posRow,posCol)=self.currentBoard.move(upOrDown, leftOrRight, posRow, posCol)
+
+        # Hard resets the turn
+        self.currentBoard.turn = turn
+        self.currentBoard.next_Player()
+        finalRow=posRow
+        finalCol=posCol
+        return (finalRow,finalCol,initalRow,initalCol)
+
+    def ai_move(self):
+
+        self.miniMax.setGameBoard(self.currentBoard)
+
+        turn = self.currentBoard.turn
+
+        (winLoss, upOrDown, leftOrRight,
+            posRow, posCol) = self.miniMax.max(-2, self.miniMax.maxValue+2)
+        initalRow=posRow
+        initalCol=posCol
+        print("Max Returned:", winLoss, upOrDown, leftOrRight, posRow, posCol, "Player:", self.currentBoard.player)
+
+        # If the AI move is a jump call the ai can move again
+        if (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol)):
+
+            # Lets the ai jump again using peice it just moved
+            moveList = []
+            while (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.currentBoard.is_end()):
+                self.currentBoard.display()
+                print(leftOrRight, upOrDown, posRow, posCol)
+                input()
+
+                # Performs the first jump
+                (moveList, tempRow, tempCol) = self.currentBoard.jump(
+                    upOrDown, leftOrRight, posRow, posCol, moveList)
+
+                # update game baord for mini max
+                self.miniMax.setGameBoard(self.currentBoard)
+
+                # Runs jumping max with previous move list
+                (winLoss, upOrDown, leftOrRight,
+                    posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, self.miniMax.maxValue+2)
+                # If the AI retuned none it means there is no moves for the jumping piece without doubling back
+                if (posRow == None or posCol == None):
+                    posRow=tempRow
+                    posCol=tempCol
+                    break
+        else:
+            (posRow,posCol)=self.currentBoard.move(upOrDown, leftOrRight, posRow, posCol)
+
+        # Hard resets the turn
+        self.currentBoard.turn = turn
+        self.currentBoard.next_Player()
+        finalRow=posRow
+        finalCol=posCol
+        return (finalRow,finalCol,initalRow,initalCol)
+
     def getCurrentBoard(self):
         return self.currentBoard
 
