@@ -70,12 +70,13 @@ class ChineseCheckersBoard(tk.Tk):
         def endPlayerTurn():
             self.endTurn = True
             for player in self.playerList:
-                (row1, col1, row2, col2) = self.interface.ai_move_player(player) 
-                print(getButton(row1, col1))
-                print("Swapping: ",(row1, col1), (row2, col2) )
-                swapButtons(getButton(row1, col1), getButton(row2,col2))
-            self.moved = False
+                (finalRow,finalCol,initalRow,initalCol) = self.interface.ai_move_player(player) 
+                print(getButton(finalRow, finalCol))
+                print("Swapping: ",(finalRow, finalCol), (initalRow,initalCol) )
+                swapButtons(getButton(finalRow, finalCol), getButton(initalRow,initalCol))
+            
             self.gameboard = self.interface.getCurrentBoard()
+            self.moved = False
             print('Player: ', player)
             self.gameboard.display()
 

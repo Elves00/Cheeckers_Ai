@@ -11,13 +11,14 @@ class game:
         self.gameBoard = board()
         self.gameBoard.display()
         self.miniMax = miniMaxAlphaBeta()
-        self.gameBoard.swap_board("small full")
+        self.gameBoard.swap_board("full")
         self.miniMax.setGameBoard(self.gameBoard)
         self.d=0
 
     def play(self):
         while (not (self.gameBoard.is_end())):
                 self.gameBoard.display()
+                input()
                 #Updates the board with the players move
                 self.miniMax.setGameBoard(self.gameBoard)
                 #Start timer for evaluation
