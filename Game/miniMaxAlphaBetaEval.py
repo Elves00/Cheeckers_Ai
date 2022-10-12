@@ -31,7 +31,9 @@ class miniMaxAlphaBeta:
         if (self.depth > 3):
 
             evaluation = int(self.evaluator.evaluatePosition(
-                self.gameBoard.player, self.gameBoard)/self.maxValue)
+                self.gameBoard.player, self.gameBoard))
+            if(evaluation ==0 ):
+                raise Exception("0 error from mini max")
             return (evaluation, None, None, None, None)
 
         print("Max", alpha, beta)
@@ -46,13 +48,9 @@ class miniMaxAlphaBeta:
         if (result != None):
             # Player 1 wins
             if (result == 1):
-                print("end 16")
-
                 return (self.maxValue, 0, 0, 0, 0)
             # The other player wins
             elif (result > 1):
-                print("end 0")
-
                 return (0, 0, 0, 0, 0)
 
         currentValue = self.evaluator.evaluatePosition(
@@ -209,6 +207,7 @@ class miniMaxAlphaBeta:
 
                                         # remove move from list after checking
                                         moveList.remove([posRow, posCol])
+                                        break
 
                                     else:
                                         # Check current position value
@@ -227,9 +226,12 @@ class miniMaxAlphaBeta:
                                         # remove move
                                         self.gameBoard.swap_Piece(
                                             tempRow, tempCol, posRow, posCol)
+                                        break
+            print("Came through here")            
 
 
         print(self.gameBoard.player, self.maxPlayer)
+        print(self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard))
 
         return (maxv, my, mx, px, py)
 
@@ -238,7 +240,7 @@ class miniMaxAlphaBeta:
         print("Jumping Max", alpha, beta)
         if (self.depth > 3):
             evaluation = int(self.evaluator.evaluatePosition(
-                self.gameBoard.player, self.gameBoard)/self.maxValue)
+                self.gameBoard.player, self.gameBoard))
             return (evaluation, None, None, None, None)
 
         maxv = -2
@@ -344,18 +346,21 @@ class miniMaxAlphaBeta:
         if (not (validMove)):
            # Swap back to current player
             self.gameBoard.player = currentPlayer
+            maxv=self.evaluator.evaluatePosition(
+                self.gameBoard.player, self.gameBoard)
 
             # maxv=self.evaluator.evaluatePosition(
             # self.gameBoard.player, self.gameBoard)
+        
 
         print("returning from jumping max with :", maxv, my, mx, px, py)
         return (maxv, my, mx, px, py)
 
     def min(self, alpha, beta):
         if (self.depth > 3):
-            evaluation = int(self.evaluator.evaluatePosition(
-                self.gameBoard.player, self.gameBoard)/self.maxValue)
-            return (16-evaluation, None, None, None, None)
+            evaluation = self.maxValue-self.evaluator.evaluatePosition(
+                self.gameBoard.player, self.gameBoard)
+            return (evaluation, None, None, None, None)
         print("Min", alpha, beta)
 
         # possible values
@@ -525,9 +530,9 @@ class miniMaxAlphaBeta:
 
     def jumping_min(self, posRow, posCol, moveList, alpha, beta):
         if (self.depth > 3):
-            evaluation = int(self.evaluator.evaluatePosition(
-                self.gameBoard.player, self.gameBoard)/self.maxValue)
-            return (16-evaluation, None, None, None, None)
+            evaluation = self.maxValue-self.evaluator.evaluatePosition(
+                self.gameBoard.player, self.gameBoard)
+            return (evaluation, None, None, None, None)
         print("Jumping Min", alpha, beta)
 
         # possible values
@@ -681,6 +686,8 @@ class miniMaxAlphaBeta:
         if (not (validMove)):
             # Swap back to current player
             self.gameBoard.player = currentPlayer
+            minv=self.evaluator.evaluatePosition(
+                self.gameBoard.player, self.gameBoard)
             # No valid move so return worst case for parent
             # minv = self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard)
             # minv=self.evaluator.evaluatePosition(

@@ -11,21 +11,21 @@ class game:
         self.gameBoard = board()
         self.gameBoard.display()
         self.miniMax = miniMaxAlphaBeta()
-        self.gameBoard.swap_board("small full")
+        self.gameBoard.swap_board("full")
         self.miniMax.setGameBoard(self.gameBoard)
 
     def play(self):
         while (not (self.gameBoard.is_end())):
-                self.gameBoard.display()
-                print("Enter to progress to next move")
                 #Updates the board with the players move
                 self.miniMax.setGameBoard(self.gameBoard)
                 #Start timer for evaluation
                 start=time.time()
-                
+                currentTurn=self.gameBoard.turn
+                if(self.miniMax.maxValue==0):
+                    raise Exception("0 error")
                 #Get Ai move
                 (winLoss, upOrDown, leftOrRight,
-                 posRow, posCol) = self.miniMax.max(-2, 16)
+                 posRow, posCol) = self.miniMax.max(-2,self.miniMax.maxValue+2)
                 print("Max Returned:", winLoss, upOrDown,
                       leftOrRight, posRow, posCol)
 
@@ -35,7 +35,6 @@ class game:
                     #Lets the ai jump again using peice it just moved
                     moveList = []
                     while (self.gameBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.gameBoard.is_end()):
-                        self.gameBoard.display()
                         #Performs the first jump
                         (moveList, tempRow, tempCol) = self.gameBoard.jump(
                             upOrDown, leftOrRight, posRow, posCol, moveList)
@@ -45,10 +44,10 @@ class game:
 
                         # Runs jumping max with previous move list
                         (winLoss, upOrDown, leftOrRight,
-                         posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, 16)
+                         posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2,self.miniMax.maxValue+2)
                         
                         #If the AI retuned none it means there is no moves for the jumping piece without doubling back
-                        if (posRow == None or posCol == None or winLoss != 16):
+                        if (posRow == None or posCol == None):
                             break
                 else:
                     #Perform a regular move
@@ -57,7 +56,9 @@ class game:
                 #Print ai thinking time
                 end=time.time()
                 print('Evaluation time: {}s'.format(round(end-start,7)))
+                self.gameBoard.turn=currentTurn
                 self.gameBoard.next_Player()
+        self.gameBoard.display()
 
 
 
