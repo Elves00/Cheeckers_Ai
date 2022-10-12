@@ -11,11 +11,13 @@ class game:
         self.gameBoard = board()
         self.gameBoard.display()
         self.miniMax = miniMaxAlphaBeta()
-        self.gameBoard.swap_board("full")
+        self.gameBoard.swap_board("small two")
         self.miniMax.setGameBoard(self.gameBoard)
+        self.d=0
 
     def play(self):
         while (not (self.gameBoard.is_end())):
+                self.gameBoard.display()
                 #Updates the board with the players move
                 self.miniMax.setGameBoard(self.gameBoard)
                 #Start timer for evaluation
@@ -41,7 +43,9 @@ class game:
 
                         #update game baord for mini max
                         self.miniMax.setGameBoard(self.gameBoard)
-
+                        self.gameBoard.display()
+                        print(self.gameBoard.player)
+                        
                         # Runs jumping max with previous move list
                         (winLoss, upOrDown, leftOrRight,
                          posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2,self.miniMax.maxValue+2)
