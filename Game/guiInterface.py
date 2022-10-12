@@ -1,5 +1,4 @@
 import board
-import evaluation
 from miniMaxAlphaBetaEval import miniMaxAlphaBeta
 
 
@@ -169,11 +168,14 @@ class guiInterface():
                 if (posRow == None or posCol == None):
                     posRow=tempRow
                     posCol=tempCol
+                    print('There was a NONE')
 
                     break
+                print('End of While Loop')
             #If the while loop ends without hitting if we still need to reasign posRow and posCol
             posRow=tempRow
             posCol=tempCol
+            print('Broken While', posRow, posCol)
         else:
             (posRow,posCol)=self.currentBoard.move(upOrDown, leftOrRight, posRow, posCol)
 
@@ -182,7 +184,7 @@ class guiInterface():
         self.currentBoard.next_Player()
         finalRow=posRow
         finalCol=posCol
-
+        print('Final: ' ,finalRow, finalCol)
         return (finalRow,finalCol,initalRow,initalCol)
 
     def getCurrentBoard(self):
