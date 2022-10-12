@@ -11,7 +11,7 @@ class game:
         self.gameBoard = board()
         self.gameBoard.display()
         self.miniMax = miniMaxAlphaBeta()
-        self.gameBoard.swap_board("small two")
+        self.gameBoard.swap_board("small full")
         self.miniMax.setGameBoard(self.gameBoard)
         self.d=0
 
