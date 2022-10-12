@@ -103,7 +103,6 @@ class guiInterface():
             while (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.currentBoard.is_end()):
                 self.currentBoard.display()
                 print(leftOrRight, upOrDown, posRow, posCol)
-                input()
 
                 # Performs the first jump
                 (moveList, tempRow, tempCol) = self.currentBoard.jump(
