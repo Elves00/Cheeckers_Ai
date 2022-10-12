@@ -147,8 +147,7 @@ class guiInterface():
          posRow, posCol) = self.miniMax.max(-2, self.miniMax.maxValue+2)
         initalRow=posRow
         initalCol=posCol
-        if(self.currentBoard.player=='R'):
-            raise Exception()
+      
         print("Max Returned:", winLoss, upOrDown, leftOrRight, posRow, posCol, "Player:", self.currentBoard.player)
 
         # If the AI move is a jump call the ai can move again
@@ -157,8 +156,8 @@ class guiInterface():
                 raise Exception()
             # Lets the ai jump again using peice it just moved
             moveList = []
-            # tempRow=posRow
-            # tempCol=posCol
+            tempRow=posRow
+            tempCol=posCol
             print("is jump",self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol))
             print("is end",self.currentBoard.is_end())
             print(upOrDown, leftOrRight, posRow, posCol,moveList)
