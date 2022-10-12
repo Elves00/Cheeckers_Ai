@@ -15,12 +15,38 @@ class guiInterface():
 
 
         self.moveList = []
+    
+    def move(self, endPosY, endPosX, startPosY, startPosX, player):
+        '''Performs a move'''
+        dy = startPosY-endPosY
+        dx = endPosX-startPosX
+        self.currentBoard.move(dy, dx, startPosY, startPosX)
+        self.currentBoard.next_Player()
+
+    def jump(self, endPosY, endPosX, startPosY, startPosX, player):
+        '''Performs a jump'''
+        dy = startPosY-endPosY
+        dx = endPosX-startPosX
+        (tempRow, tempCol) = self.currentBoard.jump(
+                dy, dx, startPosY, startPosX, self.moveList)
+        self.currentBoard.human_jump(tempRow, tempCol)
+        self.currentBoard.next_Player()
+
+    def is_jump(self, endPosY, endPosX, startPosY, startPosX, player):
+        '''Is the move a jump'''
+        dy = startPosY-endPosY
+        dx = endPosX-startPosX
+
+        if (self.currentBoard.is_jump_valid(dy, dx, startPosY, startPosX, self.moveList)):
+            return True
+        else:
+            return False
+
 
     def is_player_move_valid(self, endPosY, endPosX, startPosY, startPosX, player):
         '''
         Checks if a clicked player move is valid
         '''
-
         # most methods run of a direction based thing so we subtract to get direction
         # dx change in x
         # dy change in y
@@ -32,16 +58,8 @@ class guiInterface():
             return False
 
         if (self.currentBoard.is_move_valid(dy, dx, startPosY, startPosX)):
-            if (self.currentBoard.is_jump_valid(dy, dx, startPosY, startPosX, self.moveList)):
-                (moveList, tempRow, tempCol) = self.currentBoard.jump(
-                    dy, dx, startPosY, startPosX, self.moveList)
-                self.currentBoard.human_jump(tempRow, tempCol)
-                self.currentBoard.next_Player()
-                return True
-            else:
-                self.currentBoard.move(dy, dx, startPosY, startPosX)
-                self.currentBoard.next_Player()
-                return True
+
+            return True
         else:
             return False
 
