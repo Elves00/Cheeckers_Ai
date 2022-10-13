@@ -8,8 +8,7 @@ class ChineseCheckersBoard(tk.Tk):
     clickedButton = Button
     jumpButton = Button
     moved = False
-    endTurn = False
-    jumpedButton = Button
+    jumping = False
     playerList = ('G', 'P', 'B', 'O', 'Y')
     def __init__(self):
         super().__init__()
@@ -45,8 +44,37 @@ class ChineseCheckersBoard(tk.Tk):
                 row, col = self._cells.get(button)
                 print('Current Button ' , str(row) , str(col))
                 (posRow, posCol) = self.clickedButtonPlace
+                # if this is part of a series of jumps
+                if(self.jumping):
+                    print('Jumping True')
+                    if(self.jumpButton != button):
+                        posRow,posCol = self._cells.get(self.jumpButton)
+                        if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
+                            # Swaps Buttons
+                            swapButtons(button, self.jumpButton)
+                            # Unselects previous button
+                            self.jumpButton.configure(relief='raised')
+                            # Makes new button the jumping button and selects it
+                            self.jumpButton = button
+                            self.jumpButton.configure(relief='sunken')
+                            # Jumps on the board
+                            self.interface.jump(row,col, posRow,posCol, self.gameboard.player)
+                            self.gameboard = self.interface.getCurrentBoard()
+                            self.gameboard.display()
+                            # Checks if there's another jump
+                            if(self.interface.is_another_jump_possible(posRow, posCol, row, col)):
+                                print('Another Jump Possible?')
+                            else:
+                                self.moved = True 
+                        else:
+                            self.interface.move(row,col, posRow,posCol, self.gameboard.player)
+                            self.gameboard = self.interface.getCurrentBoard()
+                            self.gameboard.display()
+                            self.moved = True 
+                            self.clickedButton.configure(relief='raised') 
+
                 # if this button was already clicked, unselect it
-                if(self.clickedButton == button):
+                elif(self.clickedButton == button):
                     self.clickedButtonPlace = (0, 0)
                     self.clickedButton.configure(relief='raised') 
                     self.clickedButton = Button
@@ -61,16 +89,17 @@ class ChineseCheckersBoard(tk.Tk):
                         self.clickedButtonPlace = (0,0)
                         if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
                             self.jumpButton = button
+                            self.jumpButton.configure(relief='sunken')
                             self.interface.jump(row,col, posRow,posCol, self.gameboard.player)
                             self.gameboard = self.interface.getCurrentBoard()
                             self.gameboard.display()
                             self.clickedButton.configure(relief='raised') 
-                            button.configure(relief='sunken')
                             if(self.interface.is_another_jump_possible(posRow, posCol, row, col)):
+                                self.jumping = True
                                 print('Another Jump Possible?')
                             else:
-                                button.configure(relief='raised')
-                                self.moved = True 
+                                self.moved = True
+                                 
                         else:
                             self.interface.move(row,col, posRow,posCol, self.gameboard.player)
                             self.gameboard = self.interface.getCurrentBoard()
@@ -82,7 +111,8 @@ class ChineseCheckersBoard(tk.Tk):
                 print('Clicked Button: ', self.clickedButtonPlace)
 
         def endPlayerTurn():
-            self.endTurn = True
+            self.jumpButton.configure(relief='raised')
+            self.jumping = False
             for player in self.playerList:
                 (finalRow,finalCol,initalRow,initalCol) = self.interface.ai_move_player(player) 
                 print(getButton(finalRow, finalCol))
