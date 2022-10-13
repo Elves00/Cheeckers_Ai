@@ -168,56 +168,61 @@ class guiInterface():
 
 
         turn = self.currentBoard.turn
-
+        self.miniMax.gameBoard.display()
+        print(self.miniMax.gameBoard.player)
         (winLoss, upOrDown, leftOrRight,
          posRow, posCol) = self.miniMax.max(-2, self.miniMax.maxValue+2)
         initalRow=posRow
         initalCol=posCol
-        print(player)
-        print("Max Returned:", winLoss, upOrDown, leftOrRight, posRow, posCol, "Player:", self.currentBoard.player)
 
+        print("Max Returned:", winLoss, upOrDown, leftOrRight, posRow, posCol, "Player:", self.currentBoard.player)
         # If the AI move is a jump call the ai can move again
         if (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol)):
-            if(self.currentBoard.player=='R'):
-                raise Exception()
+          
             # Lets the ai jump again using peice it just moved
             moveList = []
-            tempRow=posRow
-            tempCol=posCol
-
-            while (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.currentBoard.is_end() and self.currentBoard.is_jump_valid(upOrDown, leftOrRight, posRow, posCol,moveList)):
-                self.currentBoard.display()
-
-                # Performs the first jump
+            a=[]
+            move=[]
+            #How can we tell if the jump was cause by a random movement or not
+            while (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.currentBoard.is_end()):
+                # print("The jump",upOrDown, leftOrRight, posRow, posCol, moveList)
                 (moveList, tempRow, tempCol) = self.currentBoard.jump(
                     upOrDown, leftOrRight, posRow, posCol, moveList)
-                
-                # update game baord for mini max
+                move.append(tempRow)
+                move.append(tempCol)
+                a.append(move)
+                move=[]
+                # print(a)
+                # print("move List",moveList)
+                #update game baord for mini max
                 self.miniMax.setGameBoard(self.currentBoard)
-
                 # Runs jumping max with previous move list
                 (winLoss, upOrDown, leftOrRight,
-                    posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, moveList, -2, self.miniMax.maxValue+2)
-                # If the AI retuned none it means there is no moves for the jumping piece without doubling back
-                print("ret",posRow,posCol)
-               
-                if (posRow == None or posCol == None):
+                posRow, posCol) = self.miniMax.jumping_max(tempRow, tempCol, [], -2,self.miniMax.maxValue+2)
+                
+                #If the AI retuned none it means there is no moves for the jumping piece without doubling back
+                if (posRow == None or posCol == None or winLoss):
                     break
-                print('End of While Loop')
+                
             #If the while loop ends without hitting if we still need to reasign posRow and posCol
-            posRow=tempRow
-            posCol=tempCol
-            print("B ret",posRow,posCol)
+            finalRow=tempRow
+            finalCol=tempCol
+            # print("B ret",posRow,posCol)
+            # print(a)
         else:
             (posRow,posCol)=self.currentBoard.move(upOrDown, leftOrRight, posRow, posCol)
-            print("came here posRow,posCol:",posRow,posCol)
+            # print("came here posRow,posCol:",posRow,posCol)
+            finalRow=posRow
+            finalCol=posCol
 
         # Hard resets the turn
         self.currentBoard.turn = turn
         self.currentBoard.next_Player()
-        finalRow=posRow
-        finalCol=posCol
         
+        if(finalRow==initalRow and finalCol==initalCol):
+            finalRow=a[0][0]
+            finalCol=a[0][1]
+            # raise Exception()
         print(" C finalRow",finalRow,finalCol,initalRow,initalCol)
         return (finalRow,finalCol,initalRow,initalCol)
 

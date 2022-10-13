@@ -287,6 +287,7 @@ class TestBoard(unittest.TestCase):
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', 'R', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
 
         x.next_Player()
+        
         # Able to jump into end zone
         self.assertTrue(x.is_jump_valid(1, -1, 2, 5, [[2, 5]]))
 
@@ -486,7 +487,7 @@ class TestBoard(unittest.TestCase):
         self.assertFalse(x.is_jump_valid(0,-1,3,9,moveList))
         self.assertFalse(x.is_jump_valid(-1,-1,3,11,moveList))
         self.assertFalse(x.is_jump_valid(-1,-1,13,11,moveList))
-        print("False")
+        x.player='B'
         self.assertFalse(x.is_move_valid(-1,-1,13,11))
 
 
