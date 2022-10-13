@@ -50,6 +50,7 @@ class ChineseCheckersBoard(tk.Tk):
                     if(self.jumpButton != button):
                         posRow,posCol = self._cells.get(self.jumpButton)
                         if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
+                            print('Swapping Jump Buttons')
                             # Swaps Buttons
                             swapButtons(button, self.jumpButton)
                             # Unselects previous button
@@ -88,6 +89,7 @@ class ChineseCheckersBoard(tk.Tk):
                         swapButtons(button, self.clickedButton)
                         self.clickedButtonPlace = (0,0)
                         if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
+                            print('First Jump of Turn')
                             currentPlayer=self.gameboard.player
                             self.jumpButton = button
                             self.jumpButton.configure(relief='sunken')
@@ -102,6 +104,7 @@ class ChineseCheckersBoard(tk.Tk):
                                  
                         else:
                             self.interface.move(row,col, posRow,posCol, self.gameboard.player)
+                            print('Moving in GUI')
                             self.gameboard = self.interface.getCurrentBoard()
                             self.gameboard.display()
                             self.moved = True 
@@ -111,7 +114,8 @@ class ChineseCheckersBoard(tk.Tk):
                 print('Clicked Button: ', self.clickedButtonPlace)
 
         def endPlayerTurn():
-            self.jumpButton.configure(relief='raised')
+            if (self.jumpButton != Button):
+                self.jumpButton.configure(relief='raised')
             self.jumping = False
             for player in self.playerList:
                 (finalRow,finalCol,initalRow,initalCol) = self.interface.ai_move_player(player) 
