@@ -33,7 +33,7 @@ class miniMaxAlphaBeta:
         #print("Max", alpha, beta)
         #Depth limit prevents searching to long
         if (self.depth > 3):
-            return (-2,None,None,None,None)
+            return (self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard),None,None,None,None)
 
         #Set values to be returned to default. Max is set to minimum possible value
         #mx my: movment of a piece px py position of a piece
@@ -176,6 +176,7 @@ class miniMaxAlphaBeta:
         if (not (validMove)):
             # Swap back to current player
             self.gameBoard.player = currentPlayer
+            maxv= self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
 
         #In the case that there was a valid move however no valid moves where deemed as increasing the position we still need to move a piece
         # This section takes a random valid move and executes it even if it wasn't the best        
@@ -219,7 +220,7 @@ class miniMaxAlphaBeta:
                                         self.gameBoard.swap_Piece(tempRow, tempCol, posRow, posCol)
                                         # remove move from list after checking
                                         moveList.remove([posRow, posCol])
-                                        break
+                                        return (maxv, my, mx, py ,px)
 
                                     else:
                                         # Check current position value
@@ -238,7 +239,7 @@ class miniMaxAlphaBeta:
                                         # remove move
                                         self.gameBoard.swap_Piece(
                                             tempRow, tempCol, posRow, posCol)
-                                        break
+                                        return (maxv, my, mx, py ,px)
 
         
         #Finally return the value movement and positon of the maximum move
@@ -351,6 +352,7 @@ class miniMaxAlphaBeta:
         if (not (validMove)):
            # Swap back to current player
             self.gameBoard.player = currentPlayer
+            maxv=self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
  
 
             # maxv=self.evaluator.evaluatePosition(
@@ -362,7 +364,7 @@ class miniMaxAlphaBeta:
 
     def min(self, alpha, beta):
         if (self.depth > 3):
-            return (self.maxValue+2,None,None,None,None)
+            return (self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard),None,None,None,None)
         #print("Min", alpha, beta)
 
         # possible values
@@ -522,6 +524,9 @@ class miniMaxAlphaBeta:
             #print(self.gameBoard.player)
             # Swap back to current player
             self.gameBoard.player = currentPlayer
+            minv= self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
+
+            
             # No valid move so return worst case for parent
             # There where no valid moves so the current move is deemed as one better then not moving
         return (minv, my, mx, py ,px)
@@ -677,6 +682,7 @@ class miniMaxAlphaBeta:
         if (not (validMove)):
             # Swap back to current player
             self.gameBoard.player = currentPlayer
+            minv= self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
 
             # No valid move so return worst case for parent
             # minv = self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard)

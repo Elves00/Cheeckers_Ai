@@ -15,6 +15,19 @@ class guiInterface():
 
         self.moveList = []
 
+    def is_another_jump_possible(self,oldRow,oldCol,posRow,posCol):
+        anotherJump=False
+        moveList=[[oldRow,oldCol]]
+        direction = [1, 0, -1]
+                # cycle all move directions
+        for i in direction:
+            for j in direction:
+                 if (self.gameBoard.is_move_valid(i, j, posRow, posCol)):
+                    # Check if the move being attempted is a jump
+                    if (self.gameBoard.is_jump_valid(i, j, posRow, posCol,moveList)):
+                        validMove = True
+
+
     def move(self, endPosY, endPosX, startPosY, startPosX, player):
         '''Performs a move'''
         dy = startPosY-endPosY
@@ -40,10 +53,10 @@ class guiInterface():
         (movelist, tempRow, tempCol) = self.currentBoard.jump(
             dy, dx, startPosY, startPosX, self.moveList)
         self.currentBoard.next_Player()
-        #Returns the position the piece has moved to.
+        #Returns the position the piece has moved to and the updated move list
         return (tempRow,tempCol)
 
-    def is_jump(self, endPosY, endPosX, startPosY, startPosX, player):
+    def is_jump(self, endPosY, endPosX, startPosY, startPosX, player,):
         '''Is the move a jump'''
         dy = startPosY-endPosY
         dx = endPosX-startPosX
@@ -147,7 +160,7 @@ class guiInterface():
          posRow, posCol) = self.miniMax.max(-2, self.miniMax.maxValue+2)
         initalRow=posRow
         initalCol=posCol
-      
+        print(player)
         print("Max Returned:", winLoss, upOrDown, leftOrRight, posRow, posCol, "Player:", self.currentBoard.player)
 
         # If the AI move is a jump call the ai can move again
@@ -158,10 +171,6 @@ class guiInterface():
             moveList = []
             tempRow=posRow
             tempCol=posCol
-            print("is jump",self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol))
-            print("is end",self.currentBoard.is_end())
-            print(upOrDown, leftOrRight, posRow, posCol,moveList)
-            print("is jump valid",self.currentBoard.is_jump_valid(upOrDown, leftOrRight, posRow, posCol,moveList))
 
             while (self.currentBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.currentBoard.is_end() and self.currentBoard.is_jump_valid(upOrDown, leftOrRight, posRow, posCol,moveList)):
                 self.currentBoard.display()
