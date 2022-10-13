@@ -14,7 +14,11 @@ class guiInterface():
 
         self.moveList = []
 
-    def is_another_jump_possible(self,oldRow,oldCol,posRow,posCol):
+    def is_another_jump_possible(self,oldRow,oldCol,posRow,posCol,player):
+        if(self.currentBoard.player!=player):
+            self.currentBoard.player=player
+            number=self.currentBoard.playerList.index(self.currentBoard.player)
+            self.currentBoard.turn=number
         anotherJump=False
         moveList=[[oldRow,oldCol]]
         print('MoveList', moveList)
@@ -27,6 +31,9 @@ class guiInterface():
                     if (self.currentBoard.is_jump_valid(i, j, posRow, posCol,moveList)):
                         print('Valid Jump! ', i,j,posRow,posCol)
                         anotherJump = True
+                    else:
+                        print('Invalid move',i,j,posRow,posCol)
+        self.currentBoard.next_Player()
         return anotherJump
 
 

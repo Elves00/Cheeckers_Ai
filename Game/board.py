@@ -231,7 +231,7 @@ class board:
                     else:
                         return True
                 else:
-                    if not (self.is_clear(posRow+2, posCol+2) and not ([posRow+2, posCol+2] in (moveList))):
+                    if not (self.is_clear(posRow+2, posCol+2) and not ([posRow+2, posCol+2] in (moveList)) and  (self.is_current_players_piece(posRow+2, posCol+2))):
                         return False
                     else:
                         return True
@@ -239,16 +239,27 @@ class board:
         # moving up left
         if upOrDown > 0 and leftOrRight < 0:
             if (self.contains_piece(posRow-1, posCol-1)):
+                print("one")
+                print(posRow-1, posCol-1)
+                print(self.board[posRow-1][posCol-1])
+                print(self.player)
+                print(self.is_current_players_piece(posRow-2, posCol-2))
+                print(moveList)
                 if (self.is_end_or_start_zone(posRow-2, posCol-2)):
-                    # Check for empty spot after adjacent piece
+                    #If it's in the start zone it must be clear to swap
+                    #It must not be the current players piece
+                    #It must not be in the move list
                     if not (self.is_in_bound(posRow-2, posCol-2) and not (self.is_current_players_piece(posRow-2, posCol-2)) and not ([posRow-2, posCol-2] in (moveList))):
                         return False
                     else:
+                        print("Two")
                         return True
                 else:
                     if not (self.is_clear(posRow-2, posCol-2) and not ([posRow-2, posCol-2] in (moveList))):
                         return False
                     else:
+                        print("Three")
+
                         return True
 
         # moving up right
