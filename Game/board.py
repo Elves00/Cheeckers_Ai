@@ -195,7 +195,7 @@ class board:
     def is_jump_valid(self, upOrDown, leftOrRight, posRow, posCol, moveList):
         ''''
         Returns true if the selected piece is able to jump in the inputed direction 
-        Move list contains all previous jumps preformed by the piece
+        Move list contains all previous jumps performed by the piece
         '''
         # Check if the piece is in the end zone done
         # Check if the piece is moving out of the end zone done

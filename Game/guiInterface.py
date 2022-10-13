@@ -17,14 +17,17 @@ class guiInterface():
     def is_another_jump_possible(self,oldRow,oldCol,posRow,posCol):
         anotherJump=False
         moveList=[[oldRow,oldCol]]
+        print('MoveList', moveList)
         direction = [1, 0, -1]
                 # cycle all move directions
         for i in direction:
             for j in direction:
-                 if (self.gameBoard.is_move_valid(i, j, posRow, posCol)):
+                 if (self.currentBoard.is_move_valid(i, j, posRow, posCol)):
                     # Check if the move being attempted is a jump
-                    if (self.gameBoard.is_jump_valid(i, j, posRow, posCol,moveList)):
-                        validMove = True
+                    if (self.currentBoard.is_jump_valid(i, j, posRow, posCol,moveList)):
+                        print('Valid Jump! ', i,j,posRow,posCol)
+                        anotherJump = True
+        return anotherJump
 
 
     def move(self, endPosY, endPosX, startPosY, startPosX, player):

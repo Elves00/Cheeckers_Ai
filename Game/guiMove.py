@@ -9,6 +9,7 @@ class ChineseCheckersBoard(tk.Tk):
     jumpButton = Button
     moved = False
     endTurn = False
+    jumpedButton = Button
     playerList = ('G', 'P', 'B', 'O', 'Y')
     def __init__(self):
         super().__init__()
@@ -44,10 +45,15 @@ class ChineseCheckersBoard(tk.Tk):
                 row, col = self._cells.get(button)
                 print('Current Button ' , str(row) , str(col))
                 (posRow, posCol) = self.clickedButtonPlace
+                # if this button was already clicked, unselect it
                 if(self.clickedButton == button):
                     self.clickedButtonPlace = (0, 0)
+                    self.clickedButton.configure(relief='raised') 
+                    self.clickedButton = Button
+                # if this button is a new click, make it look selected 
                 elif(self.clickedButtonPlace == (0,0)):
                     self.clickedButton = button
+                    button.configure(relief='sunken')
                     self.clickedButtonPlace = (row,col)
                 else:
                     if(self.interface.is_player_move_valid(row,col, posRow,posCol, self.gameboard.player)):
@@ -58,11 +64,19 @@ class ChineseCheckersBoard(tk.Tk):
                             self.interface.jump(row,col, posRow,posCol, self.gameboard.player)
                             self.gameboard = self.interface.getCurrentBoard()
                             self.gameboard.display()
+                            self.clickedButton.configure(relief='raised') 
+                            button.configure(relief='sunken')
+                            if(self.interface.is_another_jump_possible(posRow, posCol, row, col)):
+                                print('Another Jump Possible?')
+                            else:
+                                button.configure(relief='raised')
+                                self.moved = True 
                         else:
                             self.interface.move(row,col, posRow,posCol, self.gameboard.player)
                             self.gameboard = self.interface.getCurrentBoard()
                             self.gameboard.display()
-                            self.moved = True  
+                            self.moved = True 
+                            self.clickedButton.configure(relief='raised') 
                     else:
                         self.clickedButtonPlace = (0, 0)
                 print('Clicked Button: ', self.clickedButtonPlace)
