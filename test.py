@@ -213,7 +213,6 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(playingBoard.is_end_or_start_zone(posRow, posCol))
 
         playingBoard.swap_board("full")
-        playingBoard.display()
 
         rows = [[0], [1], [0, 2], [1, 3]]
         for i in range(0, 4):
@@ -475,6 +474,21 @@ class TestBoard(unittest.TestCase):
                  ['x', 'x', '.', ' ', '.', 'x', 'x', ],
                  ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
         self.assertEqual(x.board,postMove)
+    def test_end_or_start_zone(self):
+        print()
+        x=board.board()
+        x.swap_board("full")
+        moveList=[]
+        self.assertFalse(x.is_end_or_start_zone(3,7))
+        self.assertFalse(x.is_end_or_start_zone(3,8))
+        self.assertTrue(x.is_end_or_start_zone(3,9))
+        self.assertFalse(x.is_jump_valid(0,-1,3,11,moveList))
+        self.assertFalse(x.is_jump_valid(0,-1,3,9,moveList))
+        self.assertFalse(x.is_jump_valid(-1,-1,3,11,moveList))
+        self.assertFalse(x.is_jump_valid(-1,-1,13,11,moveList))
+        print("False")
+        self.assertFalse(x.is_move_valid(-1,-1,13,11))
+
 
     def test_evaluation(self):
         x=board.board()
