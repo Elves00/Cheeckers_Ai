@@ -21,9 +21,6 @@ class game:
                 self.gameBoard.display()
                 print(self.d)
 
-                input()
-                if(self.gameBoard.board[13][4] == '.' or self.gameBoard.board[13][5] == '.' or self.gameBoard.board[13][6] == '.' or self.gameBoard.board[13][7] == '.' or self.gameBoard.board[13][8] == '.'):
-                    raise Exception("ok")
                 #Updates the board with the players move
                 self.miniMax.setGameBoard(self.gameBoard)
                 #Start timer for evaluation
@@ -44,6 +41,7 @@ class game:
                     moveList = []
                     while (self.gameBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.gameBoard.is_end()):
                         #Performs the first jump
+                        print(upOrDown, leftOrRight, posRow, posCol)
                         (moveList, tempRow, tempCol) = self.gameBoard.jump(
                             upOrDown, leftOrRight, posRow, posCol, moveList)
 

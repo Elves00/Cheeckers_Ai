@@ -577,6 +577,7 @@ class board:
                     if (self.is_in_bound(posRow+2, posCol-2) and not (self.is_current_players_piece(posRow+2, posCol-2))):
                         return True
                     elif (not (self.is_current_players_piece(posRow+1, posCol-1))):
+
                         return True
                     else:
                         return False
