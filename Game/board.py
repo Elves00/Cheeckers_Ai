@@ -218,7 +218,7 @@ class board:
                         return True
                 else:
                     # Check for empty spot after adjacent piece
-                    if ((not(self.is_clear(posRow+2, posCol-2))) or (not ([posRow + 2, posCol-2] in (moveList)))):
+                    if ((not(self.is_clear(posRow+2, posCol-2))) or ( ([posRow + 2, posCol-2] in (moveList)))):
                         return False
                     else:
                         return True
@@ -233,7 +233,14 @@ class board:
                     else:
                         return True
                 else:
-                    if  ((not(self.is_clear(posRow+2, posCol+2))) or (not ([posRow+2, posCol+2] in (moveList))) or (  (self.is_current_players_piece(posRow+2, posCol+2)))):
+                    if  ((not(self.is_clear(posRow+2, posCol+2))) or (([posRow+2, posCol+2] in (moveList))) or (  (self.is_current_players_piece(posRow+2, posCol+2)))):
+                        # print("D")
+                        # print(posRow+2, posCol+2,moveList)
+                        # print([posRow+2, posCol+2] in (moveList))
+                        # print(self.is_clear(posRow+2, posCol+2))
+                        # print(self.player)
+                        # print(self.is_current_players_piece(posRow+2, posCol+2))
+                        
                         return False
                     else:
                         return True
@@ -251,7 +258,7 @@ class board:
                     else:
                         return True
                 else:
-                    if  ((not(self.is_clear(posRow-2, posCol-2))) or (not ([posRow-2, posCol-2] in (moveList)))):
+                    if  ((not(self.is_clear(posRow-2, posCol-2))) or ( ([posRow-2, posCol-2] in (moveList)))):
                         return False
                     else:
                         return True
@@ -266,7 +273,7 @@ class board:
                     else:
                         return True
                 else:
-                    if  ((not(self.is_clear(posRow-2, posCol+2))) or (not ([posRow-2, posCol+2] in (moveList)))):
+                    if  ((not(self.is_clear(posRow-2, posCol+2))) or ( ([posRow-2, posCol+2] in (moveList)))):
                         return False
                     else:
                         return True
@@ -281,7 +288,7 @@ class board:
                     else:
                         return True
                 else:
-                    if  ((not(self.is_clear(posRow, posCol-4))) or (not ([posRow, posCol-4] in (moveList)))):
+                    if  ((not(self.is_clear(posRow, posCol-4))) or ( ([posRow, posCol-4] in (moveList)))):
                         return False
                     else:
                         return True
@@ -293,12 +300,12 @@ class board:
 
                 if (self.is_end_or_start_zone(posRow, posCol+4)):
                     # Check for empty spot after adjacent piece
-                    if ((not (self.is_in_bound(posRow, posCol+4))) or (not (self.is_current_players_piece(posRow, posCol+4))) or (not ([posRow, posCol-4] in (moveList)))):
+                    if ((not (self.is_in_bound(posRow, posCol+4))) or ( (self.is_current_players_piece(posRow, posCol+4))) or (not ([posRow, posCol-4] in (moveList)))):
                         return False
                     else:
                         return True
                 else:
-                    if  (not(self.is_clear(posRow, posCol+4)) or (not ([posRow, posCol+4] in (moveList)))):
+                    if  (not(self.is_clear(posRow, posCol+4)) or ( ([posRow, posCol+4] in (moveList)))):
                         return False
                     else:
                         return True

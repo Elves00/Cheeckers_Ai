@@ -69,15 +69,19 @@ class guiInterface():
         '''Is the move a jump'''
         dy = startPosY-endPosY
         dx = endPosX-startPosX
+        print(dy, dx, startPosY, startPosX, self.moveList)
 
         if (dy > 2 or dy < -2):
+            print("here")
             return False
         if (dx > 4 or dx < -4 or dx == 0 or dx == 3 or dx == -3):
+            print("There")
             return False
-
+        
         if (self.currentBoard.is_jump_valid(dy, dx, startPosY, startPosX, self.moveList)):
             return True
         else:
+            print("where")
             return False
 
     def is_player_move_valid(self, endPosY, endPosX, startPosY, startPosX, player):

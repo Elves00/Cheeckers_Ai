@@ -51,7 +51,7 @@ class ChineseCheckersBoard(tk.Tk):
                         posRow,posCol = self._cells.get(self.jumpButton)
                         if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
                             print('Swapping Jump Buttons')
-                            # Swaps Buttons
+          # Swaps Buttons
                             swapButtons(button, self.jumpButton)
                             # Unselects previous button
                             self.jumpButton.configure(relief='raised')
@@ -88,6 +88,7 @@ class ChineseCheckersBoard(tk.Tk):
                     if(self.interface.is_player_move_valid(row,col, posRow,posCol, self.gameboard.player)):
                         swapButtons(button, self.clickedButton)
                         self.clickedButtonPlace = (0,0)
+                        print("move was valid")
                         if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
                             print('First Jump of Turn')
                             currentPlayer=self.gameboard.player
