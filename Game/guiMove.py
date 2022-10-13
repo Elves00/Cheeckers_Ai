@@ -88,15 +88,15 @@ class ChineseCheckersBoard(tk.Tk):
                         swapButtons(button, self.clickedButton)
                         self.clickedButtonPlace = (0,0)
                         if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
+                            currentPlayer=self.gameboard.player
                             self.jumpButton = button
                             self.jumpButton.configure(relief='sunken')
                             self.interface.jump(row,col, posRow,posCol, self.gameboard.player)
                             self.gameboard = self.interface.getCurrentBoard()
                             self.gameboard.display()
                             self.clickedButton.configure(relief='raised') 
-                            if(self.interface.is_another_jump_possible(posRow, posCol, row, col)):
+                            if(self.interface.is_another_jump_possible(posRow, posCol, row, col,currentPlayer)):
                                 self.jumping = True
-                                print('Another Jump Possible?')
                             else:
                                 self.moved = True
                                  
