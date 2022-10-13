@@ -1,5 +1,4 @@
 import board
-import evaluation
 from miniMaxAlphaBetaEval import miniMaxAlphaBeta
 
 
@@ -15,17 +14,27 @@ class guiInterface():
 
         self.moveList = []
 
-    def is_another_jump_possible(self,oldRow,oldCol,posRow,posCol):
+    def is_another_jump_possible(self,oldRow,oldCol,posRow,posCol,player):
+        if(self.currentBoard.player!=player):
+            self.currentBoard.player=player
+            number=self.currentBoard.playerList.index(self.currentBoard.player)
+            self.currentBoard.turn=number
         anotherJump=False
         moveList=[[oldRow,oldCol]]
+        print('MoveList', moveList)
         direction = [1, 0, -1]
                 # cycle all move directions
         for i in direction:
             for j in direction:
-                 if (self.gameBoard.is_move_valid(i, j, posRow, posCol)):
+                 if (self.currentBoard.is_move_valid(i, j, posRow, posCol)):
                     # Check if the move being attempted is a jump
-                    if (self.gameBoard.is_jump_valid(i, j, posRow, posCol,moveList)):
-                        validMove = True
+                    if (self.currentBoard.is_jump_valid(i, j, posRow, posCol,moveList)):
+                        print('Valid Jump! ', i,j,posRow,posCol)
+                        anotherJump = True
+                    else:
+                        print('Invalid move',i,j,posRow,posCol)
+        self.currentBoard.next_Player()
+        return anotherJump
 
 
     def move(self, endPosY, endPosX, startPosY, startPosX, player):
@@ -190,6 +199,7 @@ class guiInterface():
                
                 if (posRow == None or posCol == None):
                     break
+                print('End of While Loop')
             #If the while loop ends without hitting if we still need to reasign posRow and posCol
             posRow=tempRow
             posCol=tempCol

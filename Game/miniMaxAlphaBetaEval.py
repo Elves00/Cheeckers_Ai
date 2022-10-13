@@ -482,7 +482,8 @@ class miniMaxAlphaBeta:
                                             # Swap back to current player
                                             self.gameBoard.player = currentPlayer
                                         else:
-                                            #print(                                                "caling max with alpha beta =", alpha, beta)
+                                            # print(
+                                            #     "caling max with alpha beta =", alpha, beta)
                                             self.depth += 1
 
                                             (m, max_y, max_x, pos_x,
