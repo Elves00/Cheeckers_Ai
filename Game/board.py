@@ -222,6 +222,7 @@ class board:
 
         # moving down right
         if upOrDown < 0 and leftOrRight > 0:
+            
             if (self.contains_piece(posRow+1, posCol+1)):
                 if (self.is_end_or_start_zone(posRow+2, posCol-2)):
                     # Check for empty spot after adjacent piece
@@ -663,7 +664,6 @@ class board:
         # moving up right
         if upOrDown > 0 and leftOrRight > 0:
             # if moving into end zone handle
-            # print(posRow-1, posCol+1)
             if (self.is_end_or_start_zone(posRow - 1, posCol + 1)):
                 if (self.contains_piece(posRow - 1, posCol + 1)):
 
