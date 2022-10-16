@@ -18,8 +18,7 @@ class game:
     def play(self):
         while (not (self.gameBoard.is_end())):
                 self.d+=1
-                self.gameBoard.display()
-                print(self.d)
+              
 
                 #Updates the board with the players move
                 self.miniMax.setGameBoard(self.gameBoard)
@@ -31,8 +30,12 @@ class game:
                 #Get Ai move
                 (winLoss, upOrDown, leftOrRight,
                  posRow, posCol) = self.miniMax.max(-2,self.miniMax.maxValue+2)
+                self.gameBoard.display()
+                print(self.d)
+                print(self.gameBoard.player)
                 print("Max Returned:", winLoss, upOrDown,
                       leftOrRight, posRow, posCol)
+                startingWinLoss=winLoss
 
                 #If the AI move is a jump call the ai can move again
                 if (self.gameBoard.is_jump(upOrDown, leftOrRight, posRow, posCol)):
@@ -47,7 +50,7 @@ class game:
 
                         #update game baord for mini max
                         self.miniMax.setGameBoard(self.gameBoard)
-                        self.gameBoard.display()
+                        # self.gameBoard.display()
                         print(self.gameBoard.player)
                         
                         # Runs jumping max with previous move list
@@ -66,6 +69,7 @@ class game:
                 print('Evaluation time: {}s'.format(round(end-start,7)))
                 self.gameBoard.turn=currentTurn
                 self.gameBoard.next_Player()
+        print(self.gameBoard.is_end())
         self.gameBoard.display()
 
 
