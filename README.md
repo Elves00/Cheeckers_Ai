@@ -9,15 +9,15 @@ Simply download the repository and run the guiMove.py file in visual studio code
 
 ## Games and features
 
-###startAB.py
+### startAB.py
 Runs a program which allows you to play a game against an AI using a mini max function with alpha beta prunning.
-###startMiniMax.py
+### startMiniMax.py
 Runs a program which allows you to play a game against an AI using a mini max function without any prunning.
-###guiMove.py
+### guiMove.py
 Runs a program which allows you to play a game against an AI using a GUI
-###aiVsAi.py
+### aiVsAi.py
 Runs a command line interface game which plays a full game using 6 AI
-###playerVsAi.py
+### playerVsAi.py
 Runs a command line interface game which allows you to play a game vs 5 AI
 
 
