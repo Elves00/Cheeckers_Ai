@@ -213,7 +213,6 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(playingBoard.is_end_or_start_zone(posRow, posCol))
 
         playingBoard.swap_board("full")
-        playingBoard.display()
 
         rows = [[0], [1], [0, 2], [1, 3]]
         for i in range(0, 4):
@@ -265,9 +264,8 @@ class TestBoard(unittest.TestCase):
                 if(playingBoard.board[i][j]!='x' and playingBoard.board[i][j]!=' '):
                     if(playingBoard.is_end_or_start_zone(i,j)):
                         endZones+=1
-                        print(i,j,playingBoard.board[i][j])
-                        
-        print("end zones total:",endZones)
+        #60 total end zone locations on a full board
+        self.assertEqual(60,endZones)
    
 
     def test_board_is_jump_valid(self):
@@ -289,6 +287,7 @@ class TestBoard(unittest.TestCase):
             '.', ' ', '.', ' ', '.', ' ', '.', ], ['x', 'R', ' ', '.', ' ', '.', 'x', ], ['x', 'x', 'R', ' ', 'R', 'x', 'x', ], ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
 
         x.next_Player()
+        
         # Able to jump into end zone
         self.assertTrue(x.is_jump_valid(1, -1, 2, 5, [[2, 5]]))
 
@@ -432,6 +431,30 @@ class TestBoard(unittest.TestCase):
         self.assertEqual('Y',x.player)
         x.next_Player()
         self.assertEqual('R',x.player)
+        x.next_Player()
+        self.assertEqual('G',x.player)
+        x.next_Player()
+        self.assertEqual('P',x.player)
+        x.next_Player()
+        self.assertEqual('B',x.player)
+        x.next_Player()
+        self.assertEqual('O',x.player)
+        x.next_Player()
+        self.assertEqual('Y',x.player)
+        x.next_Player()
+        self.assertEqual('R',x.player)
+        x.next_Player()
+        self.assertEqual('G',x.player)
+        x.next_Player()
+        self.assertEqual('P',x.player)
+        x.next_Player()
+        self.assertEqual('B',x.player)
+        x.next_Player()
+        self.assertEqual('O',x.player)
+        x.next_Player()
+        self.assertEqual('Y',x.player)
+        x.next_Player()
+        self.assertEqual('R',x.player)
 
     def test_move_piece(self):
         x=board.board()
@@ -452,12 +475,25 @@ class TestBoard(unittest.TestCase):
                  ['x', 'x', '.', ' ', '.', 'x', 'x', ],
                  ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
         self.assertEqual(x.board,postMove)
+    def test_end_or_start_zone(self):
+        print()
+        x=board.board()
+        x.swap_board("full")
+        moveList=[]
+        self.assertFalse(x.is_end_or_start_zone(3,7))
+        self.assertFalse(x.is_end_or_start_zone(3,8))
+        self.assertTrue(x.is_end_or_start_zone(3,9))
+        self.assertFalse(x.is_jump_valid(0,-1,3,11,moveList))
+        self.assertFalse(x.is_jump_valid(0,-1,3,9,moveList))
+        self.assertFalse(x.is_jump_valid(-1,-1,3,11,moveList))
+        self.assertFalse(x.is_jump_valid(-1,-1,13,11,moveList))
+        x.player='B'
+        self.assertFalse(x.is_move_valid(-1,-1,13,11))
+
 
     def test_evaluation(self):
         x=board.board()
         y=evaluation.evaluator(x,x.player,x.mode)
-        print("evaluations:")
-        print(y.evaluatePosition(x.player,x))
 
         x.board=[['x', 'x', 'x', '.', 'x', 'x', 'x', ], 
                  ['x', 'x', '.', ' ', '.', 'x', 'x', ], 
@@ -467,59 +503,110 @@ class TestBoard(unittest.TestCase):
                  ['x', 'x', '.', ' ', 'B', 'x', 'x', ],
                  ['x', 'x', 'x', 'B', 'x', 'x', 'x', ]]
 
-        print("evaluations:")
-        print(y.evaluatePosition(x.player,x))
 
         test = board.board()
         test.swap_board("full")
 
         evaluate = evaluation.evaluator(test, test.player, test.mode)
 
-        print(evaluate.evaluatePosition(test.player,test))
         #G
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
         #P
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
 
         #B
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
 
         #O
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
+
+       
+
+        test.board=[['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['Y', ' ', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', ' ', 'G'],
+            ['x', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', 'x'],
+            ['x', 'x', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', 'x', 'x'],
+            ['x', 'x', 'x', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', 'x', 'x', 'x'],
+            ['x', 'x', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', 'x', 'x'],
+            ['x', 'G', ' ', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', 'x'],
+            ['G', ' ', 'G', ' ', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', ' ', 'P'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
 
         #Y
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
+        
+        test.board=[['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['Y', ' ', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', ' ', 'G'],
+            ['x', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', 'x'],
+            ['x', 'x', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', 'x', 'x'],
+            ['x', 'x', 'x', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', 'x', 'x', 'x'],
+            ['x', 'x', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', 'x', 'x'],
+            ['x', 'G', ' ', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', 'x'],
+            ['G', ' ', 'G', ' ', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', ' ', 'P'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
+
+        #Y
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+        self.assertEqual(32,evaluate.evaluatePosition(test.player,test))
+        test.board=[['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['Y', ' ', 'Y', ' ', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', ' ', 'G'],
+            ['x', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', ' ', 'G', 'x'],
+            ['x', 'x', 'Y', ' ', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', ' ', 'G', 'x', 'x'],
+            ['x', 'x', 'x', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'G', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'Y', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', 'x', 'x', 'x'],
+            ['x', 'x', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'Y', ' ', 'P', ' ', 'P', 'x', 'x'],
+            ['x', 'G', ' ', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', 'x'],
+            ['G', ' ', 'G', ' ', 'G', ' ', 'G', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', 'P', ' ', 'P', ' ', 'P', ' ', 'P'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', ' ', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'B', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]
+
+        #Y
+        evaluate = evaluation.evaluator(test, test.player, test.mode)
+        self.assertEqual(40,evaluate.evaluatePosition(test.player,test))
 
         #R
         test.next_Player()
-        print(test.player)
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
         self.assertEqual(30,evaluate.evaluatePosition(test.player,test))
+
+
+       
 
 
         test.swap_board("small")
         evaluate = evaluation.evaluator(test, test.player, test.mode)
-        print(evaluate.evaluatePosition(test.player,test))
 
 if __name__ == '__main__':
     unittest.main()
