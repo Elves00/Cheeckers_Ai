@@ -1,10 +1,27 @@
 import board
+from evaluation import evaluator
+
 
 
 class miniMaxAlphaBeta:
 
     def setGameBoard(self, board):
         self.gameBoard = board
+        self.evaluator = evaluator(
+            self.gameBoard, self.gameBoard.player, self.gameBoard.mode)
+        self.maxPlayer = self.gameBoard.player
+        self.depth = 0
+        self.minValue = 0
+        self.maxValue = 200
+        #Reset max value based on board size
+        if (self.gameBoard.mode == "full"):
+            self.maxValue = 150
+        elif (self.gameBoard.mode == "small"):
+            self.maxValue = 6
+        elif (self.gameBoard.mode == "small two"):
+            self.maxValue = 11
+        elif (self.gameBoard.mode == "small full"):
+            self.maxValue = 16
 
     # maximiser
     def max(self, alpha, beta):
@@ -85,11 +102,12 @@ class miniMaxAlphaBeta:
 
                                 else:
                                     # Check current position value
-                                    currentValue = self.gameBoard.position_evaluator()
+                                    currentValue = self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard)
+                                   
                                     (tempRow, tempCol) = self.gameBoard.move(
                                         i, j, posRow, posCol)
                                     # Evaluate the position only if its better for R
-                                    if (self.gameBoard.position_evaluator() > currentValue):
+                                    if (self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard) > currentValue):
                                         self.gameBoard.next_Player()
 
                                         # Call min
@@ -159,14 +177,14 @@ class miniMaxAlphaBeta:
                 if (self.gameBoard.is_jump_valid(i, j, posRow, posCol, moveList)):
 
                     # gets value before move
-                    currentValue = self.gameBoard.position_evaluator()
+                    currentValue = self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard)
 
                     # Stores the new move position and moves piece
                     moveList, tempRow, tempCol = self.gameBoard.jump(
                         i, j, posRow, posCol, moveList)
 
                     # maximises for the new position if it is a greater value
-                    if (self.gameBoard.position_evaluator() > currentValue):
+                    if (self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard) > currentValue):
                         validMove = True
 
                         (m, max_i, max_j, pos_x, pos_y) = self.jumping_max(
@@ -292,13 +310,13 @@ class miniMaxAlphaBeta:
                                     moveList.remove([posRow, posCol])
 
                                 else:
-                                    currentValue = self.gameBoard.position_evaluator()
+                                    currentValue = self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard)
 
                                     (tempRow, tempCol) = self.gameBoard.move(
                                         i, j, posRow, posCol)
 
                                     # evaluate the position only if it's less then the current value
-                                    if (self.gameBoard.position_evaluator() < currentValue):
+                                    if (self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard) > currentValue):
 
                                         self.gameBoard.next_Player()
                                         (m, max_y, max_x, pos_x,
@@ -368,14 +386,14 @@ class miniMaxAlphaBeta:
                 # Check if there is a valid jump and explore it
                 if (self.gameBoard.is_jump_valid(i, j, posRow, posCol, moveList)):
 
-                    currentValue = self.gameBoard.position_evaluator()
+                    currentValue = self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard)
 
                     # Stores the new move position
                     moveList, tempRow, tempCol = self.gameBoard.jump(
                         i, j, posRow, posCol, moveList)
 
                     # maximises for the new position
-                    if (self.gameBoard.position_evaluator() < currentValue):
+                    if (self.evaluator.evaluatePosition(self.gameBoard.player,self.gameBoard) > currentValue):
                         validMove = True
                         (m, min_i, min_j, pos_x, pos_y) = self.jumping_min(
                             tempRow, tempCol, moveList, alpha, beta)

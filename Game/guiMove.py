@@ -1,3 +1,6 @@
+'''
+This class contains the game of chineese checkers with a functioning gui
+'''
 import tkinter as tk
 from tkinter import DISABLED, Button, font
 from guiInterface import guiInterface

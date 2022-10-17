@@ -1,3 +1,6 @@
+'''
+A framework for the monte carlo tree search for future implementation
+'''
 class node():
     def __init__(self, move):
         self.move = move

@@ -1,3 +1,4 @@
+'''A file containg a game class which uses a mini max algorithim with alpha beta pruning to play against a human controlled player'''
 import time
 from board import board
 from minMaxAlphaBeta import miniMaxAlphaBeta
@@ -12,7 +13,7 @@ class game:
         self.gameBoard.display()
         self.miniMax = miniMaxAlphaBeta()
         self.miniMax.setGameBoard(self.gameBoard)
-        self.gameBoard.swap_board("small full")
+        self.gameBoard.swap_board("small two")
 
     def play(self):
         while (not (self.gameBoard.is_end())):

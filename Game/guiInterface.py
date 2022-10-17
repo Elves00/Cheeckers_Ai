@@ -1,3 +1,4 @@
+'''This file contains methods for use by the guiMove class'''
 import board
 from miniMaxAlphaBetaEval import miniMaxAlphaBeta
 
