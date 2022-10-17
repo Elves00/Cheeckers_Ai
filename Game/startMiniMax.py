@@ -1,3 +1,4 @@
+'''A class to play against a ai using mini max algorithim with only a position evaluator'''
 from board import board
 from miniMax import miniMax
 

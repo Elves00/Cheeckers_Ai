@@ -1,3 +1,4 @@
+'''This method evaluates the strength of a postition for a given board and player for the game of chineese checkers'''
 from pyrsistent import v
 from evaluation import evaluator
 import random

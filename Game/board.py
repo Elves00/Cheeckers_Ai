@@ -1,4 +1,8 @@
 
+'''
+This file contains the information needed to create a board of chineese checkers
+'''
+
 # Note UP and DOWN are INVERTED but not left and right when moving things on the board using [row][col] ie row-1 moves a piece up one not down one
 from turtle import pos
 

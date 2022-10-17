@@ -1,3 +1,7 @@
+'''
+This file allows you to watch a command line game of chineese checkers played by up to 6 ai
+using a mini-max algorithim with a position evaluator and alpha beta prunning
+'''
 import time
 from board import board
 from miniMaxAlphaBetaEval import miniMaxAlphaBeta

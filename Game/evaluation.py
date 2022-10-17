@@ -1,3 +1,7 @@
+'''
+This file contains the evaluation matrixs of different players for a game of chineese checkers
+'''
+
 # from Game import board
 class evaluator():
     def __init__(self, currentBoard, currentPlayer, currentMode):
