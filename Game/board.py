@@ -391,7 +391,7 @@ class board:
             rows = [[0], [1], [0, 2], [1, 3]]
             for i in range(0, 4):
                 for j in rows[i]:
-                    if (self.board[13+i][12-j] != 'R' or self.board[13+i][12+j] != 'R'):
+                    if (self.board[16-i][12-j] != 'R' or self.board[16-i][12+j] != 'R'):
                         victory = False
                         break
             if (victory):

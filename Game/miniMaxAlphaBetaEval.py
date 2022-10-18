@@ -15,9 +15,9 @@ class miniMaxAlphaBeta:
         self.maxDepth = 4
         self.minValue = 0
         self.maxValue = 200
-        self.number=self.gameBoard.playerList.index(self.gameBoard.player)
+        self.number = self.gameBoard.playerList.index(self.gameBoard.player)
 
-        #Reset max value based on board size
+        # Reset max value based on board size
         if (self.gameBoard.mode == "full"):
             self.maxValue = 150
         elif (self.gameBoard.mode == "small"):
@@ -27,8 +27,8 @@ class miniMaxAlphaBeta:
         elif (self.gameBoard.mode == "small full"):
             self.maxValue = 16
 
-    def setMaxDepth(self,depth):
-        self.maxDepth=depth
+    def setMaxDepth(self, depth):
+        self.maxDepth = depth
 
     def max(self, alpha, beta):
         '''
@@ -36,45 +36,44 @@ class miniMaxAlphaBeta:
         Alpha and Beta used for prunning
         '''
         ##print("Max", alpha, beta)
-        #Depth limit prevents searching to long
+        # Depth limit prevents searching to long
         if (self.depth > self.maxDepth):
-            return (self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard),None,None,None,None)
+            return (self.evaluator.evaluatePosition(self.maxPlayer, self.gameBoard), None, None, None, None)
 
-        #Set values to be returned to default. Max is set to minimum possible value
-        #mx my: movment of a piece px py position of a piece
+        # Set values to be returned to default. Max is set to minimum possible value
+        # mx my: movment of a piece px py position of a piece
         maxv = - 2
         mx = None
         my = None
         px = None
         py = None
 
-        #Checks if the game has ended
+        # Checks if the game has ended
         result = self.gameBoard.is_end()
 
-        #If the game has ended as the result of a move retunr either 0 for other players winning or maxValue for current player
+        # If the game has ended as the result of a move retunr either 0 for other players winning or maxValue for current player
         if (result != None):
-            print(result)
             # Max player wins
             if (result == self.number):
                 return (self.maxValue, 0, 0, 0, 0)
             # The other player wins
-            elif (result > 1):
+            else:
                 return (0, 0, 0, 0, 0)
-        startValue=self.evaluator.evaluatePosition(
+        startValue = self.evaluator.evaluatePosition(
             self.gameBoard.player, self.gameBoard)
-        #Get the evaluated value of the current position the higher the value the better the position
+        # Get the evaluated value of the current position the higher the value the better the position
         currentValue = self.evaluator.evaluatePosition(
             self.gameBoard.player, self.gameBoard)
-        #Save the current player
+        # Save the current player
         currentPlayer = self.gameBoard.player
-        #Particulay in jumping max there may be no possible moves so this boolean tracks wether there was a valid move
+        # Particulay in jumping max there may be no possible moves so this boolean tracks wether there was a valid move
         validMove = False
 
         # if the game hasn't ended cycle through all board pieces
         for posRow in range(0, self.gameBoard.boardHeight):
             for posCol in range(0, self.gameBoard.boardWidth):
 
-                #Check moves only for the max players piece
+                # Check moves only for the max players piece
                 if (self.gameBoard.board[posRow][posCol] == self.maxPlayer):
                     # list of possible movment directions
                     direction = [-1, 0, 1]
@@ -82,38 +81,37 @@ class miniMaxAlphaBeta:
                     # Search all move directions for current piece
                     for i in direction:
                         for j in direction:
-                            #just making sure it's the right player for checking valid moves
-                            self.gameBoard.player=self.maxPlayer
+                            # just making sure it's the right player for checking valid moves
+                            self.gameBoard.player = self.maxPlayer
                             # if the move is possible investigate
                             if (self.gameBoard.is_move_valid(i, j, posRow, posCol)):
 
                                 # There was a valid move
                                 validMove = True
 
-                                # Checks wether the move was a jump or a regular move. 
+                                # Checks wether the move was a jump or a regular move.
                                 # If it was a jump we call jumping max as the players turn is semi reset as they can take aditional jumps
                                 # otherwise if its a regular move we want to just move and then minimise for the next player
                                 if (self.gameBoard.is_jump(i, j, posRow, posCol)):
 
                                     # Tracks which jumps have been taken
                                     moveList = [[posRow, posCol]]
-                                    #Increments the depth of the possible moves we are investigating
+                                    # Increments the depth of the possible moves we are investigating
                                     self.depth += 1
                                     # Maximises jumping (Minmising occurs inside the jumping_max)
                                     (m, max_y, max_x, pos_x, pos_y) = self.jumping_max(
                                         posRow, posCol, moveList, alpha, beta)
-                                    #As it exits we reduce the level of depth
+                                    # As it exits we reduce the level of depth
                                     self.depth -= 1
 
-                                    if(m>currentValue):
-                                            
+                                    if (m > currentValue):
 
                                         # If the value returned wasn't null a move was possible which increased the value of the current position so it is investigated
                                         if (m != None):
 
                                             # Checks if the jumping max returned move is better then the current stored move
                                             if m > maxv:
-                                                #Stores the variables of the move 
+                                                # Stores the variables of the move
                                                 maxv = m
                                                 my = i
                                                 mx = j
@@ -122,41 +120,42 @@ class miniMaxAlphaBeta:
 
                                             # if maxv > beta then we can prune the tree which is done by retunring (we don't look at other values)
                                             if maxv > beta:
-                                                moveList.remove([posRow, posCol])
+                                                moveList.remove(
+                                                    [posRow, posCol])
                                                 self.gameBoard.player = currentPlayer
                                                 #print("jump beta return")
 
-                                                return (maxv, my, mx, py ,px)
+                                                return (maxv, my, mx, py, px)
 
-                                            # Raises the value of alpha 
+                                            # Raises the value of alpha
                                             if maxv > alpha:
                                                 alpha = maxv
 
                                     # remove move from list after completion so it doesn't affect jumping max for next move
                                     moveList.remove([posRow, posCol])
 
-                                #The move is a regular move not a jump 
+                                # The move is a regular move not a jump
                                 else:
-                                    #Perform the move 
+                                    # Perform the move
                                     (tempRow, tempCol) = self.gameBoard.move(
                                         i, j, posRow, posCol)
-                                    
+
                                     # Evaluate the position only if the move produced a higher rated position
                                     if (self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard) > currentValue):
-                                        #save the current position as the best best value
+                                        # save the current position as the best best value
                                         currentValue = self.evaluator.evaluatePosition(
                                             self.gameBoard.player, self.gameBoard)
-                                        
-                                        #progress to the next players turn so min may be called
+
+                                        # progress to the next players turn so min may be called
                                         self.gameBoard.next_Player()
-                                        #Tree depth (recursion depth actually) increases
+                                        # Tree depth (recursion depth actually) increases
                                         self.depth += 1
-                                        #Finds the minimums best move and returns it 
+                                        # Finds the minimums best move and returns it
                                         (m, max_y, max_x, pos_x,
                                          pos_y) = self.min(alpha, beta)
                                         ##print("min returned", m)
                                         self.depth -= 1
-                                        #Evaluates the minimums best move as long as it was not None
+                                        # Evaluates the minimums best move as long as it was not None
                                         if (m != None):
                                             if m > maxv:
                                                 maxv = m
@@ -167,13 +166,12 @@ class miniMaxAlphaBeta:
 
                                             if maxv > beta:
                                                 self.gameBoard.player = currentPlayer
-                                                #If the move was better then stored beta we want to remove the move before returning so we don't double move
+                                                # If the move was better then stored beta we want to remove the move before returning so we don't double move
                                                 self.gameBoard.swap_Piece(
                                                     tempRow, tempCol, posRow, posCol)
-                                                #return the value movment and position
+                                                # return the value movment and position
                                                 #print("move beta return")
-                                                return (maxv, my, mx, py ,px)
-                                                
+                                                return (maxv, my, mx, py, px)
 
                                             if maxv > alpha:
                                                 alpha = maxv
@@ -184,21 +182,22 @@ class miniMaxAlphaBeta:
                                     # remove move so it doesn't affect checking other moves
                                     self.gameBoard.swap_Piece(
                                         tempRow, tempCol, posRow, posCol)
-        
-        #No moves where valid is not a compulsury check but helps for trouble shooting if an error pops up
+
+        # No moves where valid is not a compulsury check but helps for trouble shooting if an error pops up
         if (not (validMove)):
             # Swap back to current player
             self.gameBoard.player = currentPlayer
-            maxv= self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
+            maxv = self.evaluator.evaluatePosition(
+                self.maxPlayer, self.gameBoard)
 
-        #In the case that there was a valid move however no valid moves where deemed as increasing the position we still need to move a piece
-        # This section takes a random valid move and executes it even if it wasn't the best        
-        if(validMove and maxv<startValue):
-            rows=list(range(0, self.gameBoard.boardHeight))
-            cols=list(range(0, self.gameBoard.boardWidth))
+        # In the case that there was a valid move however no valid moves where deemed as increasing the position we still need to move a piece
+        # This section takes a random valid move and executes it even if it wasn't the best
+        if (validMove and maxv < startValue):
+            rows = list(range(0, self.gameBoard.boardHeight))
+            cols = list(range(0, self.gameBoard.boardWidth))
             random.shuffle(rows)
             random.shuffle(cols)
-            
+
             # if the game hasn't ended cycle through all possible moves in a random order
             for posRow in rows:
                 for posCol in cols:
@@ -206,79 +205,143 @@ class miniMaxAlphaBeta:
                     # It's the max players piece
                     if (self.gameBoard.board[posRow][posCol] == self.maxPlayer):
                         # prioritise jumping to the side
-                        if(self.maxPlayer=='R' or self.maxPlayer=='B'):
-                            direction = [0, 1,-1]
-                        elif(self.maxPlayer=='P' or self.maxPlayer=='Y'):
-                            #first trys to move diagonal right
-                            direction =[1,-1,0]
-                        elif(self.maxPlayer=='O' or self.maxPlayer=='G'):
-                            #first trys to move diagonal left
-                            direction =[-1,1,0]
-                        
+                        if (self.maxPlayer == 'R' or self.maxPlayer == 'B'):
+                            direction = [0, 1, -1]
+                        elif (self.maxPlayer == 'P' or self.maxPlayer == 'Y'):
+                            # first trys to move diagonal right
+                            direction = [1, -1, 0]
+                        elif (self.maxPlayer == 'O' or self.maxPlayer == 'G'):
+                            # first trys to move diagonal left
+                            direction = [-1, 1, 0]
 
                         # Search all move directions for current piece
                         for i in direction:
                             for j in direction:
-
+                                # just making sure it's the right player for checking valid moves
+                                self.gameBoard.player = self.maxPlayer
                                 # if the move is possible investigate
-                                self.gameBoard.player=self.maxPlayer
                                 if (self.gameBoard.is_move_valid(i, j, posRow, posCol)):
 
                                     # There was a valid move
                                     validMove = True
 
-                                    # Check if the move being attempted is a jump
+                                    # Checks wether the move was a jump or a regular move.
+                                    # If it was a jump we call jumping max as the players turn is semi reset as they can take aditional jumps
+                                    # otherwise if its a regular move we want to just move and then minimise for the next player
                                     if (self.gameBoard.is_jump(i, j, posRow, posCol)):
 
                                         # Tracks which jumps have been taken
                                         moveList = [[posRow, posCol]]
-
+                                        # Increments the depth of the possible moves we are investigating
                                         self.depth += 1
-                                        moveList, tempRow, tempCol = self.gameBoard.jump(i, j, posRow, posCol, moveList)
+                                        # Maximises jumping (Minmising occurs inside the jumping_max)
+                                        (m, max_y, max_x, pos_x, pos_y) = self.jumping_max(
+                                            posRow, posCol, moveList, alpha, beta)
+                                        # As it exits we reduce the level of depth
                                         self.depth -= 1
 
-                                        maxv = self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard)
-                                        my = i
-                                        mx = j
-                                        px = posCol
-                                        py = posRow
-                                        self.gameBoard.swap_Piece(tempRow, tempCol, posRow, posCol)
-                                        # remove move from list after checking
+                                        if (m >= currentValue):
+
+                                            # If the value returned wasn't null a move was possible which increased the value of the current position so it is investigated
+                                            if (m != None):
+
+                                                # Checks if the jumping max returned move is better then the current stored move
+                                                if m > maxv:
+                                                    # Stores the variables of the move
+                                                    maxv = m
+                                                    my = i
+                                                    mx = j
+                                                    px = posCol
+                                                    py = posRow
+
+                                                # if maxv > beta then we can prune the tree which is done by retunring (we don't look at other values)
+                                                if maxv > beta:
+                                                    moveList.remove(
+                                                        [posRow, posCol])
+                                                    self.gameBoard.player = currentPlayer
+                                                    #print("jump beta return")
+
+                                                    return (maxv, my, mx, py, px)
+
+                                                # Raises the value of alpha
+                                                if maxv > alpha:
+                                                    alpha = maxv
+                                        elif (py == None):
+                                            maxv = m
+                                            my = i
+                                            mx = j
+                                            px = posCol
+                                            py = posRow
+
+                                        # remove move from list after completion so it doesn't affect jumping max for next move
                                         moveList.remove([posRow, posCol])
 
-                                        return (maxv, my, mx, py ,px)
-
+                                    # The move is a regular move not a jump
                                     else:
-                                        # Check current position value
+                                        # Perform the move
                                         (tempRow, tempCol) = self.gameBoard.move(
                                             i, j, posRow, posCol)
 
-                                    
-                                        maxv = self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard)
-                                        my = i
-                                        mx = j
-                                        px = posCol
-                                        py = posRow
+                                        # Evaluate the position only if the move produced a higher rated position
+                                        if (self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard) > currentValue):
+                                            # save the current position as the best best value
+                                            currentValue = self.evaluator.evaluatePosition(
+                                                self.gameBoard.player, self.gameBoard)
 
-                                        self.gameBoard.player = currentPlayer
+                                            # progress to the next players turn so min may be called
+                                            self.gameBoard.next_Player()
+                                            # Tree depth (recursion depth actually) increases
+                                            self.depth += 1
+                                            # Finds the minimums best move and returns it
+                                            (m, max_y, max_x, pos_x,
+                                             pos_y) = self.min(alpha, beta)
+                                            ##print("min returned", m)
+                                            self.depth -= 1
+                                            # Evaluates the minimums best move as long as it was not None
+                                            if (m != None):
+                                                if m >= maxv:
+                                                    maxv = m
+                                                    my = i
+                                                    mx = j
+                                                    px = posCol
+                                                    py = posRow
 
-                                        # remove move
+                                                if maxv > beta:
+                                                    self.gameBoard.player = currentPlayer
+                                                    # If the move was better then stored beta we want to remove the move before returning so we don't double move
+                                                    self.gameBoard.swap_Piece(
+                                                        tempRow, tempCol, posRow, posCol)
+                                                    # return the value movment and position
+                                                    #print("move beta return")
+                                                    return (maxv, my, mx, py, px)
+
+                                                if maxv > alpha:
+                                                    alpha = maxv
+
+                                            # Swap back to current player
+                                            self.gameBoard.player = currentPlayer
+                                        elif (py == None):
+
+                                            maxv = self.evaluator.evaluatePosition(self.gameBoard.player, self.gameBoard)
+                                            my = i
+                                            mx = j
+                                            px = posCol
+                                            py = posRow
+
+                                        # remove move so it doesn't affect checking other moves
                                         self.gameBoard.swap_Piece(
                                             tempRow, tempCol, posRow, posCol)
 
-                                        return (maxv, my, mx, py ,px)
-
-        
-        #Finally return the value movement and positon of the maximum move
+        # Finally return the value movement and positon of the maximum move
         #print("basic return")
-        
-        return (maxv, my, mx, py ,px)
+
+        return (maxv, my, mx, py, px)
 
     # maximises the jumping cycle
     def jumping_max(self, posRow, posCol, moveList, alpha, beta):
         ##print("Jumping Max", alpha, beta)
         if (self.depth > self.maxDepth):
-            return (self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard),None,None,None,None)
+            return (self.evaluator.evaluatePosition(self.maxPlayer, self.gameBoard), None, None, None, None)
 
         maxv = -2
         mx = None
@@ -293,7 +356,7 @@ class miniMaxAlphaBeta:
             if (result == self.number):
                 return (self.maxValue, 0, 0, 0, 0)
             # The other player wins
-            elif (result > 1):
+            else:
                 return (0, 0, 0, 0, 0)
 
         # gets value before move
@@ -337,11 +400,11 @@ class miniMaxAlphaBeta:
                                 py = posRow
 
                             if maxv > beta:
-                                ##print("jumpingmaxv>beta")
+                                # print("jumpingmaxv>beta")
                                 self.gameBoard.swap_Piece(
                                     tempRow, tempCol, posRow, posCol)
 
-                                return (maxv, my, mx, py ,px)
+                                return (maxv, my, mx, py, px)
 
                             if maxv > alpha:
                                 alpha = maxv
@@ -366,9 +429,9 @@ class miniMaxAlphaBeta:
                                 self.gameBoard.player = currentPlayer
                                 self.gameBoard.swap_Piece(
                                     tempRow, tempCol, posRow, posCol)
-                                ##print("jumpingmaxv>beta")
+                                # print("jumpingmaxv>beta")
 
-                                return (maxv, my, mx, py ,px)
+                                return (maxv, my, mx, py, px)
 
                             if maxv > alpha:
                                 alpha = maxv
@@ -381,20 +444,20 @@ class miniMaxAlphaBeta:
         if (not (validMove)):
            # Swap back to current player
             self.gameBoard.player = currentPlayer
-            maxv=self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
- 
+            maxv = self.evaluator.evaluatePosition(
+                self.maxPlayer, self.gameBoard)
 
             # maxv=self.evaluator.evaluatePosition(
             # self.gameBoard.player, self.gameBoard)
-        
 
         ##print("returning from jumping max with :", maxv, my, mx, py ,px)
-        return (maxv, my, mx, py ,px)
+        return (maxv, my, mx, py, px)
 
     def min(self, alpha, beta):
         if (self.depth > self.maxDepth):
-            self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
-            return (self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard),None,None,None,None)
+            self.maxValue - \
+                self.evaluator.evaluatePosition(self.maxPlayer, self.gameBoard)
+            return (self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer, self.gameBoard), None, None, None, None)
         ##print("Min", alpha, beta)
 
         # possible values
@@ -412,7 +475,7 @@ class miniMaxAlphaBeta:
                 ##print("end 16")
                 return (self.maxValue, 0, 0, 0, 0)
             # The other player wins
-            elif (result > 1):
+            else:
                 ##print("end 0")
                 return (0, 0, 0, 0, 0)
 
@@ -460,7 +523,7 @@ class miniMaxAlphaBeta:
                                         if minv < alpha:
                                             ##print("min returned cause <= alpha")
                                             moveList.remove([posRow, posCol])
-                                            return (minv, my, mx, py ,px)
+                                            return (minv, my, mx, py, px)
 
                                         if minv < beta:
                                             beta = minv
@@ -504,7 +567,7 @@ class miniMaxAlphaBeta:
                                                         tempRow, tempCol, posRow, posCol)
                                                     ##print("minv<beta in min")
                                                     ##print(minv, my, mx, py, px)
-                                                    return (minv, my, mx, py ,px)
+                                                    return (minv, my, mx, py, px)
 
                                                 if minv < beta:
                                                     beta = minv
@@ -539,7 +602,7 @@ class miniMaxAlphaBeta:
                                                         tempRow, tempCol, posRow, posCol)
                                                     ##print("minv<beta in min")
                                                     ##print(minv, my, mx, py, px)
-                                                    return (minv, my, mx, py ,px)
+                                                    return (minv, my, mx, py, px)
 
                                                 if minv < beta:
                                                     beta = minv
@@ -552,20 +615,19 @@ class miniMaxAlphaBeta:
                                         tempRow, tempCol, posRow, posCol)
 
         if (not (validMove)):
-            ##print(self.gameBoard.player)
+            # print(self.gameBoard.player)
             # Swap back to current player
             self.gameBoard.player = currentPlayer
-            minv = self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
+            minv = self.maxValue - \
+                self.evaluator.evaluatePosition(self.maxPlayer, self.gameBoard)
 
-
-            
             # No valid move so return worst case for parent
             # There where no valid moves so the current move is deemed as one better then not moving
-        return (minv, my, mx, py ,px)
+        return (minv, my, mx, py, px)
 
     def jumping_min(self, posRow, posCol, moveList, alpha, beta):
         if (self.depth > self.maxDepth):
-            return (self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard),None,None,None,None)
+            return (self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer, self.gameBoard), None, None, None, None)
 
         ##print("Jumping Min", alpha, beta)
 
@@ -585,7 +647,7 @@ class miniMaxAlphaBeta:
                 ##print("end 16")
                 return (self.maxValue, 0, 0, 0, 0)
             # The other player wins
-            elif (result > 1):
+            else:
                 ##print("end 0")
                 return (0, 0, 0, 0, 0)
 
@@ -630,7 +692,7 @@ class miniMaxAlphaBeta:
                             if minv < alpha:
                                 self.gameBoard.swap_Piece(
                                     tempRow, tempCol, posRow, posCol)
-                                return (minv, my, mx, py ,px)
+                                return (minv, my, mx, py, px)
 
                             if minv < beta:
                                 beta = minv
@@ -658,7 +720,7 @@ class miniMaxAlphaBeta:
                                     self.gameBoard.player = currentPlayer
                                     self.gameBoard.swap_Piece(
                                         tempRow, tempCol, posRow, posCol)
-                                    return (minv, my, mx, py ,px)
+                                    return (minv, my, mx, py, px)
 
                                 if minv < beta:
                                     beta = minv
@@ -689,7 +751,7 @@ class miniMaxAlphaBeta:
                                     self.gameBoard.swap_Piece(
                                         tempRow, tempCol, posRow, posCol)
 
-                                    return (minv, my, mx, py ,px)
+                                    return (minv, my, mx, py, px)
 
                                 if minv < beta:
                                     beta = minv
@@ -702,7 +764,8 @@ class miniMaxAlphaBeta:
         if (not (validMove)):
             # Swap back to current player
             self.gameBoard.player = currentPlayer
-            minv = self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
+            minv = self.maxValue - \
+                self.evaluator.evaluatePosition(self.maxPlayer, self.gameBoard)
 
             # No valid move so return worst case for parent
         return (minv, mx, my, px, py)

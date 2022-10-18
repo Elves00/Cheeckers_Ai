@@ -39,7 +39,7 @@ class game:
                 print("Max of ",self.gameBoard.player,"Returned:", winLoss, upOrDown,
                       leftOrRight, posRow, posCol)
                 startingWinLoss=winLoss
-
+                
                 #If the AI move is a jump call the ai can move again
                 if (self.gameBoard.is_jump(upOrDown, leftOrRight, posRow, posCol)):
                     
