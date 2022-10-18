@@ -371,9 +371,9 @@ class board:
         # Game mode is small
         if (self.mode == ("small")):
             if (self.board[0][3] == 'B'):
-                return 4
-            elif (self.board[6][3] == 'R'):
                 return 1
+            elif (self.board[6][3] == 'R'):
+                return 2
         elif (self.mode == ("small two")):
             if (self.board[0][3] == 'B' and (self.board[1][2] == 'B' or self.board[1][4] == 'B')):
                 return 4
@@ -422,7 +422,7 @@ class board:
             victory = True
             for i in range(0, 4):
                 for j in rows[i]:
-                    if (self.board[i][12-i] != 'B' or self.board[i][12+i] != 'B'):
+                    if (self.board[i][12-j] != 'B' or self.board[i][12+j] != 'B'):
                         victory = False
                         break
             if (victory):
@@ -433,7 +433,6 @@ class board:
             for i in range(0, 4):
                 for j in rows[i]:
                     if (self.board[7-i][21-j] != 'O' or self.board[7-i][21+j] != 'O'):
-
                         victory = False
                         break
             if (victory):
@@ -450,9 +449,7 @@ class board:
             if (victory):
                 return 6
 
-        # if(self.board[0][3]=='B' and self.board[0][2]=='B' and self.board[0][4]=='B'):
-        #     return 2
-
+    
         return None
 
     def is_in_bound(self, row, col):

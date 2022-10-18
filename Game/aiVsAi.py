@@ -36,8 +36,7 @@ class game:
                  posRow, posCol) = self.miniMax.max(-2,self.miniMax.maxValue+2)
                 self.gameBoard.display()
                 print(self.d)
-                print(self.gameBoard.player)
-                print("Max Returned:", winLoss, upOrDown,
+                print("Max of ",self.gameBoard.player,"Returned:", winLoss, upOrDown,
                       leftOrRight, posRow, posCol)
                 startingWinLoss=winLoss
 
@@ -48,14 +47,12 @@ class game:
                     moveList = []
                     while (self.gameBoard.is_jump(upOrDown, leftOrRight, posRow, posCol) and not self.gameBoard.is_end()):
                         #Performs the first jump
-                        print(upOrDown, leftOrRight, posRow, posCol)
                         (moveList, tempRow, tempCol) = self.gameBoard.jump(
                             upOrDown, leftOrRight, posRow, posCol, moveList)
 
                         #update game baord for mini max
                         self.miniMax.setGameBoard(self.gameBoard)
                         # self.gameBoard.display()
-                        print(self.gameBoard.player)
                         
                         # Runs jumping max with previous move list
                         (winLoss, upOrDown, leftOrRight,

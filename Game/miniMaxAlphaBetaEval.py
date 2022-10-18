@@ -12,8 +12,11 @@ class miniMaxAlphaBeta:
             self.gameBoard, self.gameBoard.player, self.gameBoard.mode)
         self.maxPlayer = self.gameBoard.player
         self.depth = 0
+        self.maxDepth = 4
         self.minValue = 0
         self.maxValue = 200
+        self.number=self.gameBoard.playerList.index(self.gameBoard.player)
+
         #Reset max value based on board size
         if (self.gameBoard.mode == "full"):
             self.maxValue = 150
@@ -24,7 +27,8 @@ class miniMaxAlphaBeta:
         elif (self.gameBoard.mode == "small full"):
             self.maxValue = 16
 
-    
+    def setMaxDepth(self,depth):
+        self.maxDepth=depth
 
     def max(self, alpha, beta):
         '''
@@ -33,7 +37,7 @@ class miniMaxAlphaBeta:
         '''
         ##print("Max", alpha, beta)
         #Depth limit prevents searching to long
-        if (self.depth > 3):
+        if (self.depth > self.maxDepth):
             return (self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard),None,None,None,None)
 
         #Set values to be returned to default. Max is set to minimum possible value
@@ -49,8 +53,9 @@ class miniMaxAlphaBeta:
 
         #If the game has ended as the result of a move retunr either 0 for other players winning or maxValue for current player
         if (result != None):
+            print(result)
             # Max player wins
-            if (result == 1):
+            if (result == self.number):
                 return (self.maxValue, 0, 0, 0, 0)
             # The other player wins
             elif (result > 1):
@@ -189,7 +194,6 @@ class miniMaxAlphaBeta:
         #In the case that there was a valid move however no valid moves where deemed as increasing the position we still need to move a piece
         # This section takes a random valid move and executes it even if it wasn't the best        
         if(validMove and maxv<startValue):
-            # print("Random")
             rows=list(range(0, self.gameBoard.boardHeight))
             cols=list(range(0, self.gameBoard.boardWidth))
             random.shuffle(rows)
@@ -267,12 +271,13 @@ class miniMaxAlphaBeta:
         
         #Finally return the value movement and positon of the maximum move
         #print("basic return")
+        
         return (maxv, my, mx, py ,px)
 
     # maximises the jumping cycle
     def jumping_max(self, posRow, posCol, moveList, alpha, beta):
         ##print("Jumping Max", alpha, beta)
-        if (self.depth > 3):
+        if (self.depth > self.maxDepth):
             return (self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard),None,None,None,None)
 
         maxv = -2
@@ -285,7 +290,7 @@ class miniMaxAlphaBeta:
 
         if (result != None):
             # Player 1 wins
-            if (result == 1):
+            if (result == self.number):
                 return (self.maxValue, 0, 0, 0, 0)
             # The other player wins
             elif (result > 1):
@@ -387,7 +392,7 @@ class miniMaxAlphaBeta:
         return (maxv, my, mx, py ,px)
 
     def min(self, alpha, beta):
-        if (self.depth > 3):
+        if (self.depth > self.maxDepth):
             self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard)
             return (self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard),None,None,None,None)
         ##print("Min", alpha, beta)
@@ -403,7 +408,7 @@ class miniMaxAlphaBeta:
 
         if (result != None):
             # Player 1 wins
-            if (result == 1):
+            if (result == self.number):
                 ##print("end 16")
                 return (self.maxValue, 0, 0, 0, 0)
             # The other player wins
@@ -559,7 +564,7 @@ class miniMaxAlphaBeta:
         return (minv, my, mx, py ,px)
 
     def jumping_min(self, posRow, posCol, moveList, alpha, beta):
-        if (self.depth > 3):
+        if (self.depth > self.maxDepth):
             return (self.maxValue-self.evaluator.evaluatePosition(self.maxPlayer,self.gameBoard),None,None,None,None)
 
         ##print("Jumping Min", alpha, beta)
@@ -576,7 +581,7 @@ class miniMaxAlphaBeta:
 
         if (result != None):
             # Player 1 wins
-            if (result == 1):
+            if (result == self.number):
                 ##print("end 16")
                 return (self.maxValue, 0, 0, 0, 0)
             # The other player wins
