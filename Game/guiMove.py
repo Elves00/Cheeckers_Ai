@@ -66,7 +66,7 @@ class ChineseCheckersBoard(tk.Tk):
                             self.gameboard = self.interface.getCurrentBoard()
                             self.gameboard.display()
                             # Checks if there's another jump
-                            if(self.interface.is_another_jump_possible(posRow, posCol, row, col)):
+                            if(self.interface.is_another_jump_possible(posRow, posCol, row, col, self.gameboard.player)):
                                 print('Another Jump Possible?')
                             else:
                                 self.moved = True 
@@ -94,14 +94,14 @@ class ChineseCheckersBoard(tk.Tk):
                         print("move was valid")
                         if(self.interface.is_jump(row,col, posRow,posCol, self.gameboard.player)):
                             print('First Jump of Turn')
-                            currentPlayer=self.gameboard.player
                             self.jumpButton = button
                             self.jumpButton.configure(relief='sunken')
                             self.interface.jump(row,col, posRow,posCol, self.gameboard.player)
                             self.gameboard = self.interface.getCurrentBoard()
                             self.gameboard.display()
                             self.clickedButton.configure(relief='raised') 
-                            if(self.interface.is_another_jump_possible(posRow, posCol, row, col,currentPlayer)):
+                            if(self.interface.is_another_jump_possible(posRow, posCol, row, col,self.gameboard.player)):
+                                print('Another Jump after first Move Possible')
                                 self.jumping = True
                             else:
                                 self.moved = True

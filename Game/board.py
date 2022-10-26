@@ -207,6 +207,7 @@ class board:
         #Check the jump is in bounds
 
         if posRow == self.boardHeight-1 and upOrDown < 0 or posRow == 0 and upOrDown > 0 or posCol == self.boardWidth-1 and leftOrRight > 0 or posCol == 0 and leftOrRight < 0:
+            # print('Something with posRow')
             return False
 
         # jump down left
@@ -217,13 +218,18 @@ class board:
                 if (self.is_end_or_start_zone(posRow+2, posCol-2)):
                     # Not leaving the end zone ensure the piece is not swaping with same team piece
                     if ((not(self.is_in_bound(posRow+2, posCol-2))) or ( (self.is_current_players_piece(posRow+2, posCol-2))) or ( ([posRow + 2, posCol-2] in (moveList)))):
+                        # print('not in bound down left')
                         return False
                     else:
                         return True
                 else:
                     # Check for empty spot after adjacent piece
-                    if ((not(self.is_clear(posRow+2, posCol-2))) or ( ([posRow + 2, posCol-2] in (moveList)))):
+                    if (not(self.is_clear(posRow+2, posCol-2))):
+                        # print('Not Clear down left')
                         return False
+                    elif([posRow + 2, posCol-2] in (moveList)):
+                        # print('Not Clear down left cause moveList')
+                        return False    
                     else:
                         return True
 
@@ -233,12 +239,13 @@ class board:
                 if (self.is_end_or_start_zone(posRow+2, posCol+2)):
                     # Check for empty spot after adjacent piece
                     if ((not (self.is_in_bound(posRow+2, posCol+2))) or ( (self.is_current_players_piece(posRow+2, posCol+2))) or  (([posRow+2, posCol+2] in (moveList)))):
+                        # print('Not in bound down right')
                         return False
                     else:
                         return True
                 else:
                     if  ((not(self.is_clear(posRow+2, posCol+2))) or (([posRow+2, posCol+2] in (moveList))) ):
-                        
+                        # print('Not Clear down right')
                         return False
                     else:
                         return True
@@ -253,11 +260,13 @@ class board:
                     #It must not be the current players piece
                     #It must not be in the move list
                     if ((not (self.is_in_bound(posRow-2, posCol-2))) or ( (self.is_current_players_piece(posRow-2, posCol-2))) or ( ([posRow-2, posCol-2] in (moveList)))):
+                        # print('Not in bound up left')
                         return False
                     else:
                         return True
                 else:
                     if  ((not(self.is_clear(posRow-2, posCol-2))) or ( ([posRow-2, posCol-2] in (moveList)))):
+                        # print('Not Clear up left')
                         return False
                     else:
                         return True
@@ -268,11 +277,13 @@ class board:
                 if (self.is_end_or_start_zone(posRow-2, posCol+2)):
                     # Check for empty spot after adjacent piece
                     if ((not (self.is_in_bound(posRow-2, posCol+2))) or ( (self.is_current_players_piece(posRow-2, posCol+2))) or(  ([posRow-2, posCol+2] in (moveList)))):
+                        # print('Not in bound up right')
                         return False
                     else:
                         return True
                 else:
                     if  ((not(self.is_clear(posRow-2, posCol+2))) or ( ([posRow-2, posCol+2] in (moveList)))):
+                        # print('Not clear up right')
                         return False
                     else:
                         return True
@@ -283,11 +294,13 @@ class board:
                 if (self.is_end_or_start_zone(posRow, posCol-4)):
                     # Check for empty spot after adjacent piece
                     if ((not (self.is_in_bound(posRow, posCol-4))) or ( (self.is_current_players_piece(posRow, posCol-4))) or ( ([posRow, posCol-4] in (moveList)))):
+                        # print('Not in bound left')
                         return False
                     else:
                         return True
                 else:
                     if  ((not(self.is_clear(posRow, posCol-4))) or ( ([posRow, posCol-4] in (moveList)))):
+                        # print('Not clear left')
                         return False
                     else:
                         return True
@@ -300,19 +313,23 @@ class board:
                 if (self.is_end_or_start_zone(posRow, posCol+4)):
                     # Check for empty spot after adjacent piece
                     if ((not (self.is_in_bound(posRow, posCol+4))) or ( (self.is_current_players_piece(posRow, posCol+4))) or ( ([posRow, posCol-4] in (moveList)))):
+                        # print('Not in bound right')
                         return False
                     else:
                         return True
                 else:
                     if  (not(self.is_clear(posRow, posCol+4)) or ( ([posRow, posCol+4] in (moveList)))):
+                        # print('Not clear right')
                         return False
                     else:
                         return True
 
         if (upOrDown == 0 and leftOrRight == 0):
+            # print('UpDownLeftRight ==0')
             return False
 
         # not a valid jump
+        # print('Anything else, not valid jump???')
         return False
 
     def is_end_or_start_zone(self, posRow, posCol):
@@ -487,6 +504,7 @@ class board:
 
         if self.board[row][col] != "x" and self.board[row][col] != " " and self.board[row][col] != ".":
             # contains a piece
+            # print('Contains: ',self.board[row][col])
             return True
         else:
             # contains something else
@@ -583,6 +601,7 @@ class board:
         if upOrDown < 0 and leftOrRight < 0:
             # if moving into end zone handle
             if (self.is_end_or_start_zone(posRow+1, posCol-1)):
+                # print('is start or end zone')
                 if (self.contains_piece(posRow+1, posCol-1)):
 
                     if (self.is_in_bound(posRow+2, posCol-2) and not (self.is_current_players_piece(posRow+2, posCol-2))):
