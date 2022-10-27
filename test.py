@@ -582,6 +582,8 @@ class TestBoard(unittest.TestCase):
         x.player = 'B'
         self.assertFalse(x.is_move_valid(-1, -1, 13, 11))
 
+    
+
     def test_evaluation(self):
         x = board.board()
         y = evaluation.evaluator(x, x.player, x.mode)

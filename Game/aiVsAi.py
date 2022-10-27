@@ -72,6 +72,8 @@ class game:
                 self.gameBoard.next_Player()
         print(self.gameBoard.is_end())
         self.gameBoard.display()
+        # self.miniMax.evaluatePlayer('R')
+        # self.miniMax.gameBoard.display()
 
 
 
